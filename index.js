@@ -2,11 +2,6 @@ var express = require("express");
 var request = require("request");
 var bodyParser = require("body-parser");
 
-
-var facebook = new facebook({
-    access_token: access.pa_token
-});
-
 var app = express();
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());

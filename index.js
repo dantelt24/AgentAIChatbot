@@ -1,7 +1,7 @@
 var express = require("express");
 var request = require("request");
 var bodyParser = require("body-parser");
-var access = require('./vars.js');
+
 
 var facebook = new facebook({
     access_token: access.pa_token
@@ -20,7 +20,7 @@ app.get("/", function (req, res) {
 // Facebook Webhook
 // Used for verification
 app.get("/webhook", function (req, res) {
-  if (req.query["hub.verify_token"] === facebook.access_token ){
+  if (req.query["hub.verify_token"] === process.env.VERIFICATION_TOKEN){
     console.log("Verified webhook");
     res.status(200).send(req.query["hub.challenge"]);
   } else {

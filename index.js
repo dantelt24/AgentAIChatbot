@@ -1,7 +1,7 @@
 var express = require("express");
 var request = require("request");
 var bodyParser = require("body-parser");
-var access = require('./vars');
+var access = require('./vars.js');
 
 var facebook = new facebook({
     access_token: access.pa_token

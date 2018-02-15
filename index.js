@@ -53,7 +53,7 @@ function processPostback(event) {
     request({
       url: "https://graph.facebook.com/v2.6/" + senderId,
       qs: {
-        access_token: process.env.PAGE_ACCESS_TOKEN,
+        access_token: process.env.VERIFICATION_TOKEN,
         fields: "first_name"
       },
       method: "GET"
@@ -66,7 +66,7 @@ function processPostback(event) {
         name = bodyObj.first_name;
         greeting = "Hi " + name + ". ";
       }
-      var message = greeting + "My name is SP Movie Bot. I can tell you various details regarding movies. What movie would you like to know about?";
+      var message = greeting + "My name is AgentAI. I can tell you various details regarding your CIG policy. What can I help you with today?";
       sendMessage(senderId, {text: message});
     });
   }
@@ -76,7 +76,7 @@ function processPostback(event) {
 function sendMessage(recipientId, message) {
   request({
     url: "https://graph.facebook.com/v2.6/me/messages",
-    qs: {access_token: process.env.PAGE_ACCESS_TOKEN},
+    qs: {access_token: process.env.VERIFICATION_TOKEN},
     method: "POST",
     json: {
       recipient: {id: recipientId},

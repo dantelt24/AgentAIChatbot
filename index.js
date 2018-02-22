@@ -93,10 +93,11 @@ function sendMessage(recipientId, message) {
   });
 }
 
-MongoClient.connect(uri, function(err, db)){
+MongoClient.connect(uri, function(err, db) {
   if(err){
     throw err;
   }else{
     console.log("Successful database connection");
   }
-}
+  db.close();
+});

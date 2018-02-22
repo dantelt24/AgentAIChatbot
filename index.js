@@ -1,6 +1,10 @@
 var express = require("express");
 var request = require("request");
 var bodyParser = require("body-parser");
+var MongoClient = require("mongodb").MongoClient;
+var mongoose = require("mongoose");
+
+var uri = process.env.MONGO_DB_URI;
 
 var app = express();
 app.use(bodyParser.urlencoded({extended: false}));
@@ -88,3 +92,12 @@ function sendMessage(recipientId, message) {
     }
   });
 }
+//Test MongoDBAtlas Connection
+MongoClient.connect(uri, function(err, db) {
+  if(err){
+    throw err;
+  }else{
+    console.log("Successful database connection");
+  }
+  db.close();
+});

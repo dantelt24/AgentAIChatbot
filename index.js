@@ -92,7 +92,7 @@ function sendMessage(recipientId, message) {
     }
   });
 }
-
+//Test MongoDBAtlas Connection
 MongoClient.connect(uri, function(err, db) {
   if(err){
     throw err;

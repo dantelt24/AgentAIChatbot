@@ -25,7 +25,7 @@ const sessions = {};
 const findOrCreateSession = (fbid) => {
   let sessionID;
   Object.keys(sessions).forEach(k => {
-    if(sessions[k]).fbid === fbid{
+    if(sessions[k].fbid === fbid){
       sessionID = k;
     }
   });

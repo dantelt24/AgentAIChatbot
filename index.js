@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const MongoClient = require('mongodb').MongoClient;
 const mongoose = require('mongoose');
 const Wit = require('node-wit').Wit;
-const wit_log = require('node-wit').log;
+const log = require('node-wit').log;
 
 //environment variables
 const uri = process.env.MONGO_DB_URI;
@@ -15,7 +15,7 @@ const fb_token = process.env.VERIFICATION_TOKEN
 //setting up wit bot
 const wit = new Wit({
   access_token: wit_token,
-  logger: new wit_log.Logger(log.info)
+  logger: new log.Logger(log.DEBUG);
 });
 
 var app = express();

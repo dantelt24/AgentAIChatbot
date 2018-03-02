@@ -64,8 +64,8 @@ const fbMessage = (id, text) => {
       return json;
     });
 };
-
 //-------------------------------------------------------------------------
+
 
 //App Functionality
 var app = express();
@@ -91,22 +91,68 @@ app.get("/webhook", function (req, res) {
 });
 
 // All callbacks for Messenger will be POST-ed here
-app.post("/webhook", function (req, res) {
-  // Make sure this is a page subscription
-  if (req.body.object == "page") {
-    // Iterate over each entry
-    // There may be multiple entries if batched
-    req.body.entry.forEach(function(entry) {
-      // Iterate over each messaging event
-      entry.messaging.forEach(function(event) {
-        if (event.postback) {
-          processPostback(event);
+app.post('/webhook', (req, res) => {
+  // Parse the Messenger payload
+  // See the Webhook reference
+  const data = req.body;
+
+  if (data.object === 'page') {
+    data.entry.forEach(entry => {
+      entry.messaging.forEach(event => {
+        if (event.message && !event.message.is_echo) {
+          // Yay! We got a new message!
+          // We retrieve the Facebook user ID of the sender
+          const sender = event.sender.id;
+
+          // We could retrieve the user's current session, or create one if it doesn't exist
+          // This is useful if we want our bot to figure out the conversation history
+          // const sessionId = findOrCreateSession(sender);
+
+          // We retrieve the message content
+          const {text, attachments} = event.message;
+
+          if (attachments) {
+            // We received an attachment
+            // Let's reply with an automatic message
+            fbMessage(sender, 'Sorry I can only process text messages for now.')
+            .catch(console.error);
+          } else if (text) {
+            // We received a text message
+            // Let's run /message on the text to extract some entities
+            wit.message(text).then(({entities}) => {
+              // You can customize your response to these entities
+              console.log(entities);
+              // For now, let's reply with another automatic message
+              fbMessage(sender, `We've received your message: ${text}.`);
+            })
+            .catch((err) => {
+              console.error('Oops! Got an error from Wit: ', err.stack || err);
+            })
+          }
+        } else {
+          console.log('received event', JSON.stringify(event));
         }
       });
     });
-
-    res.sendStatus(200);
   }
+  res.sendStatus(200);
+});
+
+  // Make sure this is a page subscription
+  // if (req.body.object == "page") {
+  //   // Iterate over each entry
+  //   // There may be multiple entries if batched
+  //   req.body.entry.forEach(function(entry) {
+  //     // Iterate over each messaging event
+  //     entry.messaging.forEach(function(event) {
+  //       if (event.postback) {
+  //         processPostback(event);
+  //       }
+  //     });
+  //   });
+  //
+  //   res.sendStatus(200);
+  // }
 });
 
 function processPostback(event) {

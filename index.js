@@ -99,14 +99,20 @@ app.post('/webhook', (req, res) => {
   if (data.object === 'page') {
     data.entry.forEach(entry => {
       entry.messaging.forEach(event => {
+        //Check if get started button is pressed for conversation starter
+        if (event.postback) {
+          processPostback(event);
+        }
+        //Check for message and process message
         if (event.message && !event.message.is_echo) {
-          // Yay! We got a new message!
+          // We got a message
           // We retrieve the Facebook user ID of the sender
           const sender = event.sender.id;
 
           // We could retrieve the user's current session, or create one if it doesn't exist
           // This is useful if we want our bot to figure out the conversation history
           // const sessionId = findOrCreateSession(sender);
+          //Use this sessionId as a key for a coversation id/key in mongodb to track user conversations
 
           // We retrieve the message content
           const {text, attachments} = event.message;
@@ -136,6 +142,7 @@ app.post('/webhook', (req, res) => {
     });
   }
   res.sendStatus(200);
+  //Old Code
   // Make sure this is a page subscription
   // if (req.body.object == "page") {
   //   // Iterate over each entry
@@ -184,22 +191,8 @@ function processPostback(event) {
   }
 }
 
-// sends message to user
-function sendMessage(recipientId, message) {
-  request({
-    url: "https://graph.facebook.com/v2.6/me/messages",
-    qs: {access_token: process.env.VERIFICATION_TOKEN},
-    method: "POST",
-    json: {
-      recipient: {id: recipientId},
-      message: message,
-    }
-  }, function(error, response, body) {
-    if (error) {
-      console.log("Error sending message: " + response.error);
-    }
-  });
-}
+
+
 //Test MongoDBAtlas Connection
 MongoClient.connect(uri, function(err, db) {
   if(err){

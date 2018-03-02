@@ -114,7 +114,7 @@ app.post('/webhook', (req, res) => {
           // This is useful if we want our bot to figure out the conversation history
           // const sessionId = findOrCreateSession(sender);
           //Use this sessionId as a key for a coversation id/key in mongodb to track user conversations
-          // const sessionId = findOrCreateSession(sender);
+          const sessionId = findOrCreateSession(sender);
 
           // We retrieve the message content
           const {text, attachments} = event.message;
@@ -180,13 +180,14 @@ function processPostback(event) {
 //MongoDB Functions
 //function to add user to user collection
 function addUsertoCollections(fbid){
-  MongoClient.connect(uri, function(err, db, fbid) {
+  MongoClient.connect(uri, function(err, client, fbid) {
     if(err){
       throw err;
     }else{
       console.log("Successful database connection");
     }
     var userObj = { _id: fbid};
+    var db = client.dbname('aiTestData');
     db.collection('users').insertOne(userObj, function(err, res) {
       if(err){
         throw err;
@@ -199,11 +200,12 @@ function addUsertoCollections(fbid){
 }
 
 //Test MongoDBAtlas Connection
-MongoClient.connect(uri, function(err, db) {
-  if(err){
-    throw err;
-  }else{
-    console.log("Successful database connection");
-  }
-  db.close();
-});
+//Wrong Driver Version
+// MongoClient.connect(uri, function(err, db) {
+//   if(err){
+//     throw err;
+//   }else{
+//     console.log("Successful database connection");
+//   }
+//   db.close();
+// });

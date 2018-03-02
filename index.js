@@ -13,8 +13,8 @@ const wit_token = process.env.WIT_TOKEN;
 const fb_token = process.env.VERIFICATION_TOKEN
 
 //setting up wit bot
-const wit = new Wit({
-  access_token: wit_token,
+const wit = new Wit ({
+  accessToken: wit_token,
   logger: new log.Logger(log.DEBUG)
 });
 

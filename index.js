@@ -114,7 +114,7 @@ app.post('/webhook', (req, res) => {
           // This is useful if we want our bot to figure out the conversation history
           // const sessionId = findOrCreateSession(sender);
           //Use this sessionId as a key for a coversation id/key in mongodb to track user conversations
-          const sessionId = findOrCreateSession(sender);
+          // const sessionId = findOrCreateSession(sender);
 
           // We retrieve the message content
           const {text, attachments} = event.message;
@@ -199,11 +199,11 @@ function addUsertoCollections(fbid){
 }
 
 //Test MongoDBAtlas Connection
-MongoClient.connect(uri, function(err, db) {
+MongoClient.connect(uri, function(err, client) {
   if(err){
     throw err;
   }else{
     console.log("Successful database connection");
   }
-  db.close();
+  client.db.close();
 });

@@ -13,7 +13,10 @@ const wit_token = process.env.WIT_TOKEN;
 const fb_token = process.env.VERIFICATION_TOKEN
 
 //setting up wit bot
-
+const wit = new Wit({
+  access_token: wit_token,
+  logger: new wit_log.Logger(log.info)
+});
 
 var app = express();
 app.use(bodyParser.urlencoded({extended: false}));

@@ -18,6 +18,24 @@ const wit = new Wit ({
   logger: new log.Logger(log.DEBUG)
 });
 
+//setting up user sessions to create sessions and use fb id to uniquely identify them
+//sessionID -> {fbid: facebookUserID, context: sessionState}
+const sessions = {};
+
+const findOrCreateSession = (fbid) => {
+  let sessionID;
+  Object.keys(sessions).forEach(k => {
+    if(sessions[k]).fbid === fbid{
+      sessionID = k;
+    }
+  });
+  if(!sessionID){
+    sessionID = new Date().toISOString();
+    sessions[sessionID] = {fbid: fbid, context: {}};
+  }
+  return sessionID;
+};
+
 var app = express();
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());

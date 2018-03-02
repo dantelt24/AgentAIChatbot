@@ -38,6 +38,7 @@ const findOrCreateSession = (fbid) => {
   if(!sessionID){
     sessionID = new Date().toISOString();
     sessions[sessionID] = {fbid: fbid, context: {}};
+    addUsertoCollections(fbid);
   }
   return sessionID;
 };

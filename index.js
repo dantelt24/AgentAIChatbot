@@ -49,6 +49,7 @@ const fbMessage = (id, text) => {
       messaging_type: 'RESPONSE',
       recipient: {id},
       message: {text},
+      sender_action: 'typing_on',
     });
     const qs = 'access_token=' + encodeURIComponent(fb_page_token);
     return fetch('https://graph.facebook.com/v2.6/me/messages?' + qs, {

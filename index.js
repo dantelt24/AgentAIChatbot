@@ -1,10 +1,14 @@
-const express = require("express");
-const request = require("request");
-const bodyParser = require("body-parser");
-const MongoClient = require("mongodb").MongoClient;
-const mongoose = require("mongoose");
+const express = require('express');
+const request = require('request');
+const bodyParser = require('body-parser');
+const MongoClient = require('mongodb').MongoClient;
+const mongoose = require('mongoose');
+const wit = require('node-wit').Wit;
+const wit_log = require('node-wit').log;
 
 const uri = process.env.MONGO_DB_URI;
+const wit_token = process.env.WIT_TOKEN;
+const fb_token = process.env.VERIFICATION_TOKEN
 
 var app = express();
 app.use(bodyParser.urlencoded({extended: false}));
@@ -19,7 +23,7 @@ app.get("/", function (req, res) {
 // Facebook Webhook
 // Used for verification
 app.get("/webhook", function (req, res) {
-  if (req.query["hub.verify_token"] === process.env.VERIFICATION_TOKEN){
+  if (req.query["hub.verify_token"] === fb_token){
     console.log("Verified webhook");
     res.status(200).send(req.query["hub.challenge"]);
   } else {

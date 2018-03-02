@@ -187,7 +187,7 @@ function addUsertoCollections(fbid){
       console.log("Successful database connection");
     }
     var userObj = { _id: fbid};
-    var db = client.dbname('aiTestData');
+    var db = client.db('aiTestData');
     db.collection('users').insertOne(userObj, function(err, res) {
       if(err){
         throw err;

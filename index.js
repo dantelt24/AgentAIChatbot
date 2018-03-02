@@ -199,11 +199,11 @@ function addUsertoCollections(fbid){
 }
 
 //Test MongoDBAtlas Connection
-MongoClient.connect(uri, function(err, client) {
+MongoClient.connect(uri, function(err, db) {
   if(err){
     throw err;
   }else{
     console.log("Successful database connection");
   }
-  client.db.close();
+  db.close();
 });

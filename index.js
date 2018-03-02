@@ -193,7 +193,7 @@ function addUsertoCollections(fbid){
         throw err;
       }else{
         console.log('Successful user document inserted');
-        db.close();
+        client.close();
       }
     });
   });

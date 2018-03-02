@@ -12,7 +12,8 @@ const log = require('node-wit').log;
 //environment variables
 const uri = process.env.MONGO_DB_URI;
 const wit_token = process.env.WIT_TOKEN;
-const fb_token = process.env.VERIFICATION_TOKEN
+const fb_ver_token = process.env.VERIFICATION_TOKEN;
+const fb_page_token = process.env.FB_PAGE_TOKEN;
 //---------------------------------------------------------------------------
 
 //setting up wit bot
@@ -43,7 +44,26 @@ const findOrCreateSession = (fbid) => {
 //-------------------------------------------------------------------------
 
 //FB Messenger Message - Using Messenger API
-
+const fbMessage = (id, text) => {
+    const body = JSON.stringify({
+      messaging_type: 'RESPONSE',
+      recipient: {id},
+      message: {text},
+    });
+    const qs = 'access_token=' + encodeURIComponent(fb_page_token);
+    return fetch('https://graph.facebook.com/v2.6/me/messages?' + qs, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body,
+    })
+    .then(rsp => rsp.json())
+    .then(json=> {
+      if(json.error && json.error.message){
+        throw new Error(json.error.message);
+      }
+      return json;
+    });
+};
 
 //-------------------------------------------------------------------------
 
@@ -61,7 +81,7 @@ app.get("/", function (req, res) {
 // Facebook Webhook
 // Used for verification
 app.get("/webhook", function (req, res) {
-  if (req.query["hub.verify_token"] === fb_token){
+  if (req.query["hub.verify_token"] === fb_ver_token){
     console.log("Verified webhook");
     res.status(200).send(req.query["hub.challenge"]);
   } else {

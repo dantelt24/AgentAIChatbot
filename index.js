@@ -136,8 +136,6 @@ app.post('/webhook', (req, res) => {
     });
   }
   res.sendStatus(200);
-});
-
   // Make sure this is a page subscription
   // if (req.body.object == "page") {
   //   // Iterate over each entry
@@ -154,7 +152,9 @@ app.post('/webhook', (req, res) => {
   //   res.sendStatus(200);
   // }
 });
+//-----------------------------------------------------------------------
 
+//User functions
 function processPostback(event) {
   var senderId = event.sender.id;
   var payload = event.postback.payload;

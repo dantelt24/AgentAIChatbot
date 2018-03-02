@@ -1,14 +1,19 @@
+//requirements
 const express = require('express');
 const request = require('request');
 const bodyParser = require('body-parser');
 const MongoClient = require('mongodb').MongoClient;
 const mongoose = require('mongoose');
-const wit = require('node-wit').Wit;
+const Wit = require('node-wit').Wit;
 const wit_log = require('node-wit').log;
 
+//environment variables
 const uri = process.env.MONGO_DB_URI;
 const wit_token = process.env.WIT_TOKEN;
 const fb_token = process.env.VERIFICATION_TOKEN
+
+//setting up wit bot
+
 
 var app = express();
 app.use(bodyParser.urlencoded({extended: false}));

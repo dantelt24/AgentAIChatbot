@@ -100,9 +100,9 @@ app.post('/webhook', (req, res) => {
     data.entry.forEach(entry => {
       entry.messaging.forEach(event => {
         //Check if get started button is pressed for conversation starter
-        if (event.postback) {
-          processPostback(event);
-        }
+        // if (event.postback) {
+        //   processPostback(event);
+        // }
         //Check for message and process message
         if (event.message && !event.message.is_echo) {
           // We got a message
@@ -142,22 +142,6 @@ app.post('/webhook', (req, res) => {
     });
   }
   res.sendStatus(200);
-  //Old Code
-  // Make sure this is a page subscription
-  // if (req.body.object == "page") {
-  //   // Iterate over each entry
-  //   // There may be multiple entries if batched
-  //   req.body.entry.forEach(function(entry) {
-  //     // Iterate over each messaging event
-  //     entry.messaging.forEach(function(event) {
-  //       if (event.postback) {
-  //         processPostback(event);
-  //       }
-  //     });
-  //   });
-  //
-  //   res.sendStatus(200);
-  // }
 });
 //-----------------------------------------------------------------------
 
@@ -186,7 +170,7 @@ function processPostback(event) {
         greeting = "Hi " + name + ". ";
       }
       var message = greeting + "My name is AgentAI. I can tell you various details regarding your CIG policy. What can I help you with today?";
-      sendMessage(senderId, {text: message});
+      fbMessage(senderId, {text: message});
     });
   }
 }

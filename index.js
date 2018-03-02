@@ -6,17 +6,22 @@ const MongoClient = require('mongodb').MongoClient;
 const mongoose = require('mongoose');
 const Wit = require('node-wit').Wit;
 const log = require('node-wit').log;
+//---------------------------------------------------------------------------
+
 
 //environment variables
 const uri = process.env.MONGO_DB_URI;
 const wit_token = process.env.WIT_TOKEN;
 const fb_token = process.env.VERIFICATION_TOKEN
+//---------------------------------------------------------------------------
 
 //setting up wit bot
 const wit = new Wit ({
   accessToken: wit_token,
   logger: new log.Logger(log.DEBUG)
 });
+//--------------------------------------------------------------------------
+
 
 //setting up user sessions to create sessions and use fb id to uniquely identify them
 //sessionID -> {fbid: facebookUserID, context: sessionState}
@@ -35,7 +40,14 @@ const findOrCreateSession = (fbid) => {
   }
   return sessionID;
 };
+//-------------------------------------------------------------------------
 
+//FB Messenger Message - Using Messenger API
+
+
+//-------------------------------------------------------------------------
+
+//App Functionality
 var app = express();
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());

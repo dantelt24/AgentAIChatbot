@@ -170,7 +170,7 @@ function processPostback(event) {
         greeting = "Hi " + name + ". ";
       }
       var message = greeting + "My name is AgentAI. I can tell you various details regarding your CIG policy. What can I help you with today?";
-      fbMessage(senderId, {text: message});
+      fbMessage(senderId, {text: message}).catch(console.error);
     });
   }
 }

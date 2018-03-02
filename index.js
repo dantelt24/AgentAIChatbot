@@ -100,9 +100,9 @@ app.post('/webhook', (req, res) => {
     data.entry.forEach(entry => {
       entry.messaging.forEach(event => {
         //Check if get started button is pressed for conversation starter
-        // if (event.postback) {
-        //   processPostback(event);
-        // }
+        if (event.postback) {
+          processPostback(event);
+        }
         //Check for message and process message
         if (event.message && !event.message.is_echo) {
           // We got a message

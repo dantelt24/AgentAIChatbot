@@ -9,13 +9,13 @@ const uri = process.env.MONGO_DB_URI;
 class PolicyWrapper{
   //constructor
   constructor(){
-    this.db_uri = process.env.MONGO_DB_URI;
+    // this.db_uri = process.env.MONGO_DB_URI;
   }
 
   //class function
   //function to get user profile information
   getUserProfileInformation(){
-    MongoClient.connect(this.db_uri, function(err, client){
+    MongoClient.connect(uri, function(err, client){
       if(err){
         throw err;
       }else{
@@ -27,11 +27,10 @@ class PolicyWrapper{
           throw err;
         }else{
           console.log(result);
-          client.close();
-          return result;
         }
       });
     });
+    client.close();
   }
 }
 

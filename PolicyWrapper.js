@@ -14,7 +14,7 @@ class PolicyWrapper{
 
   //class function
   //function to get user profile information
-  getUserProfileInformation(){
+  this.getUserProfileInformation = function(){
     MongoClient.connect(db_uri, function(err, client){
       if(err){
         throw err;

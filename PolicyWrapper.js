@@ -8,7 +8,7 @@ const uri = process.env.MONGO_DB_URI;
 
 class PolicyWrapper{
   //class variables
-  db_uri = uri;
+  db_uri = process.env.MONGO_DB_URI;
 
   //class functions
 

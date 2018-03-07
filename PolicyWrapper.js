@@ -22,7 +22,7 @@ class PolicyWrapper{
         console.log('Successful database connection');
       }
       var db = client.db('aiTestData');
-      db.collection('aiData').find({"profile"}, function(err, result){
+      db.collection('aiData').find({}, function(err, result){
         if(err){
           throw err;
         }else{

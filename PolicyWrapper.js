@@ -28,6 +28,7 @@ class PolicyWrapper{
         }else{
           console.log(result);
           client.close();
+          return result;
         }
       });
     });

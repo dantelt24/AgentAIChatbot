@@ -178,7 +178,7 @@ function processPostback(event) {
   }
 }
 //test wrapper compatibility
-policyWrapper.getUserProfileInformation();
+console.log(policyWrapper.getUserProfileInformation());
 
 
 //MongoDB Functions

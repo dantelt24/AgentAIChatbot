@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const Wit = require('node-wit').Wit;
 const log = require('node-wit').log;
-const policyWrapper = require('./PolicyWrapper');
+const policyWrapper = require('./PolicyWrapper.js');
 //---------------------------------------------------------------------------
 
 

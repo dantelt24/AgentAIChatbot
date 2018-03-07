@@ -180,7 +180,7 @@ function processPostback(event) {
   }
 }
 //test wrapper compatibility
-console.log(polWrapper.getUserProfileInformation());
+// console.log(polWrapper.getUserProfileInformation());
 
 
 //MongoDB Functions

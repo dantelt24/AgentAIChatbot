@@ -20,7 +20,11 @@ PolicyWrapper.prototype.getUserProfileInformation = function(){
     var db = client.db('aiTestData');
     db.collection('aiData', function (err, collection){
       collection.find({}).project({'profile': 1}).toArray(function(err, docs){
-        console.log(docs);
+        if(err){
+          throw err;
+        }else{
+          console.log(docs);
+        }
       });
       client.close();
     });

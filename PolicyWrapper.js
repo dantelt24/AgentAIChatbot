@@ -7,11 +7,12 @@ const uri = process.env.MONGO_DB_URI;
 //-------------------------------------------------
 
 class PolicyWrapper{
-  //class variables
-  db_uri = process.env.MONGO_DB_URI;
+  //constructor
+  constructor(){
+    this.db_uri = process.env.MONGO_DB_URI;
+  }
 
-  //class functions
-
+  //class function
   //function to get user profile information
   function getUserProfileInformation(){
     MongoClient.connect(db_uri, function(err, client){

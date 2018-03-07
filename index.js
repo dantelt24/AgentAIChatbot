@@ -7,7 +7,7 @@ const mongoose = require('mongoose');
 const Wit = require('node-wit').Wit;
 const log = require('node-wit').log;
 const policyWrapper = require('./PolicyWrapper.js');
-const polWrapper = new policyWrapper();
+const polWrapper = new policyWrapper(process.env.MONGO_DB_URI);
 // const polWrapper = new policyWrapper();
 //---------------------------------------------------------------------------
 
@@ -180,7 +180,7 @@ function processPostback(event) {
   }
 }
 //test wrapper compatibility
-// console.log(polWrapper.getUserProfileInformation());
+polWrapper.getUserProfileInformation();
 
 
 //MongoDB Functions

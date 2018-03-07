@@ -19,10 +19,10 @@ class PolicyWrapper{
       if(err){
         throw err;
       }else{
-        console.log("Successful database connection");
+        console.log('Successful database connection');
       }
       var db = client.db('aiTestData');
-      db.collection('aiData').find({profile}, function(err, result){
+      db.collection('aiData').find({"profile"}, function(err, result){
         if(err){
           throw err;
         }else{

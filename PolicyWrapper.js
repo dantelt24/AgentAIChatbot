@@ -18,7 +18,7 @@ PolicyWrapper.prototype.getUserProfileInformation = function(){
       console.log('Successful database connection');
     }
     var db = client.db('aiTestData');
-    db.collection('aiData').find({}, function(err, result){
+    db.collection('aiData').find({profile: {firstName:1, lastName: 1, emailAddress: 1}}, function(err, result){
       if(err){
         throw err;
       }else{

@@ -22,12 +22,33 @@ PolicyWrapper.prototype.getUserProfileInformation = function(){
       if(err){
         throw err;
       }else{
-        console.log(result);
-        client.close();
+        result.each(function (err, item){
+          if(err){
+            throw err;
+          }else{
+            console.log(item);
+          }
+        });
+        // console.log(result);
+        // client.close();
       }
+      client.close();
     });
   });
+
 }
+
+// db.collection('users', function(err, collection) {
+//   collection.find({}, function(err, cursor) {
+//     cursor.each(function(err, item) {
+//       console.log(item);
+//     });
+//
+//     // our collection has returned, now we can close the database
+//     db.close();
+//   });
+// });
+
 
 module.exports = PolicyWrapper;
 // class PolicyWrapper{

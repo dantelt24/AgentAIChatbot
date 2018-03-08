@@ -40,7 +40,7 @@ PolicyWrapper.prototype.getHomeOwnerAgent = function(){
     }
     var db = client.db('aiTestData');
     db.collection('aiData', function(err, collection) {
-      collection.find({}).project({'policies': 1}).toArray(function (err, docs){
+      collection.find({}).project({'policies': 1}, (function (err, docs){
         if(err){
           throw err;
         }else{

@@ -31,6 +31,27 @@ PolicyWrapper.prototype.getUserProfileInformation = function(){
   });
 }
 
+policyWrapper.prototype.getHomeOwnerAgent = function(){
+  MongoClient.connect(this.db_uri, function(err, client){
+    if(err){
+      throw err;
+    }else{
+      console.log('Successful database connection')
+    }
+    var db = client.db('aiTestData');
+    db.collection('aiData', function(err, collection) {
+      collection.find({}).project({'policies': 1}).toArray(function (err, docs){
+        if(err){
+          throw err;
+        }else{
+          console.log(docs)
+        }
+      });
+      client.close();
+    });
+  });
+}
+
 module.exports = PolicyWrapper;
 
 

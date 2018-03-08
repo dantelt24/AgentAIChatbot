@@ -180,7 +180,7 @@ function processPostback(event) {
   }
 }
 //test wrapper compatibility
-polWrapper.getUserProfileInformation();
+// polWrapper.getUserProfileInformation();
 polWrapper.getHomeOwnerAgent();
 
 //MongoDB Functions

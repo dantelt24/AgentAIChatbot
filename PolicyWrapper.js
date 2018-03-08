@@ -31,7 +31,7 @@ PolicyWrapper.prototype.getUserProfileInformation = function(){
   });
 }
 
-policyWrapper.prototype.getHomeOwnerAgent = function(){
+PolicyWrapper.prototype.getHomeOwnerAgent = function(){
   MongoClient.connect(this.db_uri, function(err, client){
     if(err){
       throw err;

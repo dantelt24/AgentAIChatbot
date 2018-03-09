@@ -180,8 +180,8 @@ function processPostback(event) {
   }
 }
 //test wrapper compatibility
-// polWrapper.getUserProfileInformation();
-polWrapper.getHomeOwnerAgent();
+polWrapper.getUserProfileInformation();
+// polWrapper.getHomeOwnerAgent();
 
 //MongoDB Functions
 //function to add user to user collection

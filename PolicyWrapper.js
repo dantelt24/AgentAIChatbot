@@ -30,6 +30,7 @@ PolicyWrapper.prototype.getUserProfileInformation = function(){
             var docObject = docs[i];
             console.log(docObject);
             console.log(docObject.profile);
+            console.log(docObject._id);
           }
         }
       });

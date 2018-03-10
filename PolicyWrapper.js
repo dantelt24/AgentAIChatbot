@@ -24,12 +24,6 @@ PolicyWrapper.prototype.getUserProfileInformation = function(){
           throw err;
         }else{
           console.log(docs);
-          // for(var i = 0; i < docs.length(); i++){
-          //   var docObject = docs[i];
-          //   for(var property in docObject){
-          //     console.log(('item ' + i + ': ' + property + '=' + object[property]));
-          //   }
-          // }
         }
       });
       client.close();

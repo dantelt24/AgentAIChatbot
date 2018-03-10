@@ -181,37 +181,3 @@ function processPostback(event) {
 }
 //test wrapper compatibility
 polWrapper.getUserProfileInformation();
-// polWrapper.getHomeOwnerAgent();
-
-//MongoDB Functions
-//function to add user to user collection
-// function addUsertoCollections(fbid){
-//   MongoClient.connect(uri, function(err, client, fbid) {
-//     if(err){
-//       throw err;
-//     }else{
-//       console.log("Successful database connection");
-//     }
-//     var userObj = { _id: fbid};
-//     var db = client.db('aiTestData');
-//     db.collection('users').insertOne(userObj, function(err, res) {
-//       if(err){
-//         throw err;
-//       }else{
-//         console.log('Successful user document inserted');
-//         client.close();
-//       }
-//     });
-//   });
-// }
-
-//Test MongoDBAtlas Connection
-//Wrong Driver Version
-// MongoClient.connect(uri, function(err, db) {
-//   if(err){
-//     throw err;
-//   }else{
-//     console.log("Successful database connection");
-//   }
-//   db.close();
-// });

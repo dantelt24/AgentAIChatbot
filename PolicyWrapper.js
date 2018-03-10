@@ -24,6 +24,7 @@ PolicyWrapper.prototype.getUserProfileInformation = function(){
           throw err;
         }else{
           console.log(docs);
+          console.log(JSON.stringify(docs));
           // for(var i = 0; i < docs.length; i++){
           //   var docObject = docs[i];
           //   for(var property in docObject){

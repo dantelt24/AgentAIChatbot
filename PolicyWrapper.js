@@ -18,7 +18,8 @@ function PolicyWrapper(uri){
       throw err;
     }else{
       console.log('Successful database connection');
-    });
+    }
+  });
 }
 
 PolicyWrapper.prototype.getUserProfileInformation = function(){

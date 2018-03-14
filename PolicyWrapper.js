@@ -13,17 +13,17 @@ var db_connection;
 
 function PolicyWrapper(uri){
   this.db_uri = uri;
-  db_connection = MongoClient.connect(this.db_uri, function(err, client){
+  this.db_connection = MongoClient.connect(this.db_uri, function(err, client){
     if(err){
       throw err;
     }else{
-      console.log('Successful database connection');
+      console.log('Successful db connection');
     }
   });
 }
 
 PolicyWrapper.prototype.getUserProfileInformation = function(){
-  db_connection.then(function(client){
+  this.db_connection.then(function(client){
     var db = client.db('db_name');
     db.collection('aiData', function(err, collection) {
       collection.find({}).project({'profile' : 1}).toArray(function(err, docs){

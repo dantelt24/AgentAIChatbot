@@ -62,7 +62,8 @@ PolicyWrapper.prototype.getHomeOwnerAgent = function(){
           console.log(docs.length);
           for(var i  = 0; i < docs.length; i++){
             var docObject = docs[i];
-            console.log(docObject);
+            // console.log(docObject);
+            console.log(docObject.policies);
           }
         }
       });

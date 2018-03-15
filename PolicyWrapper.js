@@ -30,11 +30,14 @@ PolicyWrapper.prototype.getUserProfileInformation = function(){
         }else{
           console.log(docs);
           console.log(docs.length);
-          var docObject = docs;
-          var response = 'Thank you for checking in on your profile information.';
-          response += 'The name we have for your profile is ' + docObject.profile.firstName + ' ' + docObject.profile.lastName;
-          response += ', and the email address on file is ' + docObject.profile.emailAddress;
-          console.log(response);
+          for(var i = 0; i < docs.length; i++){
+            var docObject = docs[i];
+            var response = 'Thank you for checking in on your profile information.';
+            response += 'The name we have for your profile is ' + docObject.profile.firstName + ' ' + docObject.profile.lastName;
+            response += ', and the email address on file is ' + docObject.profile.emailAddress;
+            console.log(response);
+          }
+          // console.log(response);
           // console.log(JSON.stringify(docs));
           // for(var i = 0; i < docs.length; i++){
           //   var docObject = docs[i];

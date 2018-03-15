@@ -36,18 +36,8 @@ PolicyWrapper.prototype.getUserProfileInformation = function(){
             response += 'The name we have for your profile is ' + docObject.profile.firstName + ' ' + docObject.profile.lastName;
             response += ', and the email address on file is ' + docObject.profile.emailAddress;
             console.log(response);
+            return response;
           }
-          // console.log(response);
-          // console.log(JSON.stringify(docs));
-          // for(var i = 0; i < docs.length; i++){
-          //   var docObject = docs[i];
-          //   console.log(docObject);
-          //   console.log(docObject.profile);
-          //   console.log(docObject._id);
-          //   console.log(docObject.profile.firstName);
-          //   console.log(docObject.profile.lastName);
-          //   console.log(docObject.profile.emailAddress);
-          // }
         }
       });
       client.close();
@@ -78,20 +68,3 @@ PolicyWrapper.prototype.getHomeOwnerAgent = function(){
 }
 
 module.exports = PolicyWrapper;
-
-// MongoClient.connect(this.db_uri, function(err, client){
-//   if(err){
-//     throw err;
-//   }else{
-//     console.log('Successful database connection');
-//   }
-// db.collection('users', function(err, collection) {
-//   collection.find({}, function(err, cursor) {
-//     cursor.each(function(err, item) {
-//       console.log(item);
-//     });
-//
-//     // our collection has returned, now we can close the database
-//     db.close();
-//   });
-// });

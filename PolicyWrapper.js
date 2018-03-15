@@ -32,7 +32,7 @@ PolicyWrapper.prototype.getUserProfileInformation = function(){
           console.log(docs.length);
           for(var i = 0; i < docs.length; i++){
             var docObject = docs[i];
-            var response = 'Thank you for checking in on your profile information.';
+            var response = 'Thank you for checking in on your profile information. ';
             response += 'The name we have for your profile is ' + docObject.profile.firstName + ' ' + docObject.profile.lastName;
             response += ', and the email address on file is ' + docObject.profile.emailAddress;
             console.log(response);
@@ -60,7 +60,10 @@ PolicyWrapper.prototype.getHomeOwnerAgent = function(){
         }else{
           console.log(docs)
           console.log(docs.length);
-          console.log(docs.policies);
+          for(var i  = 0; i < docs.length; i++){
+            var docObject = docs[i];
+            console.log(docObject);
+          }
         }
       });
       client.close();

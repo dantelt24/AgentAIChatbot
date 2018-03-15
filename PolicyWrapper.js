@@ -59,7 +59,7 @@ PolicyWrapper.prototype.getHomeOwnerAgent = function(){
           throw err;
         }else{
           console.log(docs)
-          // console.log(docs.policies);
+          console.log(docs.length);
         }
       });
       client.close();

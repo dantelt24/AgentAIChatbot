@@ -154,7 +154,7 @@ PolicyWrapper.prototype.checkOptionalCoverages = function() {
             // var insuredName = docObject.policies['1-HOC-1-1394462794'].namedInsured;
             // var response = 'The name of the person on the policy is ' + insuredName +'.';
             console.log(basicCoverageObject);
-            return response;
+            // return response;
           }
         }
       });

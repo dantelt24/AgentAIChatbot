@@ -188,7 +188,17 @@ PolicyWrapper.prototype.checkSpecialtyProgram = function() {
           for(var i  = 0; i < docs.length; i++){
             var docObject = docs[i];
             var specialtyProgramObject = docObject.policies['1-HOC-1-1394462794'].specialtyProgram;
-            console.log(specialtyProgramObject);
+            // console.log(specialtyProgramObject);
+            if(specialtyProgramObject.programName === 'Not Applicable'){
+              var response = 'Sorry. We have found no specialty programs under this policy. ';
+              console.log(response);
+              return response;
+            }else{
+              var response = 'We have you under our ' + specialtyProgramObject.programName;
+              response += '. The premium under that plan is ' + specialtyProgramObject.premium;
+              console.log(response);
+              return response;
+            }
           }
         }
       });

@@ -67,7 +67,7 @@ PolicyWrapper.prototype.getHomeOwnerAgent = function(){
             // console.log(docObject.policies);
             // 1-HOC-1-1394462794
             // console.log(docObject.policies.HOC-1-1-1394462794);
-            policyObject = docObject.policies.HOC-1-1-1394462794;
+            policyObject = docObject.policies['HOC-1-1-1394462794'];
             console.log(policyObject);
           }
         }

@@ -156,7 +156,16 @@ PolicyWrapper.prototype.checkOptionalCoverages = function() {
             // console.log(basicCoverageObject);
             var optionalCoverages = basicCoverageObject.basicCoverage.optionalCoverages;
             console.log(optionalCoverages);
-            // return response;
+            console.log(optionalCoverages === '$0.00');
+            if(optionalCoverages === '$0.00'){
+              var response = 'There are no optional coverages under this policy';
+              console.log(response);
+              return response;
+            }else{
+              var response = 'There are optional coverages under this policy.';
+              console.log(response);
+              return response;
+            }
           }
         }
       });

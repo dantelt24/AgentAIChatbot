@@ -207,7 +207,7 @@ PolicyWrapper.prototype.checkSpecialtyProgram = function() {
   });
 }
 
-PolicyWrapper.prototype.checkMedicalCoverage = function() {
+PolicyWrapper.prototype.checkHomeOwnerMedicalCoverage = function() {
   MongoClient.connect(this.db_uri, function(err, client){
     if(err){
       throw err;
@@ -224,6 +224,15 @@ PolicyWrapper.prototype.checkMedicalCoverage = function() {
             var docObject = docs[i];
             var medicalPaymentsObject = docObject.policies['1-HOC-1-1394462794']['basic coverage'].basicCoverage.medicalPayments;
             console.log(medicalPaymentsObject);
+            if(medicalPaymentsObject.limit === '$0.00'){
+              var response = 'Sorry this policy does not seem to have medical coverage. ';
+              console.log(response);
+              return response;
+            }else{
+              var response = 'This policy does have medical coverage attached to it. The limit that the medical payment will cover is ' + medicalPaymentsObject.limit + ' .';
+              console.log(response);
+              return response; 
+            }
           }
         }
       });

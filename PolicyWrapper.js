@@ -68,9 +68,10 @@ PolicyWrapper.prototype.getHomeOwnerAgent = function(){
             // 1-HOC-1-1394462794
             // console.log(docObject.policies.HOC-1-1-1394462794);
             agentObject = docObject.policies['1-HOC-1-1394462794'].agent;
-            console.log(agentObject);
+            // console.log(agentObject);
             var response = 'The agent that covers your policy is ' + agentObject.name + ' .';
             response += ' They can be reached at ' + agentObject.phone + ' .'
+            console.log(response);
             return response;
           }
         }

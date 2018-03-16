@@ -58,8 +58,8 @@ PolicyWrapper.prototype.getHomeOwnerAgent = function(){
         if(err){
           throw err;
         }else{
-          console.log(docs)
-          console.log(docs.length);
+          // console.log(docs)
+          // console.log(docs.length);
           var agentObject = {};
           for(var i  = 0; i < docs.length; i++){
             var docObject = docs[i];
@@ -69,6 +69,9 @@ PolicyWrapper.prototype.getHomeOwnerAgent = function(){
             // console.log(docObject.policies.HOC-1-1-1394462794);
             agentObject = docObject.policies['1-HOC-1-1394462794'].agent;
             console.log(agentObject);
+            var response = 'The agent that covers your policy is ' + agentObject.name + ' .';
+            response += ' They can be reached at ' + agentObject.phone + ' .'
+            return response;
           }
         }
       });

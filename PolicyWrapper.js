@@ -153,7 +153,9 @@ PolicyWrapper.prototype.checkOptionalCoverages = function() {
             var basicCoverageObject = docObject.policies['1-HOC-1-1394462794']['basic coverage'];
             // var insuredName = docObject.policies['1-HOC-1-1394462794'].namedInsured;
             // var response = 'The name of the person on the policy is ' + insuredName +'.';
-            console.log(basicCoverageObject);
+            // console.log(basicCoverageObject);
+            var optionalCoverages = basicCoverageObject.basicCoverage.optionalCoverages;
+            console.log(optionalCoverages);
             // return response;
           }
         }

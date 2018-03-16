@@ -184,4 +184,5 @@ function processPostback(event) {
 // polWrapper.getHomeOwnerAgent();
 // polWrapper.getPolicyEndDate();
 // polWrapper.getPolicyNameInsured();
-polWrapper.checkOptionalCoverages();
+// polWrapper.checkOptionalCoverages();
+polWrapper.checkSpecialtyProgram();

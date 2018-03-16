@@ -151,12 +151,10 @@ PolicyWrapper.prototype.checkOptionalCoverages = function() {
           for(var i  = 0; i < docs.length; i++){
             var docObject = docs[i];
             var basicCoverageObject = docObject.policies['1-HOC-1-1394462794']['basic coverage'];
-            // var insuredName = docObject.policies['1-HOC-1-1394462794'].namedInsured;
-            // var response = 'The name of the person on the policy is ' + insuredName +'.';
             // console.log(basicCoverageObject);
             var optionalCoverages = basicCoverageObject.basicCoverage.optionalCoverages;
-            console.log(optionalCoverages);
-            console.log(optionalCoverages === '$0.00');
+            // console.log(optionalCoverages);
+            // console.log(optionalCoverages === '$0.00');
             if(optionalCoverages === '$0.00'){
               var response = 'There are no optional coverages under this policy';
               console.log(response);
@@ -166,6 +164,31 @@ PolicyWrapper.prototype.checkOptionalCoverages = function() {
               console.log(response);
               return response;
             }
+          }
+        }
+      });
+      client.close();
+    });
+  });
+}
+
+PolicyWrapper.prototype.checkSpecialtyProgram = function() {
+  MongoClient.connect(this.db_uri, function(err, client){
+    if(err){
+      throw err;
+    }else{
+      console.log('Successful database connection')
+    }
+    var db = client.db('aiTestData');
+    db.collection('aiData', function(err, collection) {
+      collection.find({}).project({'policies': 1}).toArray(function (err, docs){
+        if(err){
+          throw err;
+        }else{
+          for(var i  = 0; i < docs.length; i++){
+            var docObject = docs[i];
+            var specialtyProgramObject = docObject.policies['1-HOC-1-1394462794'].specialtyProgram;
+            console.log(specialtyProgramObject);
           }
         }
       });

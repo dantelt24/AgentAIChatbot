@@ -123,7 +123,7 @@ PolicyWrapper.prototype.getPolicyNameInsured = function() {
         }else{
           for(var i  = 0; i < docs.length; i++){
             var docObject = docs[i];
-            var insuredName = docObject.policies['1-HOC-1-1394462794'].nameInsured;
+            var insuredName = docObject.policies['1-HOC-1-1394462794'].namedInsured;
             var response = 'The insured person on the policy is ' + insuredName;
             console.log(response);
             return response;

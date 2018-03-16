@@ -185,4 +185,5 @@ function processPostback(event) {
 // polWrapper.getPolicyEndDate();
 // polWrapper.getPolicyNameInsured();
 // polWrapper.checkOptionalCoverages();
-polWrapper.checkSpecialtyProgram();
+// polWrapper.checkSpecialtyProgram();
+polWrapper.checkMedicalCoverage();

@@ -207,4 +207,29 @@ PolicyWrapper.prototype.checkSpecialtyProgram = function() {
   });
 }
 
+PolicyWrapper.prototype.checkMedicalCoverage = function() {
+  MongoClient.connect(this.db_uri, function(err, client){
+    if(err){
+      throw err;
+    }else{
+      console.log('Successful database connection')
+    }
+    var db = client.db('aiTestData');
+    db.collection('aiData', function(err, collection) {
+      collection.find({}).project({'policies': 1}).toArray(function (err, docs){
+        if(err){
+          throw err;
+        }else{
+          for(var i  = 0; i < docs.length; i++){
+            var docObject = docs[i];
+            var medicalPaymentsObject = docObject.policies['1-HOC-1-1394462794']['basic coverage'].basicCoverage.medicalPayments;
+            console.log(medicalPaymentsObject);
+          }
+        }
+      });
+      client.close();
+    });
+  });
+}
+
 module.exports = PolicyWrapper;

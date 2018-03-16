@@ -69,8 +69,35 @@ PolicyWrapper.prototype.getHomeOwnerAgent = function(){
             // console.log(docObject.policies.HOC-1-1-1394462794);
             agentObject = docObject.policies['1-HOC-1-1394462794'].agent;
             // console.log(agentObject);
-            var response = 'The agent that covers your policy is ' + agentObject.name + ' .';
-            response += ' They can be reached at ' + agentObject.phone + ' .'
+            var response = 'The agent that covers your policy is ' + agentObject.name + '.';
+            response += ' They can be reached at ' + agentObject.phone + ' .';
+            console.log(response);
+            return response;
+          }
+        }
+      });
+      client.close();
+    });
+  });
+}
+
+PolicyWrapper.prototype.getPolicyEndDate = function() {
+  MongoClient.connect(this.db_uri, function(err, client){
+    if(err){
+      throw err;
+    }else{
+      console.log('Successful database connection')
+    }
+    var db = client.db('aiTestData');
+    db.collection('aiData', function(err, collection) {
+      collection.find({}).project({'policies': 1}).toArray(function (err, docs){
+        if(err){
+          throw err;
+        }else{
+          for(var i  = 0; i < docs.length; i++){
+            var docObject = docs[i];
+            var expDate = docObject.policies['1-HOC-1-1394462794'].expirationDate;
+            var response = 'The end date for your policy is ' + expDate;
             console.log(response);
             return response;
           }

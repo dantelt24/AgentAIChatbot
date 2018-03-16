@@ -181,4 +181,5 @@ function processPostback(event) {
 }
 //test wrapper compatibility
 // polWrapper.getUserProfileInformation();
-polWrapper.getHomeOwnerAgent();
+// polWrapper.getHomeOwnerAgent();
+polWrapper.getPolicyEndDate();

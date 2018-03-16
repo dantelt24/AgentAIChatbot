@@ -183,3 +183,4 @@ function processPostback(event) {
 // polWrapper.getUserProfileInformation();
 // polWrapper.getHomeOwnerAgent();
 // polWrapper.getPolicyEndDate();
+polWrapper.getPolicyNameInsured();

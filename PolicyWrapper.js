@@ -275,7 +275,32 @@ PolicyWrapper.prototype.getTotalPremium = function(){
   });
 }
 //basic premium
-
+PolicyWrapper.prototype.getBasicPremium = function(){
+  MongoClient.connect(this.db_uri, function(err, client){
+    if(err){
+      throw err;
+    }else{
+      console.log('Successful database connection');
+    }
+    var db = client.db(db_name);
+    db.collection('aiData', function(err, collection){
+      collection.find({}).project({'policies': 1}).toArray(function(err,docs){
+        if(err){
+          throw err;
+        }else{
+          for(var i = 0; i < docs.length; i++){
+            var docObject = docs[i];
+            var basicPremium = docObject.policies['1-HOC-1-1394462794']['basic coverage'].basicCoverage.basicPremium;
+            var response = 'The total Premium for this policy is ' + basicPremium + '.';
+            console.log(response);
+            return response;
+          }
+        }
+      });
+      client.close();
+    });
+  });
+}
 //------------------------------------------------------------------------------
 
 //basicCoverage functions, dwelling/otherStructures/personalProperty/lossOfUse/personalLiability

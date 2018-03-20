@@ -329,6 +329,32 @@ PolicyWrapper.prototype.getBasicPremium = function(){
 //------------------------------------------------------------------------------
 
 //basicCoverage functions, dwelling/otherStructures/personalProperty/lossOfUse/personalLiability
-
+//get DwellingInformation
+PolicyWrapper.prototype.getDwellingLimit = function(){
+  MongoClient.connect(this.db_uri, function(err, client){
+    if(err){
+      throw err;
+    }else{
+      console.log('Successful database connection');
+    }
+    var db = client.db(db_name);
+    db.collection('aiData', function(err, collection){
+      collection.find({}).project({'policies': 1}).toArray(function(err,docs){
+        if(err){
+          throw err;
+        }else{
+          for(var i = 0; i < docs.length; i++){
+            var docObject = docs[i];
+            var dwellingObject = docObject.policies['1-HOC-1-1394462794']['basic coverage'].basicCoverage.dwelling;
+            var response = 'The value of the dwelling on this policy is ' + dwellingObject.limit + '.';
+            console.log(response);
+            return response;
+          }
+        }
+      });
+      client.close();
+    });
+  });
+}
 //------------------------------------------------------------------------------
 module.exports = PolicyWrapper;

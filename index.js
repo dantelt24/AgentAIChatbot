@@ -188,4 +188,5 @@ function processPostback(event) {
 // polWrapper.checkSpecialtyProgram();
 // polWrapper.checkHomeOwnerMedicalCoverage();
 // polWrapper.getTotalPremium();
-polWrapper.getBasicPremium();
+// polWrapper.getBasicPremium();
+polWrapper.getPolicyDeductible();

@@ -291,7 +291,7 @@ PolicyWrapper.prototype.getBasicPremium = function(){
           for(var i = 0; i < docs.length; i++){
             var docObject = docs[i];
             var basicPremium = docObject.policies['1-HOC-1-1394462794']['basic coverage'].basicCoverage.basicPremium;
-            var response = 'The total Premium for this policy is ' + basicPremium + '.';
+            var response = 'The basic Premium for this policy is ' + basicPremium + '.';
             console.log(response);
             return response;
           }

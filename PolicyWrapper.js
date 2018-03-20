@@ -356,5 +356,113 @@ PolicyWrapper.prototype.getDwellingLimit = function(){
     });
   });
 }
+//get otherPropertyInformation
+PolicyWrapper.prototype.getOtherStructuresInfo = function(){
+  MongoClient.connect(this.db_uri, function(err, client){
+    if(err){
+      throw err;
+    }else{
+      console.log('Successful database connection');
+    }
+    var db = client.db(db_name);
+    db.collection('aiData', function(err, collection){
+      collection.find({}).project({'policies': 1}).toArray(function(err,docs){
+        if(err){
+          throw err;
+        }else{
+          for(var i = 0; i < docs.length; i++){
+            var docObject = docs[i];
+            var otherStructuresObject = docObject.policies['1-HOC-1-1394462794']['basic coverage'].basicCoverage.otherStructures;
+            var response = 'The value of all the other structures on this policy are valued at ' + otherStructuresObject.limit + '.';
+            console.log(response);
+            return response;
+          }
+        }
+      });
+      client.close();
+    });
+  });
+}
+//get personalPropInfo
+PolicyWrapper.prototype.getPersonalPropertyInfo = function(){
+  MongoClient.connect(this.db_uri, function(err, client){
+    if(err){
+      throw err;
+    }else{
+      console.log('Successful database connection');
+    }
+    var db = client.db(db_name);
+    db.collection('aiData', function(err, collection){
+      collection.find({}).project({'policies': 1}).toArray(function(err,docs){
+        if(err){
+          throw err;
+        }else{
+          for(var i = 0; i < docs.length; i++){
+            var docObject = docs[i];
+            var personalPropertyObject = docObject.policies['1-HOC-1-1394462794']['basic coverage'].basicCoverage.personalProperty;
+            var response = 'The coverage provided by CIG for the personal property on this policy amounts to ' + personalPropertyObject.limit + '.';
+            console.log(response);
+            return response;
+          }
+        }
+      });
+      client.close();
+    });
+  });
+}
+//get lossOfUse Info
+PolicyWrapper.prototype.getLossOfUseInfo = function(){
+  MongoClient.connect(this.db_uri, function(err, client){
+    if(err){
+      throw err;
+    }else{
+      console.log('Successful database connection');
+    }
+    var db = client.db(db_name);
+    db.collection('aiData', function(err, collection){
+      collection.find({}).project({'policies': 1}).toArray(function(err,docs){
+        if(err){
+          throw err;
+        }else{
+          for(var i = 0; i < docs.length; i++){
+            var docObject = docs[i];
+            var lossOfUseObject = docObject.policies['1-HOC-1-1394462794']['basic coverage'].basicCoverage.lossOfUse;
+            var response = 'The loss of use on this policy amounts to ' + lossOfUseObject.limit + '.';
+            console.log(response);
+            return response;
+          }
+        }
+      });
+      client.close();
+    });
+  });
+}
+//get personalLiability Info
+PolicyWrapper.prototype.getPersonalLiabilityInfo = function(){
+  MongoClient.connect(this.db_uri, function(err, client){
+    if(err){
+      throw err;
+    }else{
+      console.log('Successful database connection');
+    }
+    var db = client.db(db_name);
+    db.collection('aiData', function(err, collection){
+      collection.find({}).project({'policies': 1}).toArray(function(err,docs){
+        if(err){
+          throw err;
+        }else{
+          for(var i = 0; i < docs.length; i++){
+            var docObject = docs[i];
+            var personalLiabilityObject = docObject.policies['1-HOC-1-1394462794']['basic coverage'].basicCoverage.personalLiability;
+            var response = 'The amount you are covered for in regards to personal liability is ' + personalLiabilityObject.limit + '.';
+            console.log(response);
+            return response;
+          }
+        }
+      });
+      client.close();
+    });
+  });
+}
 //------------------------------------------------------------------------------
 module.exports = PolicyWrapper;

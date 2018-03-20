@@ -2,15 +2,18 @@
 const express = require('express');
 const request = require('request');
 const bodyParser = require('body-parser');
-const MongoClient = require('mongodb').MongoClient;
+// const MongoClient = require('mongodb').MongoClient;
 const mongoose = require('mongoose');
 const Wit = require('node-wit').Wit;
 const log = require('node-wit').log;
+const policyWrapper = require('./PolicyWrapper.js');
+const polWrapper = new policyWrapper(process.env.MONGO_DB_URI);
+// const polWrapper = new policyWrapper();
 //---------------------------------------------------------------------------
 
 
 //environment variables
-const uri = process.env.MONGO_DB_URI;
+// const uri = process.env.MONGO_DB_URI;
 const wit_token = process.env.WIT_TOKEN;
 const fb_ver_token = process.env.VERIFICATION_TOKEN;
 const fb_page_token = process.env.FB_PAGE_TOKEN;
@@ -113,6 +116,7 @@ app.post('/webhook', (req, res) => {
           // This is useful if we want our bot to figure out the conversation history
           // const sessionId = findOrCreateSession(sender);
           //Use this sessionId as a key for a coversation id/key in mongodb to track user conversations
+          const sessionId = findOrCreateSession(sender);
 
           // We retrieve the message content
           const {text, attachments} = event.message;
@@ -153,6 +157,7 @@ function processPostback(event) {
   if (payload === "Greeting") {
     // Get user's first name from the User Profile API
     // and include it in the greeting
+    addUsertoCollections(senderId);
     request({
       url: "https://graph.facebook.com/v2.6/" + senderId,
       qs: {
@@ -169,20 +174,24 @@ function processPostback(event) {
         name = bodyObj.first_name;
         greeting = "Hi " + name + ". ";
       }
-      var message = greeting + "My name is AgentAI. I can tell you various details regarding your CIG policy. What can I help you with today?";
+      var message = greeting + "My name is AgentAI. I can tell you various details regarding your CIG policies. What policy can I help you with today?";
       fbMessage(senderId, message).catch(console.error);
     });
   }
 }
-
-
-
-//Test MongoDBAtlas Connection
-MongoClient.connect(uri, function(err, db) {
-  if(err){
-    throw err;
-  }else{
-    console.log("Successful database connection");
-  }
-  db.close();
-});
+//test wrapper compatibility
+// polWrapper.getUserProfileInformation();
+// polWrapper.getHomeOwnerAgent();
+// polWrapper.getPolicyEndDate();
+// polWrapper.getPolicyNameInsured();
+// polWrapper.checkOptionalCoverages();
+// polWrapper.checkSpecialtyProgram();
+// polWrapper.checkHomeOwnerMedicalCoverage();
+// polWrapper.getTotalPremium();
+// polWrapper.getBasicPremium();
+// polWrapper.getPolicyDeductible();
+// polWrapper.getDwellingLimit();
+// polWrapper.getOtherStructuresInfo();
+// polWrapper.getPersonalLiabilityInfo();
+// polWrapper.getPersonalPropertyInfo();
+// polWrapper.getLossOfUseInfo();

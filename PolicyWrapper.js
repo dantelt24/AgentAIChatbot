@@ -265,6 +265,7 @@ PolicyWrapper.prototype.getTotalPremium = function(){
             var docObject = docs[i];
             var totPremium = docObject.policies['1-HOC-1-1394462794']['basic coverage'].basicCoverage.totalPremium;
             var response = 'The total Premium for this policy is ' + totPremium + '.';
+            console.log(response);
             return response;
           }
         }

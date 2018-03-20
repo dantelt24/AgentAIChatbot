@@ -52,7 +52,7 @@ PolicyWrapper.prototype.getHomeOwnerAgent = function(){
     }else{
       console.log('Successful database connection')
     }
-    var db = client.db('aiTestData');
+    var db = client.db(db_name);
     db.collection('aiData', function(err, collection) {
       collection.find({}).project({'policies': 1}).toArray(function (err, docs){
         if(err){
@@ -88,7 +88,7 @@ PolicyWrapper.prototype.getPolicyEndDate = function() {
     }else{
       console.log('Successful database connection')
     }
-    var db = client.db('aiTestData');
+    var db = client.db(db_name);
     db.collection('aiData', function(err, collection) {
       collection.find({}).project({'policies': 1}).toArray(function (err, docs){
         if(err){
@@ -115,7 +115,7 @@ PolicyWrapper.prototype.getPolicyNameInsured = function() {
     }else{
       console.log('Successful database connection')
     }
-    var db = client.db('aiTestData');
+    var db = client.db(db_name);
     db.collection('aiData', function(err, collection) {
       collection.find({}).project({'policies': 1}).toArray(function (err, docs){
         if(err){
@@ -142,7 +142,7 @@ PolicyWrapper.prototype.checkOptionalCoverages = function() {
     }else{
       console.log('Successful database connection')
     }
-    var db = client.db('aiTestData');
+    var db = client.db(db_name);
     db.collection('aiData', function(err, collection) {
       collection.find({}).project({'policies': 1}).toArray(function (err, docs){
         if(err){
@@ -179,7 +179,7 @@ PolicyWrapper.prototype.checkSpecialtyProgram = function() {
     }else{
       console.log('Successful database connection')
     }
-    var db = client.db('aiTestData');
+    var db = client.db(db_name);
     db.collection('aiData', function(err, collection) {
       collection.find({}).project({'policies': 1}).toArray(function (err, docs){
         if(err){
@@ -214,7 +214,7 @@ PolicyWrapper.prototype.checkHomeOwnerMedicalCoverage = function() {
     }else{
       console.log('Successful database connection')
     }
-    var db = client.db('aiTestData');
+    var db = client.db(db_name);
     db.collection('aiData', function(err, collection) {
       collection.find({}).project({'policies': 1}).toArray(function (err, docs){
         if(err){
@@ -229,9 +229,9 @@ PolicyWrapper.prototype.checkHomeOwnerMedicalCoverage = function() {
               console.log(response);
               return response;
             }else{
-              var response = 'This policy does have medical coverage attached to it. The limit that the medical payment will cover is ' + medicalPaymentsObject.limit + ' .';
+              var response = 'This policy does have medical coverage with it. The limit that the medical payment will cover is ' + medicalPaymentsObject.limit + '.';
               console.log(response);
-              return response; 
+              return response;
             }
           }
         }
@@ -241,4 +241,43 @@ PolicyWrapper.prototype.checkHomeOwnerMedicalCoverage = function() {
   });
 }
 
+//Deductible function
+
+//------------------------------------------------------------------------------
+
+//Premium functions
+
+//total Premium
+PolicyWrapper.prototype.getTotalPremium = function(){
+  MongoClient.connect(this.db_uri, function(err, client){
+    if(err){
+      throw err;
+    }else{
+      console.log('Successful database connection');
+    }
+    var db = client.db(db_name);
+    db.collection('aiData', function(err, collection){
+      collection.find({}).project({'policies': 1}).toArray(function(err,docs){
+        if(err){
+          throw err;
+        }else{
+          for(var i = 0; i < docs.length; i++){
+            var docObject = docs[i];
+            var totPremium = docObject.policies['1-HOC-1-1394462794']['basic coverage'].basicCoverage.totalPremium;
+            var response = 'The total Premium for this policy is ' + totPremium + '.';
+            return response;
+          }
+        }
+      });
+      client.close();
+    });
+  });
+}
+//basic premium
+
+//------------------------------------------------------------------------------
+
+//basicCoverage functions, dwelling/otherStructures/personalProperty/lossOfUse/personalLiability
+
+//------------------------------------------------------------------------------
 module.exports = PolicyWrapper;

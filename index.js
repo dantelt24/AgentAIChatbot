@@ -191,7 +191,7 @@ function processPostback(event) {
 // polWrapper.getBasicPremium();
 // polWrapper.getPolicyDeductible();
 // polWrapper.getDwellingLimit();
-polWrapper.getOtherStructuresInfo();
-polWrapper.getPersonalLiabilityInfo();
-polWrapper.getPersonalPropertyInfo();
-polWrapper.getLossOfUseInfo();
+// polWrapper.getOtherStructuresInfo();
+// polWrapper.getPersonalLiabilityInfo();
+// polWrapper.getPersonalPropertyInfo();
+// polWrapper.getLossOfUseInfo();

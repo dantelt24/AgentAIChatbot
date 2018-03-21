@@ -64,6 +64,7 @@ const fbMessage = (id, text) => {
       if(json.error && json.error.message){
         throw new Error(json.error.message);
       }
+
       return json;
     });
 };
@@ -75,7 +76,7 @@ var app = express();
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.listen((process.env.PORT || 5000));
-
+console.console.log("wasssssup b");
 // Server index page
 app.get("/", function (req, res) {
   res.send("Deployed!");

@@ -13,6 +13,38 @@ const db_name = 'aiTestData';
 function PolicyWrapper(uri){
   this.db_uri = uri;
 }
+//***************************
+//** SAMBA **
+PolicyWrapper.prototype.sameAsOtherOne = function(){
+  MongoClient.connect(this.db_uri, function(err, client){
+    if(err){
+      throw err;
+    }else{
+      console.log('Successful database connection');
+    }
+
+    var db = client.db(db_name);
+    db.collection('aiData', function (err, collection){
+      collection.find({}).project({'profile': 1}).toArray(function(err, docs){
+        if(err){
+          throw err;
+        }else{
+          console.log(docs);
+          console.log(docs.length);
+          for(var i = 0; i < docs.length; i++){
+            var docObject = docs[i];
+            var response = 'Thank you for checking in on your profile information. ';
+            response += 'The name we have for your profile is ' + docObject.profile.firstName + ' ' + docObject.profile.lastName;
+            response += ', and the email address on file is ' + docObject.profile.emailAddress;
+            console.log(response);
+            return response;
+          }
+        }
+      });
+      client.close();
+    });
+  });
+}
 
 PolicyWrapper.prototype.getUserProfileInformation = function(){
   MongoClient.connect(this.db_uri, function(err, client){

@@ -483,7 +483,7 @@ PolicyWrapper.prototype.getAutoDrivers = function() {
   var drivers = docs[i].policies['1-PAC-1-200711458641'].drivers;
   var response = '';
   if(drivers.length > 0){
-  response += 'The names of the drivers on this policy are ' + drivers[0];
+  response += 'The names of the drivers on this policy are ' + drivers[0].name;
   for(var j = 1; j < drivers.length; j++) response += ', ' + drivers[j].name;
   }
   else{

@@ -465,4 +465,39 @@ PolicyWrapper.prototype.getPersonalLiabilityInfo = function(){
   });
 }
 //------------------------------------------------------------------------------
+//autodriver test
+PolicyWrapper.prototype.getAutoDrivers = function() {
+  MongoClient.connect(this.db_uri, function(err, client){
+    if(err){
+      throw err;
+    }else{
+      console.log('Successful database connection')
+  }
+  var db = client.db(db_name);
+  db.collection('aiData', function(err, collection) {
+  collection.find({}).project({'policies': 1}).toArray(function (err, docs){
+  if(err){
+  throw err;
+  }else{
+  for(var i = 0; i < docs.length; i++){
+  var drivers = docs[i].policies['1-PAC-1-200711458641'].drivers;
+  var response = '';
+  if(drivers.length > 0){
+  response += 'The names of the drivers on this policy are ' + drivers[0];
+  for(var j = 1; j < drivers.length; j++) response += ', ' + drivers[j].name;
+  }
+  else{
+  response += 'There are no drivers for your policy'
+  }
+  response += '.'
+  console.log(response);
+  return response;
+  }
+  }
+  });
+  client.close();
+  });
+  });
+}
+
 module.exports = PolicyWrapper;

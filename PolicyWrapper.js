@@ -58,17 +58,10 @@ PolicyWrapper.prototype.getHomeOwnerAgent = function(){
         if(err){
           throw err;
         }else{
-          // console.log(docs)
-          // console.log(docs.length);
           var agentObject = {};
           for(var i  = 0; i < docs.length; i++){
             var docObject = docs[i];
-            // console.log(docObject);
-            // console.log(docObject.policies);
-            // 1-HOC-1-1394462794
-            // console.log(docObject.policies.HOC-1-1-1394462794);
             agentObject = docObject.policies['1-HOC-1-1394462794'].agent;
-            // console.log(agentObject);
             var response = 'The agent that covers your policy is ' + agentObject.name + '.';
             response += ' They can be reached at ' + agentObject.phone + ' .';
             console.log(response);
@@ -465,7 +458,9 @@ PolicyWrapper.prototype.getPersonalLiabilityInfo = function(){
   });
 }
 //------------------------------------------------------------------------------
-//autodriver test
+//AUTO Intents
+
+//get drivers on policy
 PolicyWrapper.prototype.getAutoDrivers = function() {
   MongoClient.connect(this.db_uri, function(err, client){
     if(err){
@@ -475,29 +470,60 @@ PolicyWrapper.prototype.getAutoDrivers = function() {
   }
   var db = client.db(db_name);
   db.collection('aiData', function(err, collection) {
-  collection.find({}).project({'policies': 1}).toArray(function (err, docs){
-  if(err){
-  throw err;
-  }else{
-  for(var i = 0; i < docs.length; i++){
-  var drivers = docs[i].policies['1-PAC-1-200711458641'].drivers;
-  var response = '';
-  if(drivers.length > 0){
-  response += 'The names of the drivers on this policy are ' + drivers[0].name;
-  for(var j = 1; j < drivers.length; j++) response += ', ' + drivers[j].name;
-  }
-  else{
-  response += 'There are no drivers for your policy'
-  }
-  response += '.'
-  console.log(response);
-  return response;
-  }
-  }
-  });
-  client.close();
-  });
+    collection.find({}).project({'policies': 1}).toArray(function (err, docs){
+      if(err){
+        throw err;
+      }else{
+        for(var i = 0; i < docs.length; i++){
+          var drivers = docs[i].policies['1-PAC-1-200711458641'].drivers;
+          var response = '';
+          if(drivers.length > 0){
+            response += 'The names of the drivers on this policy are ' + drivers[0].name;
+            for(var j = 1; j < drivers.length; j++) response += ', ' + drivers[j].name;
+          }
+          else{
+            response += 'There are no drivers for your policy'
+          }
+          response += '.'
+          console.log(response);
+          return response;
+          }
+        }
+      });
+      client.close();
+    });
   });
 }
+
+//get autoAgent
+PolicyWrapper.prototype.getAutoAgent = function(){
+  MongoClient.connect(this.db_uri, function(err, client){
+    if(err){
+      throw err;
+    }else{
+      console.log('Successful database connection')
+    }
+    var db = client.db(db_name);
+    db.collection('aiData', function(err, collection) {
+      collection.find({}).project({'policies': 1}).toArray(function (err, docs){
+        if(err){
+          throw err;
+        }else{
+          var agentObject = {};
+          for(var i  = 0; i < docs.length; i++){
+            var docObject = docs[i];
+            agentObject = docObject.policies['1-PAC-1-200711458641'].agent;
+            var response = 'The agent that covers your policy is ' + agentObject.name + '.';
+            response += ' They can be reached at ' + agentObject.phone + ' .';
+            console.log(response);
+            return response;
+          }
+        }
+      });
+      client.close();
+    });
+  });
+}
+
 
 module.exports = PolicyWrapper;

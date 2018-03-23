@@ -180,7 +180,7 @@ function processPostback(event) {
   }
 }
 //test wrapper compatibility
-// polWrapper.getUserProfileInformation();
+polWrapper.getUserProfileInformation();
 // polWrapper.getHomeOwnerAgent();
 // polWrapper.getPolicyEndDate();
 // polWrapper.getPolicyNameInsured();
@@ -196,4 +196,4 @@ function processPostback(event) {
 // polWrapper.getPersonalPropertyInfo();
 // polWrapper.getLossOfUseInfo();
 // polWrapper.getAutoDrivers();
-polWrapper.getAutoAgent();
+// polWrapper.getAutoAgent();

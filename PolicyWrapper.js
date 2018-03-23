@@ -30,14 +30,19 @@ PolicyWrapper.prototype.getUserProfileInformation = function(){
         }else{
           console.log(docs);
           console.log(docs.length);
-          for(var i = 0; i < docs.length; i++){
-            var docObject = docs[i];
-            var response = 'Thank you for checking in on your profile information. ';
-            response += 'The name we have for your profile is ' + docObject.profile.firstName + ' ' + docObject.profile.lastName;
-            response += ', and the email address on file is ' + docObject.profile.emailAddress;
-            console.log(response);
-            return response;
-          }
+          var response = 'Thank you for checking in on your profile information. ';
+          response += 'The name we have for your profile is ' + docs[0].profile[0].firstName[0] + ' ' + docObject[0].profile[0].lastName[0];
+          response += ', and the email address on file is ' + docs[0].profile[0].emailAddress[0];
+          console.log(response);
+          return response;
+          // for(var i = 0; i < docs.length; i++){
+          //   var docObject = docs[i];
+          //   var response = 'Thank you for checking in on your profile information. ';
+          //   response += 'The name we have for your profile is ' + docObject.profile.firstName + ' ' + docObject.profile.lastName;
+          //   response += ', and the email address on file is ' + docObject.profile.emailAddress;
+          //   console.log(response);
+          //   return response;
+          // }
         }
       });
       client.close();

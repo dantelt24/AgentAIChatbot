@@ -136,6 +136,8 @@ app.post('/webhook', (req, res) => {
                 console.log('Agent Intent and Auto Intent found');
                 if(entities.agentIntent[0].confidence > .75 && entities.autoIntent[0].confidence > .75){
                   console.log('High enough confidence to perform query.');
+                  var entityResponse = polWrapper.getAutoAgent();
+                  fbMessage(sender, entityResponse).catch(console.error);
                 }
               }
               // For now, let's reply with another automatic message

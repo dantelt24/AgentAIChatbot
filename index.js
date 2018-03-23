@@ -132,6 +132,9 @@ app.post('/webhook', (req, res) => {
             wit.message(text).then(({entities}) => {
               // You can customize your response to these entities
               console.log(entities);
+              if(entities.hasOwnProperty('agentIntent') && entities.hasOwnProperty('autoIntent')){
+                console.log('Agent Intent and Auto Intent found');
+              }
               // For now, let's reply with another automatic message
               fbMessage(sender, `We've received your message: ${text}.`);
             })
@@ -180,7 +183,7 @@ function processPostback(event) {
   }
 }
 //test wrapper compatibility
-polWrapper.getUserProfileInformation();
+// polWrapper.getUserProfileInformation();
 // polWrapper.getHomeOwnerAgent();
 // polWrapper.getPolicyEndDate();
 // polWrapper.getPolicyNameInsured();

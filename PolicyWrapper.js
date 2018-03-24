@@ -14,7 +14,7 @@ function PolicyWrapper(uri){
   this.db_uri = uri;
 }
 
-PolicyWrapper.prototype.getUserProfileInformation = function(){
+PolicyWrapper.prototype.getUserProfileInformation = function(callback){
   MongoClient.connect(this.db_uri, function(err, client){
     if(err){
       throw err;
@@ -36,7 +36,8 @@ PolicyWrapper.prototype.getUserProfileInformation = function(){
             response += 'The name we have for your profile is ' + docObject.profile.firstName + ' ' + docObject.profile.lastName;
             response += ', and the email address on file is ' + docObject.profile.emailAddress;
             console.log(response);
-            return response;
+            // return response;
+            callback(null, response);
           }
         }
       });
@@ -45,7 +46,7 @@ PolicyWrapper.prototype.getUserProfileInformation = function(){
   });
 }
 
-PolicyWrapper.prototype.getHomeOwnerAgent = function(){
+PolicyWrapper.prototype.getHomeOwnerAgent = function(callback){
   MongoClient.connect(this.db_uri, function(err, client){
     if(err){
       throw err;
@@ -58,21 +59,15 @@ PolicyWrapper.prototype.getHomeOwnerAgent = function(){
         if(err){
           throw err;
         }else{
-          // console.log(docs)
-          // console.log(docs.length);
           var agentObject = {};
           for(var i  = 0; i < docs.length; i++){
             var docObject = docs[i];
-            // console.log(docObject);
-            // console.log(docObject.policies);
-            // 1-HOC-1-1394462794
-            // console.log(docObject.policies.HOC-1-1-1394462794);
             agentObject = docObject.policies['1-HOC-1-1394462794'].agent;
-            // console.log(agentObject);
             var response = 'The agent that covers your policy is ' + agentObject.name + '.';
             response += ' They can be reached at ' + agentObject.phone + ' .';
             console.log(response);
-            return response;
+            callback(null, response);
+            // return response;
           }
         }
       });
@@ -81,7 +76,7 @@ PolicyWrapper.prototype.getHomeOwnerAgent = function(){
   });
 }
 
-PolicyWrapper.prototype.getPolicyEndDate = function() {
+PolicyWrapper.prototype.getPolicyEndDate = function(callback) {
   MongoClient.connect(this.db_uri, function(err, client){
     if(err){
       throw err;
@@ -99,7 +94,8 @@ PolicyWrapper.prototype.getPolicyEndDate = function() {
             var expDate = docObject.policies['1-HOC-1-1394462794'].expirationDate;
             var response = 'The end date for your policy is ' + expDate;
             console.log(response);
-            return response;
+            // return response;
+            callback(null, response);
           }
         }
       });
@@ -108,7 +104,7 @@ PolicyWrapper.prototype.getPolicyEndDate = function() {
   });
 }
 
-PolicyWrapper.prototype.getPolicyNameInsured = function() {
+PolicyWrapper.prototype.getPolicyNameInsured = function(callback) {
   MongoClient.connect(this.db_uri, function(err, client){
     if(err){
       throw err;
@@ -126,7 +122,8 @@ PolicyWrapper.prototype.getPolicyNameInsured = function() {
             var insuredName = docObject.policies['1-HOC-1-1394462794'].namedInsured;
             var response = 'The name of the person on the policy is ' + insuredName +'.';
             console.log(response);
-            return response;
+            // return response;
+            callback(null, response);
           }
         }
       });
@@ -135,7 +132,7 @@ PolicyWrapper.prototype.getPolicyNameInsured = function() {
   });
 }
 
-PolicyWrapper.prototype.checkOptionalCoverages = function() {
+PolicyWrapper.prototype.checkOptionalCoverages = function(callback) {
   MongoClient.connect(this.db_uri, function(err, client){
     if(err){
       throw err;
@@ -158,11 +155,13 @@ PolicyWrapper.prototype.checkOptionalCoverages = function() {
             if(optionalCoverages === '$0.00'){
               var response = 'There are no optional coverages under this policy';
               console.log(response);
-              return response;
+              // return response;
+              callback(null, response);
             }else{
               var response = 'There are optional coverages under this policy.';
               console.log(response);
-              return response;
+              // return response;
+              callback(null, response);
             }
           }
         }
@@ -192,12 +191,14 @@ PolicyWrapper.prototype.checkSpecialtyProgram = function() {
             if(specialtyProgramObject.programName === 'Not Applicable'){
               var response = 'Sorry. We have found no specialty programs under this policy. ';
               console.log(response);
-              return response;
+              // return response;
+              callback(null, response);
             }else{
               var response = 'We have you under our ' + specialtyProgramObject.programName;
               response += '. The premium under that plan is ' + specialtyProgramObject.premium;
               console.log(response);
-              return response;
+              // return response;
+              callback(null, response);
             }
           }
         }
@@ -207,7 +208,7 @@ PolicyWrapper.prototype.checkSpecialtyProgram = function() {
   });
 }
 
-PolicyWrapper.prototype.checkHomeOwnerMedicalCoverage = function() {
+PolicyWrapper.prototype.checkHomeOwnerMedicalCoverage = function(callback) {
   MongoClient.connect(this.db_uri, function(err, client){
     if(err){
       throw err;
@@ -227,11 +228,13 @@ PolicyWrapper.prototype.checkHomeOwnerMedicalCoverage = function() {
             if(medicalPaymentsObject.limit === '$0.00'){
               var response = 'Sorry this policy does not seem to have medical coverage. ';
               console.log(response);
-              return response;
+              // return response;
+              callback(null, response);
             }else{
               var response = 'This policy does have medical coverage with it. The limit that the medical payment will cover is ' + medicalPaymentsObject.limit + '.';
               console.log(response);
-              return response;
+              // return response;
+              callback(null, response);
             }
           }
         }
@@ -242,7 +245,7 @@ PolicyWrapper.prototype.checkHomeOwnerMedicalCoverage = function() {
 }
 
 //Deductible function
-PolicyWrapper.prototype.getPolicyDeductible = function(){
+PolicyWrapper.prototype.getPolicyDeductible = function(callback){
   MongoClient.connect(this.db_uri, function(err, client){
     if(err){
       throw err;
@@ -260,7 +263,8 @@ PolicyWrapper.prototype.getPolicyDeductible = function(){
             var policyDeductible = docObject.policies['1-HOC-1-1394462794']['basic coverage'].basicCoverage.policyDeductible;
             var response = 'The deductible for this policy is ' + policyDeductible + '.';
             console.log(response);
-            return response;
+            // return response;
+            callback(null, response);
           }
         }
       });
@@ -273,7 +277,7 @@ PolicyWrapper.prototype.getPolicyDeductible = function(){
 //Premium functions
 
 //total Premium
-PolicyWrapper.prototype.getTotalPremium = function(){
+PolicyWrapper.prototype.getTotalPremium = function(callback){
   MongoClient.connect(this.db_uri, function(err, client){
     if(err){
       throw err;
@@ -291,7 +295,8 @@ PolicyWrapper.prototype.getTotalPremium = function(){
             var totPremium = docObject.policies['1-HOC-1-1394462794']['basic coverage'].basicCoverage.totalPremium;
             var response = 'The total Premium for this policy is ' + totPremium + '.';
             console.log(response);
-            return response;
+            // return response;
+            callback(null, response);
           }
         }
       });
@@ -300,7 +305,7 @@ PolicyWrapper.prototype.getTotalPremium = function(){
   });
 }
 //basic premium
-PolicyWrapper.prototype.getBasicPremium = function(){
+PolicyWrapper.prototype.getBasicPremium = function(callback){
   MongoClient.connect(this.db_uri, function(err, client){
     if(err){
       throw err;
@@ -318,7 +323,8 @@ PolicyWrapper.prototype.getBasicPremium = function(){
             var basicPremium = docObject.policies['1-HOC-1-1394462794']['basic coverage'].basicCoverage.basicPremium;
             var response = 'The basic Premium for this policy is ' + basicPremium + '.';
             console.log(response);
-            return response;
+            // return response;
+            callback(null, response);
           }
         }
       });
@@ -330,7 +336,7 @@ PolicyWrapper.prototype.getBasicPremium = function(){
 
 //basicCoverage functions, dwelling/otherStructures/personalProperty/lossOfUse/personalLiability
 //get DwellingInformation
-PolicyWrapper.prototype.getDwellingLimit = function(){
+PolicyWrapper.prototype.getDwellingLimit = function(callback){
   MongoClient.connect(this.db_uri, function(err, client){
     if(err){
       throw err;
@@ -348,7 +354,8 @@ PolicyWrapper.prototype.getDwellingLimit = function(){
             var dwellingObject = docObject.policies['1-HOC-1-1394462794']['basic coverage'].basicCoverage.dwelling;
             var response = 'The value of the dwelling on this policy is ' + dwellingObject.limit + '.';
             console.log(response);
-            return response;
+            // return response;
+            callback(null, response);
           }
         }
       });
@@ -357,7 +364,7 @@ PolicyWrapper.prototype.getDwellingLimit = function(){
   });
 }
 //get otherPropertyInformation
-PolicyWrapper.prototype.getOtherStructuresInfo = function(){
+PolicyWrapper.prototype.getOtherStructuresInfo = function(callback){
   MongoClient.connect(this.db_uri, function(err, client){
     if(err){
       throw err;
@@ -375,7 +382,8 @@ PolicyWrapper.prototype.getOtherStructuresInfo = function(){
             var otherStructuresObject = docObject.policies['1-HOC-1-1394462794']['basic coverage'].basicCoverage.otherStructures;
             var response = 'The value of all the other structures on this policy are valued at ' + otherStructuresObject.limit + '.';
             console.log(response);
-            return response;
+            // return response;
+            callback(null, response);
           }
         }
       });
@@ -384,7 +392,7 @@ PolicyWrapper.prototype.getOtherStructuresInfo = function(){
   });
 }
 //get personalPropInfo
-PolicyWrapper.prototype.getPersonalPropertyInfo = function(){
+PolicyWrapper.prototype.getPersonalPropertyInfo = function(callback){
   MongoClient.connect(this.db_uri, function(err, client){
     if(err){
       throw err;
@@ -402,7 +410,8 @@ PolicyWrapper.prototype.getPersonalPropertyInfo = function(){
             var personalPropertyObject = docObject.policies['1-HOC-1-1394462794']['basic coverage'].basicCoverage.personalProperty;
             var response = 'The coverage provided by CIG for the personal property on this policy amounts to ' + personalPropertyObject.limit + '.';
             console.log(response);
-            return response;
+            // return response;
+            callback(null, response);
           }
         }
       });
@@ -411,7 +420,7 @@ PolicyWrapper.prototype.getPersonalPropertyInfo = function(){
   });
 }
 //get lossOfUse Info
-PolicyWrapper.prototype.getLossOfUseInfo = function(){
+PolicyWrapper.prototype.getLossOfUseInfo = function(callback){
   MongoClient.connect(this.db_uri, function(err, client){
     if(err){
       throw err;
@@ -429,7 +438,8 @@ PolicyWrapper.prototype.getLossOfUseInfo = function(){
             var lossOfUseObject = docObject.policies['1-HOC-1-1394462794']['basic coverage'].basicCoverage.lossOfUse;
             var response = 'The loss of use on this policy amounts to ' + lossOfUseObject.limit + '.';
             console.log(response);
-            return response;
+            // return response;
+            callback(null, response);
           }
         }
       });
@@ -438,7 +448,7 @@ PolicyWrapper.prototype.getLossOfUseInfo = function(){
   });
 }
 //get personalLiability Info
-PolicyWrapper.prototype.getPersonalLiabilityInfo = function(){
+PolicyWrapper.prototype.getPersonalLiabilityInfo = function(callback){
   MongoClient.connect(this.db_uri, function(err, client){
     if(err){
       throw err;
@@ -456,7 +466,8 @@ PolicyWrapper.prototype.getPersonalLiabilityInfo = function(){
             var personalLiabilityObject = docObject.policies['1-HOC-1-1394462794']['basic coverage'].basicCoverage.personalLiability;
             var response = 'The amount you are covered for in regards to personal liability is ' + personalLiabilityObject.limit + '.';
             console.log(response);
-            return response;
+            // return response;
+            callback(null, response);
           }
         }
       });
@@ -465,4 +476,229 @@ PolicyWrapper.prototype.getPersonalLiabilityInfo = function(){
   });
 }
 //------------------------------------------------------------------------------
+//AUTO Intents
+
+//get drivers on policy
+PolicyWrapper.prototype.getAutoDrivers = function(callback) {
+  MongoClient.connect(this.db_uri, function(err, client){
+    if(err){
+      throw err;
+    }else{
+      console.log('Successful database connection')
+  }
+  var db = client.db(db_name);
+  db.collection('aiData', function(err, collection) {
+    collection.find({}).project({'policies': 1}).toArray(function (err, docs){
+      if(err){
+        throw err;
+      }else{
+        for(var i = 0; i < docs.length; i++){
+          var drivers = docs[i].policies['1-PAC-1-200711458641'].drivers;
+          var response = '';
+          if(drivers.length > 0){
+            response += 'The names of the drivers on this policy are ' + drivers[0].name;
+            for(var j = 1; j < drivers.length; j++) response += ', ' + drivers[j].name;
+          }
+          else{
+            response += 'There are no drivers for your policy'
+          }
+          response += '.'
+          console.log(response);
+          // return response;
+          callback(null, response);
+          }
+        }
+      });
+      client.close();
+    });
+  });
+}
+
+//get autoAgent
+PolicyWrapper.prototype.getAutoAgent = function(callback){
+  MongoClient.connect(this.db_uri, function(err, client){
+    if(err){
+      throw err;
+    }else{
+      console.log('Successful database connection')
+    }
+    var db = client.db(db_name);
+    db.collection('aiData', function(err, collection) {
+      collection.find({}).project({'policies': 1}).toArray(function (err, docs){
+        if(err){
+          throw err;
+        }else{
+          var agentObject = {};
+          for(var i  = 0; i < docs.length; i++){
+            var docObject = docs[i];
+            agentObject = docObject.policies['1-PAC-1-200711458641'].agent;
+            var response = 'The agent that covers your policy is ' + agentObject.name + '.';
+            response += ' They can be reached at ' + agentObject.phone + ' .';
+            console.log(response);
+            callback(null, response);
+          }
+        }
+      });
+      client.close();
+    });
+  });
+}
+
+//Auto policy Premium function
+PolicyWrapper.prototype.getAutoPremium = function(callback) {
+  MongoClient.connect(this.db_uri, function(err, client){
+    if(err){
+      throw err;
+    }else{
+      console.log('Successful database connection')
+    }
+    var db = client.db(db_name);
+    db.collection('aiData', function(err, collection) {
+      collection.find({}).project({'policies': 1}).toArray(function (err, docs){
+        if(err){
+          throw err;
+        }else{
+          for(var i  = 0; i < docs.length; i++){
+            var premium = docs[i].policies['1-PAC-1-200711458641'].totalTermPremium;
+            var response = 'The premium on this policy is ' + premium + '.'
+            console.log(response);
+            // return response;
+            callback(null, response);
+          }
+        }
+      });
+      client.close();
+    });
+  });
+}
+
+//get AutoCoverageTypes
+PolicyWrapper.prototype.getAutoCoverageTypes = function(callback) {
+  MongoClient.connect(this.db_uri, function(err, client){
+    if(err){
+      throw err;
+    }else{
+      console.log('Successful database connection')
+    }
+    var db = client.db(db_name);
+    db.collection('aiData', function(err, collection) {
+      collection.find({}).project({'policies': 1}).toArray(function (err, docs){
+        if(err){
+          throw err;
+        }else{
+          for(var i  = 0; i < docs.length; i++){
+            var coverages = docs[i].policies['1-PAC-1-200711458641'].policyGenericCoverages;
+            var response = '';
+            if(coverages.length > 0){
+              response += 'The types of the drivers on this policy are ' + coverages[0].label;
+              for(var j = 1; j < coverages.length; j++) response += ', ' + coverages[j].name;
+            }
+            else{
+              response += 'There is no coverage your policy'
+            }
+            response += '.'
+            console.log(response);
+            // return response;
+            callback(null, response);
+          }
+        }
+      });
+      client.close();
+    });
+  });
+}
+
+//autoPolicyDiscounts
+PolicyWrapper.prototype.getDiscounts = function(callback) {
+  MongoClient.connect(this.db_uri, function(err, client){
+    if(err){
+      throw err;
+    }else{
+      console.log('Successful database connection')
+    }
+    var db = client.db(db_name);
+    db.collection('aiData', function(err, collection) {
+      collection.find({}).project({'policies': 1}).toArray(function (err, docs){
+        if(err){
+          throw err;
+        }else{
+          var response = '';
+          for(var i  = 0; i < docs.length; i++){
+            var discounts = docs[i].policies['1-PAC-1-200711458641'].policyDiscounts;
+            if(discounts == ""){
+              response = 'There are no discounts on this policy';
+            }
+            else{
+              response = 'The discount on this policy is $' + discounts;
+            }
+            response += '.';
+            console.log(response);
+            // return response;
+            callback(null, response);
+          }
+        }
+      });
+      client.close();
+    });
+  });
+}
+
+// # Of Cars on my policy
+PolicyWrapper.prototype.getNumberOfCars = function(callback) {
+  MongoClient.connect(this.db_uri, function(err, client){
+    if(err){
+      throw err;
+    }else{
+      console.log('Successful database connection')
+    }
+    var db = client.db(db_name);
+    db.collection('aiData', function(err, collection) {
+      collection.find({}).project({'policies': 1}).toArray(function (err, docs){
+        if(err){
+          throw err;
+        }else{
+          for(var i  = 0; i < docs.length; i++){
+            var num = docs[i].policies['1-PAC-1-200711458641'].vehicles.length;
+            var response = 'The are ' + num + ' cars on this policy.'
+            console.log(response);
+            // return response;
+            callback(null, response);
+          }
+        }
+      });
+      client.close();
+    });
+  });
+}
+
+
+//AutoPolicy Expiration date
+PolicyWrapper.prototype.getExpirationDate = function(callback) {
+  MongoClient.connect(this.db_uri, function(err, client){
+    if(err){
+      throw err;
+    }else{
+      console.log('Successful database connection')
+    }
+    var db = client.db(db_name);
+    db.collection('aiData', function(err, collection) {
+      collection.find({}).project({'policies': 1}).toArray(function (err, docs){
+        if(err){
+          throw err;
+        }else{
+          for(var i  = 0; i < docs.length; i++){
+            var expirationDate = docs[i].policies['1-PAC-1-200711458641'].expirationDate;
+            var response = 'Your policy is valid until ' + expirationDate + '.'
+            console.log(response);
+            // return response;
+            callback(null, response);
+          }
+        }
+      });
+      client.close();
+    });
+  });
+}
+
+
 module.exports = PolicyWrapper;

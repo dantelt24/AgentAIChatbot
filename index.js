@@ -154,7 +154,7 @@ app.post('/webhook', (req, res) => {
                     if(err){
                       throw err;
                     }else{
-                      console.log('getAutoAgent Result is ' + result);
+                      console.log('getHomeAgent Result is ' + result);
                       fbMessage(sender, result).catch(console.error);
                     }
                   });
@@ -185,7 +185,7 @@ function processPostback(event) {
   if (payload === "Greeting") {
     // Get user's first name from the User Profile API
     // and include it in the greeting
-    addUsertoCollections(senderId);
+    // addUsertoCollections(senderId);
     request({
       url: "https://graph.facebook.com/v2.6/" + senderId,
       qs: {

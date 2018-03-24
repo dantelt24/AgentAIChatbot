@@ -141,15 +141,9 @@ app.post('/webhook', (req, res) => {
                       throw err;
                     }else{
                       console.log('getAutoAgent Result is ' + result);
+                      fbMessage(sender, result).catch(console.error);
                     }
                   });
-                  // var entityResponse = polWrapper.getAutoAgent();
-                  // console.log(entityResponse);
-                  // fbMessage(sender, entityResponse).catch(console.error);
-                  // polWrapper.getAutoAgent(function(result){
-                  //   console.log(result);
-                  //   fbMessage(sender, result).catch(console.error);
-                  // });
                 }
               }
               // For now, let's reply with another automatic message

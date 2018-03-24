@@ -185,7 +185,7 @@ function processPostback(event) {
   if (payload === "Greeting") {
     // Get user's first name from the User Profile API
     // and include it in the greeting
-    // addUsertoCollections(senderId);
+    //addUsertoCollections(senderId);
     request({
       url: "https://graph.facebook.com/v2.6/" + senderId,
       qs: {

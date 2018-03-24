@@ -544,5 +544,161 @@ PolicyWrapper.prototype.getAutoAgent = function(callback){
   });
 }
 
+//Auto policy Premium function
+PolicyWrapper.prototype.getAutoPremium = function(callback) {
+  MongoClient.connect(this.db_uri, function(err, client){
+    if(err){
+      throw err;
+    }else{
+      console.log('Successful database connection')
+    }
+    var db = client.db(db_name);
+    db.collection('aiData', function(err, collection) {
+      collection.find({}).project({'policies': 1}).toArray(function (err, docs){
+        if(err){
+          throw err;
+        }else{
+          for(var i  = 0; i < docs.length; i++){
+            var premium = docs[i].policies['1-PAC-1-200711458641'].totalTermPremium;
+            var response = 'The premium on this policy is ' + premium + '.'
+            console.log(response);
+            // return response;
+            callback(null, response);
+          }
+        }
+      });
+      client.close();
+    });
+  });
+}
+
+//get AutoCoverageTypes
+PolicyWrapper.prototype.getAutoCoverageTypes = function(callback) {
+  MongoClient.connect(this.db_uri, function(err, client){
+    if(err){
+      throw err;
+    }else{
+      console.log('Successful database connection')
+    }
+    var db = client.db(db_name);
+    db.collection('aiData', function(err, collection) {
+      collection.find({}).project({'policies': 1}).toArray(function (err, docs){
+        if(err){
+          throw err;
+        }else{
+          for(var i  = 0; i < docs.length; i++){
+            var coverages = docs[i].policies['1-PAC-1-200711458641'].policyGenericCoverages;
+            var response = '';
+            if(coverages.length > 0){
+              response += 'The types of the drivers on this policy are ' + coverages[0].label;
+              for(var j = 1; j < coverages.length; j++) response += ', ' + coverages[j].name;
+            }
+            else{
+              response += 'There is no coverage your policy'
+            }
+            response += '.'
+            console.log(response);
+            // return response;
+            callback(null, response);
+          }
+        }
+      });
+      client.close();
+    });
+  });
+}
+
+//autoPolicyDiscounts
+PolicyWrapper.prototype.getDiscounts = function(callback) {
+  MongoClient.connect(this.db_uri, function(err, client){
+    if(err){
+      throw err;
+    }else{
+      console.log('Successful database connection')
+    }
+    var db = client.db(db_name);
+    db.collection('aiData', function(err, collection) {
+      collection.find({}).project({'policies': 1}).toArray(function (err, docs){
+        if(err){
+          throw err;
+        }else{
+          var response = '';
+          for(var i  = 0; i < docs.length; i++){
+            var discounts = docs[i].policies['1-PAC-1-200711458641'].policyDiscounts;
+            if(discounts == ""){
+              response = 'There are no discounts on this policy';
+            }
+            else{
+              response = 'The discount on this policy is $' + discounts;
+            }
+            response += '.';
+            console.log(response);
+            // return response;
+            callback(null, response);
+          }
+        }
+      });
+      client.close();
+    });
+  });
+}
+
+// # Of Cars on my policy
+PolicyWrapper.prototype.getNumberOfCars = function(callback) {
+  MongoClient.connect(this.db_uri, function(err, client){
+    if(err){
+      throw err;
+    }else{
+      console.log('Successful database connection')
+    }
+    var db = client.db(db_name);
+    db.collection('aiData', function(err, collection) {
+      collection.find({}).project({'policies': 1}).toArray(function (err, docs){
+        if(err){
+          throw err;
+        }else{
+          for(var i  = 0; i < docs.length; i++){
+            var num = docs[i].policies['1-PAC-1-200711458641'].vehicles.length;
+            var response = 'The are ' + num + ' cars on this policy.'
+            console.log(response);
+            // return response;
+            callback(null, response);
+          }
+        }
+      });
+      client.close();
+    });
+  });
+}
+
+
+//AutoPolicy Expiration date
+PolicyWrapper.prototype.getExpirationDate = function(callback) {
+  MongoClient.connect(this.db_uri, function(err, client){
+    if(err){
+      throw err;
+    }else{
+      console.log('Successful database connection')
+    }
+    var db = client.db(db_name);
+    db.collection('aiData', function(err, collection) {
+      collection.find({}).project({'policies': 1}).toArray(function (err, docs){
+        if(err){
+          throw err;
+        }else{
+          for(var i  = 0; i < docs.length; i++){
+            var expirationDate = docs[i].policies['1-PAC-1-200711458641'].expirationDate;
+            var response = 'Your policy is valid until ' + expirationDate + '.'
+            console.log(response);
+            // return response;
+            callback(null, response);
+          }
+        }
+      });
+      client.close();
+    });
+  });
+}
+
 
 module.exports = PolicyWrapper;

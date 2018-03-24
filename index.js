@@ -154,7 +154,7 @@ app.post('/webhook', (req, res) => {
                     if(err){
                       throw err;
                     }else{
-                      console.log('getAutoAgent Result is ' + result);
+                      console.log('getHomeAgent Result is ' + result);
                       fbMessage(sender, result).catch(console.error);
                     }
                   });

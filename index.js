@@ -136,9 +136,16 @@ app.post('/webhook', (req, res) => {
                 console.log('Agent Intent and Auto Intent found');
                 if(entities.agentIntent[0].confidence > .75 && entities.autoIntent[0].confidence > .75){
                   console.log('High enough confidence to perform query.');
-                  var entityResponse = polWrapper.getAutoAgent();
-                  console.log(entityResponse);
-                  fbMessage(sender, entityResponse).catch(console.error);
+                  polWrapper.getAutoAgent(function(err, result){
+                    if(err){
+                      throw err;
+                    }else{
+                      console.log('getAutoAgent Result is ' + result);
+                    }
+                  });
+                  // var entityResponse = polWrapper.getAutoAgent();
+                  // console.log(entityResponse);
+                  // fbMessage(sender, entityResponse).catch(console.error);
                   // polWrapper.getAutoAgent(function(result){
                   //   console.log(result);
                   //   fbMessage(sender, result).catch(console.error);

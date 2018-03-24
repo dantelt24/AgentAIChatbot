@@ -496,8 +496,7 @@ PolicyWrapper.prototype.getAutoDrivers = function() {
 }
 
 //get autoAgent
-PolicyWrapper.prototype.getAutoAgent = function(){
-  var res = "";
+PolicyWrapper.prototype.getAutoAgent = function(callback){
   MongoClient.connect(this.db_uri, function(err, client){
     if(err){
       throw err;
@@ -517,15 +516,13 @@ PolicyWrapper.prototype.getAutoAgent = function(){
             var response = 'The agent that covers your policy is ' + agentObject.name + '.';
             response += ' They can be reached at ' + agentObject.phone + ' .';
             console.log(response);
-            //return response;
-            res = response;
+            callback(null, response);
           }
         }
       });
       client.close();
     });
   });
-  return res;
 }
 
 

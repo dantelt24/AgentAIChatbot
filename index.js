@@ -140,8 +140,8 @@ app.post('/webhook', (req, res) => {
                   // console.log(entityResponse);
                   // fbMessage(sender, entityResponse).catch(console.error);
                   polWrapper.getAutoAgent(function(result){
-                    var entityResponse = polWrapper.getAutoAgent();
-                    console.log('Entity Response is ' + entityResponse);
+                    // var entityResponse = polWrapper.getAutoAgent();
+                    console.log('Entity Response is ' + result);
                   });
                 }
               }

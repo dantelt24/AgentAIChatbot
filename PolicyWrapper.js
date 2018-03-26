@@ -609,7 +609,7 @@ PolicyWrapper.prototype.getAutoCoverageTypes = function(callback) {
 }
 
 //autoPolicyDiscounts
-PolicyWrapper.prototype.getDiscounts = function(callback) {
+PolicyWrapper.prototype.getAutoDiscounts = function(callback) {
   MongoClient.connect(this.db_uri, function(err, client){
     if(err){
       throw err;
@@ -700,5 +700,27 @@ PolicyWrapper.prototype.getExpirationDate = function(callback) {
   });
 }
 
+
+//messages Collection functions
+PolicyWrapper.prototype.setCustomerIssue = function(senderInfo, callback){
+  MongoClient.connect(this.db_uri, function(err, client){
+    if(err){
+      throw err;
+    }
+    var db = client.db(db_name);
+    db.collection('messages', function(err, collection){
+      collection.updateOne({id: senderInfo.id},
+        {$set: {id: senderInfo.id, text: senderInfo.text, context: senderInfo.intents, solveFlag: false}},
+        {upsert: true}, function(err, result){
+          if(err){
+            throw err;
+          }else{
+            console.log(result);
+            callback(null, result);
+          }
+        });
+    });
+  });
+}
 
 module.exports = PolicyWrapper;

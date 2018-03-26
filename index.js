@@ -129,12 +129,38 @@ app.post('/webhook', (req, res) => {
           } else if (text) {
             // We received a text message
             // Let's run /message on the text to extract some entities
+            // Create message issue object for chance of issuing customer
+            var customerIssueObject = {};
             wit.message(text).then(({entities}) => {
               // You can customize your response to these entities
+              //Assign object properties
               console.log(entities);
-              if(entities.hasOwnProperty('agentIntent') && entities.hasOwnProperty('autoIntent')){
+              var keys = Object.keys(entities), key = keys[0];
+              customerIssueObject.id = sender;
+              customerIssueObject.text = text;
+              customerIssueObject.intents = keys.toString();
+              if(keys.length === 1 && key === 'endConvoIntent'){
+                //okay to delete the issue
+                fbMessage(sender, 'Glad we could help you with your questions today. Have a nice day.').catch(console.error);
+              }
+              else if(keys.length === 1 && key === 'keepConvoIntent'){
+                //keep issue, need to solve customer issue
+                fbMessage(sender, 'What else could I help you with today?').catch(console.error);
+              }
+              else if(entities.hasOwnProperty('message_body')){
+                console.log('Intents are not clear enough, need to ask for clarification.');
+                fbMessage(sender, 'We couldn\'t quite understand what you asked. Could please repeat the question you need help with.').catch(console.error);
+              }
+              else if(entities.hasOwnProperty('agentIntent') && entities.hasOwnProperty('autoIntent')){
                 console.log('Agent Intent and Auto Intent found');
                 if(entities.agentIntent[0].confidence > .75 && entities.autoIntent[0].confidence > .75){
+                  polWrapper.setCustomerIssue(customerIssueObject, function(err, result){
+                    if(err){
+                      throw err;
+                    }else{
+                      console.log('Setting customer issue object ' + result);
+                    }
+                  });
                   console.log('High enough confidence to perform query.');
                   polWrapper.getAutoAgent(function(err, result){
                     if(err){
@@ -146,10 +172,17 @@ app.post('/webhook', (req, res) => {
                   });
                 }
               }
-              if(entities.hasOwnProperty('agentIntent') && entities.hasOwnProperty('homeownersIntent')){
-                console.log('Agent Intent and Auto Intent found');
+              else if(entities.hasOwnProperty('agentIntent') && entities.hasOwnProperty('homeownersIntent')){
+                console.log('Agent Intent and Home Intent found');
                 if(entities.agentIntent[0].confidence > .75 && entities.homeownersIntent[0].confidence > .75){
                   console.log('High enough confidence to perform query.');
+                  polWrapper.setCustomerIssue(customerIssueObject, function(err, result){
+                    if(err){
+                      throw err;
+                    }else{
+                      console.log('Setting customer issue object ' + result);
+                    }
+                  });
                   polWrapper.getHomeOwnerAgent(function(err, result){
                     if(err){
                       throw err;

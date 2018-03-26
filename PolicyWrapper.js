@@ -735,6 +735,9 @@ PolicyWrapper.prototype.setIssueSolved = function(senderInfo, callback){
       collection.updateOne({id: senderInfo.id},
         {$set: {'issue.solveFlag': true}},
         {upsert: true}, function(err, result){
+          if(err){
+            throw err;
+          }
           console.log('Matched Count: ' + result.matchedCount);
           console.log('Modified Count: ' + result.modifiedCount);
           callback(null, result);

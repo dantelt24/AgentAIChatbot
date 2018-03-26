@@ -11,6 +11,8 @@ const polWrapper = new policyWrapper(process.env.MONGO_DB_URI);
 // const polWrapper = new policyWrapper();
 //---------------------------------------------------------------------------
 
+//global variables
+const fbConfirmationQuestion = 'Is there anything else I can help you with regarding your CIG policy(ies)?';
 
 //environment variables
 // const uri = process.env.MONGO_DB_URI;
@@ -141,8 +143,16 @@ app.post('/webhook', (req, res) => {
               customerIssueObject.intents = keys.toString();
               if(keys.length === 1 && key === 'endConvoIntent'){
                 //okay to delete the issue
+                //Console.log(Able to end the conversation)
                 fbMessage(sender, 'Glad we could help you with your questions today. Have a nice day.').catch(console.error);
-                // polWrapper.setIssueSolved(customerIssueObject, function)
+                polWrapper.setIssueSolved(customerIssueObject, function(err, result){
+                  if(err){
+                    throw err;
+                  }
+                  if(result.matchedCount === 1 && result.modifiedCount === 1){
+                    console.log('Successful modification of issue for customer');
+                  }
+                });
               }
               else if(keys.length === 1 && key === 'keepConvoIntent'){
                 //keep issue, need to solve customer issue
@@ -169,6 +179,7 @@ app.post('/webhook', (req, res) => {
                     }else{
                       console.log('getAutoAgent Result is ' + result);
                       fbMessage(sender, result).catch(console.error);
+                      fbMessage(sender, fbConfirmationQuestion).catch(console.error);
                     }
                   });
                 }
@@ -190,6 +201,7 @@ app.post('/webhook', (req, res) => {
                     }else{
                       console.log('getHomeAgent Result is ' + result);
                       fbMessage(sender, result).catch(console.error);
+                      fbMessage(sender, fbConfirmationQuestion).catch(console.error);
                     }
                   });
                 }

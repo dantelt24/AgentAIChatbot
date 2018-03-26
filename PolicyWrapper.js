@@ -545,6 +545,41 @@ PolicyWrapper.prototype.getAutoDrivers = function(callback) {
     });
   });
 }
+//get cars intent
+PolicyWrapper.prototype.getCarsUnderPolicy = function() {
+  MongoClient.connect(this.db_uri, function(err, client){
+    if(err){
+      throw err;
+    }else{
+      console.log('Successful database connection')
+    }
+    var db = client.db(db_name);
+    db.collection('aiData', function(err, collection) {
+      collection.find({}).project({'policies': 1}).toArray(function (err, docs){
+        if(err){
+          throw err;
+        }else{
+          for(var i  = 0; i < docs.length; i++){
+            var vehicles = docs[i].policies['1-PAC-1-200711458641'].vehicles;
+            var response = '';
+            if(vehicles.length > 0){
+              response += 'The ' + vehicles[0].year + ' ' + vehicles[0].make + ' ' + vehicles[0].model;
+              for(var j = 1; j < vehicles.length; j++) response += ', ' + vehicles[j].year + ' ' + vehicles[j].make + ' ' + vehicles[j].model + ' ';
+              response += ' are under this policy';
+            }
+            else{
+              response += 'There are no vehicles under this polcicy';
+            }
+            response += '.'
+            console.log(response);
+            callback(null,response);
+          }
+        }
+      });
+      client.close();
+    });
+  });
+}
 
 //get autoAgent
 PolicyWrapper.prototype.getAutoAgent = function(callback){

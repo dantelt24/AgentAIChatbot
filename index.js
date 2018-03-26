@@ -142,6 +142,7 @@ app.post('/webhook', (req, res) => {
               if(keys.length === 1 && key === 'endConvoIntent'){
                 //okay to delete the issue
                 fbMessage(sender, 'Glad we could help you with your questions today. Have a nice day.').catch(console.error);
+                polWrapper.setIssueSolved(customerIssueObject, function)
               }
               else if(keys.length === 1 && key === 'keepConvoIntent'){
                 //keep issue, need to solve customer issue
@@ -158,7 +159,7 @@ app.post('/webhook', (req, res) => {
                     if(err){
                       throw err;
                     }else{
-                      console.log('Setting customer issue object ' + result);
+                      console.log('Set customer issue object');
                     }
                   });
                   console.log('High enough confidence to perform query.');
@@ -180,7 +181,7 @@ app.post('/webhook', (req, res) => {
                     if(err){
                       throw err;
                     }else{
-                      console.log('Setting customer issue object ' + result);
+                      console.log('Set customer issue object');
                     }
                   });
                   polWrapper.getHomeOwnerAgent(function(err, result){

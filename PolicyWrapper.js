@@ -702,6 +702,8 @@ PolicyWrapper.prototype.getExpirationDate = function(callback) {
 
 
 //messages Collection functions
+
+//set Issues for conversation flow
 PolicyWrapper.prototype.setCustomerIssue = function(senderInfo, callback){
   MongoClient.connect(this.db_uri, function(err, client){
     if(err){
@@ -710,7 +712,7 @@ PolicyWrapper.prototype.setCustomerIssue = function(senderInfo, callback){
     var db = client.db(db_name);
     db.collection('messages', function(err, collection){
       collection.updateOne({id: senderInfo.id},
-        {$set: {id: senderInfo.id, text: senderInfo.text, context: senderInfo.intents, solveFlag: false}},
+        {$set: {id: senderInfo.id, 'issue.text': senderInfo.text, 'issue.context': senderInfo.intents, 'issue.solveFlag': false}},
         {upsert: true}, function(err, result){
           if(err){
             throw err;
@@ -718,6 +720,24 @@ PolicyWrapper.prototype.setCustomerIssue = function(senderInfo, callback){
             console.log(result);
             callback(null, result);
           }
+        });
+    });
+  });
+}
+
+PolicyWrapper.prototype.setIssueSolved = function(senderInfo, callback){
+  MongoClient.connect(this.db_uri, function(err, client){
+    if(err){
+      throw err;
+    }
+    var db = client.db(db_name);
+    db.collection('messages', function(err, collection){
+      collection.updateOne({id: senderInfo.id},
+        {$set: {'issue.solveFlag': true}},
+        {upsert: true}, function(err, result){
+          console.log('Matched Count: ' + result.matchedCount);
+          console.log('Modified Count: ' + result.modifiedCount);
+          callback(null, result);
         });
     });
   });

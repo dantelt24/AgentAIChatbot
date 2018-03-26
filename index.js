@@ -142,7 +142,7 @@ app.post('/webhook', (req, res) => {
               if(keys.length === 1 && key === 'endConvoIntent'){
                 //okay to delete the issue
                 fbMessage(sender, 'Glad we could help you with your questions today. Have a nice day.').catch(console.error);
-                polWrapper.setIssueSolved(customerIssueObject, function)
+                // polWrapper.setIssueSolved(customerIssueObject, function)
               }
               else if(keys.length === 1 && key === 'keepConvoIntent'){
                 //keep issue, need to solve customer issue

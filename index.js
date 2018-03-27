@@ -364,6 +364,19 @@ app.post('/webhook', (req, res) => {
                   });
                 }
               }
+              else if(entities.hasOwnProperty('getCarsIntent')){
+                console.log('Get Cars Intent found');
+                if(entities.getCarsIntent[0].confidence > .50){
+                  console.log('High enough confidence to perform query');
+                  polWrapper.getCarsUnderPolicy(function(err, result){
+                    if(err){
+                      throw err;
+                    }
+                    fbMessage(sender, result).catch(console.error);
+                    fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+                  });
+                }
+              }
               // For now, let's reply with another automatic message
               fbMessage(sender, `We've received your message: ${text}.`);
             })

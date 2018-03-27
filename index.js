@@ -160,7 +160,7 @@ app.post('/webhook', (req, res) => {
                 //keep issue, need to solve customer issue
                 fbMessage(sender, 'What else could I help you with today?').catch(console.error);
               }
-              else if(entities.hasOwnProperty('message_body')){
+              else if(entities.hasOwnProperty('message_body') && keys.length === 1){
                 console.log('Intents are not clear enough, need to ask for clarification.');
                 fbMessage(sender, 'We couldn\'t quite understand what you asked. Could please repeat the question you need help with.').catch(console.error);
               }

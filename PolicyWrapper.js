@@ -76,7 +76,7 @@ PolicyWrapper.prototype.getHomeOwnerAgent = function(callback){
   });
 }
 
-PolicyWrapper.prototype.getPolicyEndDate = function(callback) {
+PolicyWrapper.prototype.getHomePolicyEndDate = function(callback) {
   MongoClient.connect(this.db_uri, function(err, client){
     if(err){
       throw err;
@@ -104,7 +104,7 @@ PolicyWrapper.prototype.getPolicyEndDate = function(callback) {
   });
 }
 
-PolicyWrapper.prototype.getPolicyNameInsured = function(callback) {
+PolicyWrapper.prototype.getHomePolicyNameInsured = function(callback) {
   MongoClient.connect(this.db_uri, function(err, client){
     if(err){
       throw err;
@@ -132,7 +132,7 @@ PolicyWrapper.prototype.getPolicyNameInsured = function(callback) {
   });
 }
 
-PolicyWrapper.prototype.checkOptionalCoverages = function(callback) {
+PolicyWrapper.prototype.checkHomeOptionalCoverages = function(callback) {
   MongoClient.connect(this.db_uri, function(err, client){
     if(err){
       throw err;
@@ -171,7 +171,7 @@ PolicyWrapper.prototype.checkOptionalCoverages = function(callback) {
   });
 }
 
-PolicyWrapper.prototype.checkSpecialtyProgram = function() {
+PolicyWrapper.prototype.checkHomeSpecialtyProgram = function(callback) {
   MongoClient.connect(this.db_uri, function(err, client){
     if(err){
       throw err;
@@ -231,7 +231,7 @@ PolicyWrapper.prototype.checkHomeOwnerMedicalCoverage = function(callback) {
               // return response;
               callback(null, response);
             }else{
-              var response = 'This policy does have medical coverage with it. The limit that the medical payment will cover is ' + medicalPaymentsObject.limit + '.';
+              var response = 'This policy does have medical coverage. The limit that the medical payment will cover is ' + medicalPaymentsObject.limit + '.';
               console.log(response);
               // return response;
               callback(null, response);
@@ -245,7 +245,7 @@ PolicyWrapper.prototype.checkHomeOwnerMedicalCoverage = function(callback) {
 }
 
 //Deductible function
-PolicyWrapper.prototype.getPolicyDeductible = function(callback){
+PolicyWrapper.prototype.getHomePolicyDeductible = function(callback){
   MongoClient.connect(this.db_uri, function(err, client){
     if(err){
       throw err;
@@ -277,7 +277,7 @@ PolicyWrapper.prototype.getPolicyDeductible = function(callback){
 //Premium functions
 
 //total Premium
-PolicyWrapper.prototype.getTotalPremium = function(callback){
+PolicyWrapper.prototype.getHomeTotalPremium = function(callback){
   MongoClient.connect(this.db_uri, function(err, client){
     if(err){
       throw err;
@@ -305,7 +305,7 @@ PolicyWrapper.prototype.getTotalPremium = function(callback){
   });
 }
 //basic premium
-PolicyWrapper.prototype.getBasicPremium = function(callback){
+PolicyWrapper.prototype.getHomeBasicPremium = function(callback){
   MongoClient.connect(this.db_uri, function(err, client){
     if(err){
       throw err;
@@ -436,10 +436,21 @@ PolicyWrapper.prototype.getLossOfUseInfo = function(callback){
           for(var i = 0; i < docs.length; i++){
             var docObject = docs[i];
             var lossOfUseObject = docObject.policies['1-HOC-1-1394462794']['basic coverage'].basicCoverage.lossOfUse;
-            var response = 'The loss of use on this policy amounts to ' + lossOfUseObject.limit + '.';
-            console.log(response);
-            // return response;
-            callback(null, response);
+            // var response = 'The loss of use on this policy amounts to ' + lossOfUseObject.limit + '.';
+            // console.log(response);
+            // // return response;
+            // callback(null, response);
+            if(lossOfUseObject.limit === ""){
+              var response = 'Sorry you are not covered for loss of use on this policy.';
+              console.log(response);
+              callback(null, response);
+            }else{
+              var response = 'You are covered for loss of use on this policy. ';
+              response += 'The loss of use on this policy amounts to ' + lossOfUseObject.limit + '.';
+              console.log(response);
+              // return response;
+              callback(null, response);
+            }
           }
         }
       });

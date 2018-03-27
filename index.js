@@ -151,6 +151,8 @@ app.post('/webhook', (req, res) => {
                   }
                   if(result.matchedCount === 1 && result.modifiedCount === 1){
                     console.log('Successful modification of issue for customer');
+                  }else{
+                    console.log('Issue not found or updated');
                   }
                 });
               }
@@ -206,6 +208,162 @@ app.post('/webhook', (req, res) => {
                   });
                 }
               }
+              else if(entities.hasOwnProperty('policyEndDate') && enitities.hasOwnProperty('autoIntent')){
+                console.log('End date and auto intent found');
+                if(entities.policyEndDate[0].confidence > .50 && entities.autoIntent[0].confidence > .50){
+                  console.log('High Enough confidence to perform query');
+                  polWrapper.getExpirationDate(function(err, result){
+                    if(err){
+                      throw err;
+                    }
+                    fbMessage(sender, result).catch(console.error);
+                    fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+                  });
+                }
+              }
+              else if(entities.hasOwnProperty('policyEndDate') && enitities.hasOwnProperty('homeownersIntent')){
+                console.log('End date and home intent found');
+                if(entities.policyEndDate[0].confidence > .50 && entities.homeownersIntent[0].confidence > .50){
+                  console.log('High Enough confidence to perform query');
+                  polWrapper.getHomePolicyEndDate(function(err, result){
+                    if(err){
+                      throw err;
+                    }
+                    fbMessage(sender, result).catch(console.error);
+                    fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+                  });
+                }
+              }
+              else if(entities.hasOwnProperty('lossOfUseIntent')){
+                console.log('Loss of Use intent found');
+                if(entities.lossOfUseIntent[0].confidence > .50){
+                  console.log('High enough confidence to perform query');
+                  polWrapper.getLossOfUseInfo(function(err, result){
+                    if(err){
+                      throw err;
+                    }
+                    fbMessage(sender, result).catch(console.error);
+                    fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+                  });
+                }
+              }
+              else if(entities.hasOwnProperty('homeMedicalCovIntent')){
+                console.log('Home Medical Coverage Intent found');
+                if(entities.homeMedicalCovIntent[0].confidence > .50){
+                  console.log('High enough confidence to perform query');
+                  polWrapper.checkHomeOwnerMedicalCoverage(function(err, result){
+                    if(err){
+                      throw err;
+                    }
+                    fbMessage(sender, result).catch(console.error);
+                    fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+                  });
+                }
+              }
+              else if(entities.hasOwnProperty('dwellingIntent')){
+                console.log('Dwelling Intent found');
+                if(entities.dwellingIntent[0].confidence > .50){
+                  console.log('High enough confidence to perform query');
+                  polWrapper.getDwellingLimit(function(err, result){
+                    if(err){
+                      throw err;
+                    }
+                    fbMessage(sender, result).catch(console.error);
+                    fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+                  });
+                }
+              }
+              else if(entities.hasOwnProperty('numCarsIntent')){
+                console.log('# of cars Intent found');
+                if(entities.numCarsIntent[0].confidence > .50){
+                  console.log('High enough confidence to perform query');
+                  polWrapper.getNumberOfCars(function(err, result){
+                    if(err){
+                      throw err;
+                    }
+                    fbMessage(sender, result).catch(console.error);
+                    fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+                  });
+                }
+              }
+              else if(entities.hasOwnProperty('autoDiscountIntent')){
+                console.log('autoDiscount Intent found');
+                if(entities.autoDiscountIntent[0].confidence > .50){
+                  console.log('High enough confidence to perform query');
+                  polWrapper.getAutoDiscounts(function(err, result){
+                    if(err){
+                      throw err;
+                    }
+                    fbMessage(sender, result).catch(console.error);
+                    fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+                  });
+                }
+              }
+              else if(entities.hasOwnProperty('SpecialtyProgramsIntent')){
+                console.log('Specialty Discount Intent found');
+                if(entities.SpecialtyProgramsIntent[0].confidence > .50){
+                  console.log('High enough confidence to perform query');
+                  polWrapper.checkHomeSpecialtyProgram(function(err, result){
+                    if(err){
+                      throw err;
+                    }
+                    fbMessage(sender, result).catch(console.error);
+                    fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+                  });
+                }
+              }
+              else if(entities.hasOwnProperty('personalLiabilityIntent')){
+                console.log('Personal liability Intent found');
+                if(entities.personalLiabilityIntent[0].confidence > .50){
+                  console.log('High enough confidence to perform query');
+                  polWrapper.getPersonalLiabilityInfo(function(err, result){
+                    if(err){
+                      throw err;
+                    }
+                    fbMessage(sender, result).catch(console.error);
+                    fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+                  });
+                }
+              }
+              else if(entities.hasOwnProperty('personalPropertyIntent')){
+                console.log('Personal Property Intent found');
+                if(entities.personalPropertyIntent[0].confidence > .50){
+                  console.log('High enough confidence to perform query');
+                  polWrapper.getPersonalPropertyInfo(function(err, result){
+                    if(err){
+                      throw err;
+                    }
+                    fbMessage(sender, result).catch(console.error);
+                    fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+                  });
+                }
+              }
+              else if(entities.hasOwnProperty('policyDeductibleIntent')){
+                console.log('Policy Deductible Intent found');
+                if(entities.policyDeductibleIntent[0].confidence > .50){
+                  console.log('High enough confidence to perform query');
+                  polWrapper.getHomePolicyDeductible(function(err, result){
+                    if(err){
+                      throw err;
+                    }
+                    fbMessage(sender, result).catch(console.error);
+                    fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+                  });
+                }
+              }
+              else if(entities.hasOwnProperty('driverIntent')){
+                console.log('Driver Intent found');
+                if(entities.driverIntent[0].confidence > .50){
+                  console.log('High enough confidence to perform query');
+                  polWrapper.getAutoDrivers(function(err, result){
+                    if(err){
+                      throw err;
+                    }
+                    fbMessage(sender, result).catch(console.error);
+                    fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+                  });
+                }
+              }
               // For now, let's reply with another automatic message
               fbMessage(sender, `We've received your message: ${text}.`);
             })
@@ -253,22 +411,3 @@ function processPostback(event) {
     });
   }
 }
-
-//test wrapper compatibility
-// polWrapper.getUserProfileInformation();
-// polWrapper.getHomeOwnerAgent();
-// polWrapper.getPolicyEndDate();
-// polWrapper.getPolicyNameInsured();
-// polWrapper.checkOptionalCoverages();
-// polWrapper.checkSpecialtyProgram();
-// polWrapper.checkHomeOwnerMedicalCoverage();
-// polWrapper.getTotalPremium();
-// polWrapper.getBasicPremium();
-// polWrapper.getPolicyDeductible();
-// polWrapper.getDwellingLimit();
-// polWrapper.getOtherStructuresInfo();
-// polWrapper.getPersonalLiabilityInfo();
-// polWrapper.getPersonalPropertyInfo();
-// polWrapper.getLossOfUseInfo();
-// polWrapper.getAutoDrivers();
-// polWrapper.getAutoAgent();

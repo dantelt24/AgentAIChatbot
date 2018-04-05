@@ -37,7 +37,7 @@ PolicyWrapper.prototype.getUserProfileInformation = function(callback){
             response += ', and the email address on file is ' + docObject.profile.emailAddress;
             console.log(response);
             // return response;
-            callback(null, response);
+            callback(err, response);
           }
         }
       });
@@ -66,7 +66,7 @@ PolicyWrapper.prototype.getHomeOwnerAgent = function(callback){
             var response = 'The agent that covers your policy is ' + agentObject.name + '.';
             response += ' They can be reached at ' + agentObject.phone + ' .';
             console.log(response);
-            callback(null, response);
+            callback(err, response);
             // return response;
           }
         }
@@ -95,7 +95,7 @@ PolicyWrapper.prototype.getHomePolicyEndDate = function(callback) {
             var response = 'The end date for your policy is ' + expDate;
             console.log(response);
             // return response;
-            callback(null, response);
+            callback(err, response);
           }
         }
       });
@@ -123,7 +123,7 @@ PolicyWrapper.prototype.getHomePolicyNameInsured = function(callback) {
             var response = 'The name of the person on the policy is ' + insuredName +'.';
             console.log(response);
             // return response;
-            callback(null, response);
+            callback(err, response);
           }
         }
       });
@@ -156,12 +156,12 @@ PolicyWrapper.prototype.checkHomeOptionalCoverages = function(callback) {
               var response = 'There are no optional coverages under this policy';
               console.log(response);
               // return response;
-              callback(null, response);
+              callback(err, response);
             }else{
               var response = 'There are optional coverages under this policy.';
               console.log(response);
               // return response;
-              callback(null, response);
+              callback(err, response);
             }
           }
         }
@@ -192,13 +192,13 @@ PolicyWrapper.prototype.checkHomeSpecialtyProgram = function(callback) {
               var response = 'Sorry. We have found no specialty programs under this policy. ';
               console.log(response);
               // return response;
-              callback(null, response);
+              callback(err, response);
             }else{
               var response = 'We have you under our ' + specialtyProgramObject.programName;
               response += '. The premium under that plan is ' + specialtyProgramObject.premium;
               console.log(response);
               // return response;
-              callback(null, response);
+              callback(err, response);
             }
           }
         }
@@ -229,12 +229,12 @@ PolicyWrapper.prototype.checkHomeOwnerMedicalCoverage = function(callback) {
               var response = 'Sorry this policy does not seem to have medical coverage. ';
               console.log(response);
               // return response;
-              callback(null, response);
+              callback(err, response);
             }else{
               var response = 'This policy does have medical coverage. The limit that the medical payment will cover is ' + medicalPaymentsObject.limit + '.';
               console.log(response);
               // return response;
-              callback(null, response);
+              callback(err, response);
             }
           }
         }
@@ -264,7 +264,7 @@ PolicyWrapper.prototype.getHomePolicyDeductible = function(callback){
             var response = 'The deductible for this policy is ' + policyDeductible + '.';
             console.log(response);
             // return response;
-            callback(null, response);
+            callback(err, response);
           }
         }
       });
@@ -296,7 +296,7 @@ PolicyWrapper.prototype.getHomeTotalPremium = function(callback){
             var response = 'The total Premium for this policy is ' + totPremium + '.';
             console.log(response);
             // return response;
-            callback(null, response);
+            callback(err, response);
           }
         }
       });
@@ -324,7 +324,7 @@ PolicyWrapper.prototype.getHomeBasicPremium = function(callback){
             var response = 'The basic Premium for this policy is ' + basicPremium + '.';
             console.log(response);
             // return response;
-            callback(null, response);
+            callback(err, response);
           }
         }
       });
@@ -355,7 +355,7 @@ PolicyWrapper.prototype.getDwellingLimit = function(callback){
             var response = 'The value of the dwelling on this policy is ' + dwellingObject.limit + '.';
             console.log(response);
             // return response;
-            callback(null, response);
+            callback(err, response);
           }
         }
       });
@@ -383,7 +383,7 @@ PolicyWrapper.prototype.getOtherStructuresInfo = function(callback){
             var response = 'The value of all the other structures on this policy are valued at ' + otherStructuresObject.limit + '.';
             console.log(response);
             // return response;
-            callback(null, response);
+            callback(err, response);
           }
         }
       });
@@ -411,7 +411,7 @@ PolicyWrapper.prototype.getPersonalPropertyInfo = function(callback){
             var response = 'The coverage provided by CIG for the personal property on this policy amounts to ' + personalPropertyObject.limit + '.';
             console.log(response);
             // return response;
-            callback(null, response);
+            callback(err, response);
           }
         }
       });
@@ -443,13 +443,13 @@ PolicyWrapper.prototype.getLossOfUseInfo = function(callback){
             if(lossOfUseObject.limit === ""){
               var response = 'Sorry you are not covered for loss of use on this policy.';
               console.log(response);
-              callback(null, response);
+              callback(err, response);
             }else{
               var response = 'You are covered for loss of use on this policy. ';
               response += 'The loss of use on this policy amounts to ' + lossOfUseObject.limit + '.';
               console.log(response);
               // return response;
-              callback(null, response);
+              callback(err, response);
             }
           }
         }
@@ -478,7 +478,7 @@ PolicyWrapper.prototype.getPersonalLiabilityInfo = function(callback){
             var response = 'The amount you are covered for in regards to personal liability is ' + personalLiabilityObject.limit + '.';
             console.log(response);
             // return response;
-            callback(null, response);
+            callback(err, response);
           }
         }
       });
@@ -516,7 +516,7 @@ PolicyWrapper.prototype.getCarsUnderPolicy = function(callback) {
             }
             response += '.'
             console.log(response);
-            callback(null,response);
+            callback(err, response);
           }
         }
       });
@@ -551,7 +551,7 @@ PolicyWrapper.prototype.getAutoDrivers = function(callback) {
           response += '.'
           console.log(response);
           // return response;
-          callback(null, response);
+          callback(err, response);
           }
         }
       });
@@ -581,7 +581,7 @@ PolicyWrapper.prototype.getAutoAgent = function(callback){
             var response = 'The agent that covers your policy is ' + agentObject.name + '.';
             response += ' They can be reached at ' + agentObject.phone + ' .';
             console.log(response);
-            callback(null, response);
+            callback(err, response);
           }
         }
       });
@@ -609,7 +609,7 @@ PolicyWrapper.prototype.getAutoPremium = function(callback) {
             var response = 'The premium on this policy is ' + premium + '.'
             console.log(response);
             // return response;
-            callback(null, response);
+            callback(err, response);
           }
         }
       });
@@ -645,7 +645,7 @@ PolicyWrapper.prototype.getAutoCoverageTypes = function(callback) {
             response += '.'
             console.log(response);
             // return response;
-            callback(null, response);
+            callback(err, response);
           }
         }
       });
@@ -680,7 +680,7 @@ PolicyWrapper.prototype.getAutoDiscounts = function(callback) {
             response += '.';
             console.log(response);
             // return response;
-            callback(null, response);
+            callback(err, response);
           }
         }
       });
@@ -708,7 +708,7 @@ PolicyWrapper.prototype.getNumberOfCars = function(callback) {
             var response = 'The are ' + num + ' cars on this policy.'
             console.log(response);
             // return response;
-            callback(null, response);
+            callback(err, response);
           }
         }
       });
@@ -737,7 +737,7 @@ PolicyWrapper.prototype.getExpirationDate = function(callback) {
             var response = 'Your policy is valid until ' + expirationDate + '.'
             console.log(response);
             // return response;
-            callback(null, response);
+            callback(err, response);
           }
         }
       });
@@ -783,7 +783,7 @@ PolicyWrapper.prototype.setCustomerIssue = function(senderInfo, callback){
           throw err;
         }
         console.log(result);
-        callback(null, result);
+        callback(err, result);
       });
     });
   });
@@ -804,7 +804,7 @@ PolicyWrapper.prototype.setIssueSolved = function(senderInfo, callback){
           }
           console.log('Matched Count: ' + result.matchedCount);
           console.log('Modified Count: ' + result.modifiedCount);
-          callback(null, result);
+          callback(err, result);
         });
     });
   });

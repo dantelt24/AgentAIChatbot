@@ -285,6 +285,13 @@ function processEntities(sender,entities, text){
     console.log('End date and auto intent found');
     if(entities.policyEndDate[0].confidence > .50 && entities.autoIntent[0].confidence > .50){
       console.log('High Enough confidence to perform query');
+      polWrapper.setCustomerIssue(customerIssueObject, function(err, result){
+        if(err){
+          throw err;
+        }else{
+          console.log('Set customer issue object');
+        }
+      });
       polWrapper.getExpirationDate(function(err, result){
         if(err){
           throw err;
@@ -301,6 +308,13 @@ function processEntities(sender,entities, text){
     console.log('End date and home intent found');
     if(entities.policyEndDate[0].confidence > .50 && entities.homeownersIntent[0].confidence > .50){
       console.log('High Enough confidence to perform query');
+      polWrapper.setCustomerIssue(customerIssueObject, function(err, result){
+        if(err){
+          throw err;
+        }else{
+          console.log('Set customer issue object');
+        }
+      });
       polWrapper.getHomePolicyEndDate(function(err, result){
         if(err){
           throw err;
@@ -317,6 +331,13 @@ function processEntities(sender,entities, text){
     console.log('Loss of Use intent found');
     if(entities.lossOfUseIntent[0].confidence > .50){
       console.log('High enough confidence to perform query');
+      polWrapper.setCustomerIssue(customerIssueObject, function(err, result){
+        if(err){
+          throw err;
+        }else{
+          console.log('Set customer issue object');
+        }
+      });
       polWrapper.getLossOfUseInfo(function(err, result){
         if(err){
           throw err;
@@ -333,6 +354,13 @@ function processEntities(sender,entities, text){
     console.log('Home Medical Coverage Intent found');
     if(entities.homeMedicalCovIntent[0].confidence > .50){
       console.log('High enough confidence to perform query');
+      polWrapper.setCustomerIssue(customerIssueObject, function(err, result){
+        if(err){
+          throw err;
+        }else{
+          console.log('Set customer issue object');
+        }
+      });
       polWrapper.checkHomeOwnerMedicalCoverage(function(err, result){
         if(err){
           throw err;
@@ -349,6 +377,13 @@ function processEntities(sender,entities, text){
     console.log('Dwelling Intent found');
     if(entities.dwellingIntent[0].confidence > .50){
       console.log('High enough confidence to perform query');
+      polWrapper.setCustomerIssue(customerIssueObject, function(err, result){
+        if(err){
+          throw err;
+        }else{
+          console.log('Set customer issue object');
+        }
+      });
       polWrapper.getDwellingLimit(function(err, result){
         if(err){
           throw err;
@@ -365,6 +400,13 @@ function processEntities(sender,entities, text){
     console.log('# of cars Intent found');
     if(entities.numCarsIntent[0].confidence > .50){
       console.log('High enough confidence to perform query');
+      polWrapper.setCustomerIssue(customerIssueObject, function(err, result){
+        if(err){
+          throw err;
+        }else{
+          console.log('Set customer issue object');
+        }
+      });
       polWrapper.getNumberOfCars(function(err, result){
         if(err){
           throw err;
@@ -381,6 +423,13 @@ function processEntities(sender,entities, text){
     console.log('autoDiscount Intent found');
     if(entities.autoDiscountIntent[0].confidence > .50){
       console.log('High enough confidence to perform query');
+      polWrapper.setCustomerIssue(customerIssueObject, function(err, result){
+        if(err){
+          throw err;
+        }else{
+          console.log('Set customer issue object');
+        }
+      });
       polWrapper.getAutoDiscounts(function(err, result){
         if(err){
           throw err;
@@ -397,6 +446,13 @@ function processEntities(sender,entities, text){
     console.log('Specialty Discount Intent found');
     if(entities.SpecialtyProgramsIntent[0].confidence > .50){
       console.log('High enough confidence to perform query');
+      polWrapper.setCustomerIssue(customerIssueObject, function(err, result){
+        if(err){
+          throw err;
+        }else{
+          console.log('Set customer issue object');
+        }
+      });
       polWrapper.checkHomeSpecialtyProgram(function(err, result){
         if(err){
           throw err;
@@ -413,6 +469,13 @@ function processEntities(sender,entities, text){
     console.log('Personal liability Intent found');
     if(entities.personalLiabilityIntent[0].confidence > .50){
       console.log('High enough confidence to perform query');
+      polWrapper.setCustomerIssue(customerIssueObject, function(err, result){
+        if(err){
+          throw err;
+        }else{
+          console.log('Set customer issue object');
+        }
+      });
       polWrapper.getPersonalLiabilityInfo(function(err, result){
         if(err){
           throw err;
@@ -429,6 +492,13 @@ function processEntities(sender,entities, text){
     console.log('Personal Property Intent found');
     if(entities.personalPropertyIntent[0].confidence > .50){
       console.log('High enough confidence to perform query');
+      polWrapper.setCustomerIssue(customerIssueObject, function(err, result){
+        if(err){
+          throw err;
+        }else{
+          console.log('Set customer issue object');
+        }
+      });
       polWrapper.getPersonalPropertyInfo(function(err, result){
         if(err){
           throw err;
@@ -445,6 +515,13 @@ function processEntities(sender,entities, text){
     console.log('Policy Deductible Intent found');
     if(entities.policyDeductibleIntent[0].confidence > .50){
       console.log('High enough confidence to perform query');
+      polWrapper.setCustomerIssue(customerIssueObject, function(err, result){
+        if(err){
+          throw err;
+        }else{
+          console.log('Set customer issue object');
+        }
+      });
       polWrapper.getHomePolicyDeductible(function(err, result){
         if(err){
           throw err;
@@ -461,6 +538,13 @@ function processEntities(sender,entities, text){
     console.log('Driver Intent found');
     if(entities.driverIntent[0].confidence > .50){
       console.log('High enough confidence to perform query');
+      polWrapper.setCustomerIssue(customerIssueObject, function(err, result){
+        if(err){
+          throw err;
+        }else{
+          console.log('Set customer issue object');
+        }
+      });
       polWrapper.getAutoDrivers(function(err, result){
         if(err){
           throw err;
@@ -477,6 +561,13 @@ function processEntities(sender,entities, text){
     console.log('Get Cars Intent found');
     if(entities.getCarsIntent[0].confidence > .50){
       console.log('High enough confidence to perform query');
+      polWrapper.setCustomerIssue(customerIssueObject, function(err, result){
+        if(err){
+          throw err;
+        }else{
+          console.log('Set customer issue object');
+        }
+      });
       polWrapper.getCarsUnderPolicy(function(err, result){
         if(err){
           throw err;

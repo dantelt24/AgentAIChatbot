@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const Wit = require('node-wit').Wit;
 const log = require('node-wit').log;
+const Fiber = require('fibers');
 const policyWrapper = require('./PolicyWrapper.js');
 const polWrapper = new policyWrapper(process.env.MONGO_DB_URI);
 // const polWrapper = new policyWrapper();
@@ -154,6 +155,15 @@ app.post('/webhook', (req, res) => {
 //-----------------------------------------------------------------------
 
 //User functions
+//sleep function for setting timeout to send order of fb messages in node js
+function sleep(ms) {
+    var fiber = Fiber.current;
+    setTimeout(function() {
+        fiber.run();
+    }, ms);
+    Fiber.yield();
+}
+
 function processPostback(event) {
   var senderId = event.sender.id;
   var payload = event.postback.payload;
@@ -213,7 +223,14 @@ function processEntities(sender,entities, text){
   }
   else if(entities.hasOwnProperty('message_body') && keys.length === 1){
     console.log('Intents are not clear enough, need to ask for clarification.');
-    fbMessage(sender, 'We couldn\'t quite understand what you asked. Could please repeat the question you need help with.').catch(console.error));
+    fbMessage(sender, 'We couldn\'t quite understand what you asked. Could please repeat the question you need help with.').catch(console.error);
+    Fiber(function() {
+      // console.log('wait... ' + new Date);
+      fbMessage(sender, 'We couldn\'t quite understand what you asked. Could please repeat the question you need help with.').catch(console.error);
+      sleep(1000);
+      // console.log('ok... ' + new Date);
+      fbMessage(sender, 'This should be sent after the response.').catch(console.error);
+    }).run();
   }
   else if(entities.hasOwnProperty('agentIntent') && entities.hasOwnProperty('autoIntent')){
     console.log('Agent Intent and Auto Intent found');

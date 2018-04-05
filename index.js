@@ -223,12 +223,9 @@ function processEntities(sender,entities, text){
   }
   else if(entities.hasOwnProperty('message_body') && keys.length === 1){
     console.log('Intents are not clear enough, need to ask for clarification.');
-    fbMessage(sender, 'We couldn\'t quite understand what you asked. Could please repeat the question you need help with.').catch(console.error);
     Fiber(function() {
-      // console.log('wait... ' + new Date);
       fbMessage(sender, 'We couldn\'t quite understand what you asked. Could please repeat the question you need help with.').catch(console.error);
       sleep(1000);
-      // console.log('ok... ' + new Date);
       fbMessage(sender, 'This should be sent after the response.').catch(console.error);
     }).run();
   }
@@ -248,8 +245,11 @@ function processEntities(sender,entities, text){
           throw err;
         }else{
           console.log('getAutoAgent Result is ' + result);
-          fbMessage(sender, result).catch(console.error);
-          fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+          Fiber(function() {
+            fbMessage(sender, result).catch(console.error);
+            sleep(1000);
+            fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+          }).run();
         }
       });
     }
@@ -270,8 +270,11 @@ function processEntities(sender,entities, text){
           throw err;
         }else{
           console.log('getHomeAgent Result is ' + result);
-          fbMessage(sender, result).catch(console.error);
-          fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+          Fiber(function() {
+            fbMessage(sender, result).catch(console.error);
+            sleep(1000);
+            fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+          }).run();
         }
       });
     }
@@ -284,8 +287,11 @@ function processEntities(sender,entities, text){
         if(err){
           throw err;
         }
-        fbMessage(sender, result).catch(console.error);
-        fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+        Fiber(function() {
+          fbMessage(sender, result).catch(console.error);
+          sleep(1000);
+          fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+        }).run();
       });
     }
   }
@@ -297,8 +303,11 @@ function processEntities(sender,entities, text){
         if(err){
           throw err;
         }
-        fbMessage(sender, result).catch(console.error);
-        fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+        Fiber(function() {
+          fbMessage(sender, result).catch(console.error);
+          sleep(1000);
+          fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+        }).run();
       });
     }
   }
@@ -310,8 +319,11 @@ function processEntities(sender,entities, text){
         if(err){
           throw err;
         }
-        fbMessage(sender, result).catch(console.error);
-        fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+        Fiber(function() {
+          fbMessage(sender, result).catch(console.error);
+          sleep(1000);
+          fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+        }).run();
       });
     }
   }
@@ -323,8 +335,11 @@ function processEntities(sender,entities, text){
         if(err){
           throw err;
         }
-        fbMessage(sender, result).catch(console.error);
-        fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+        Fiber(function() {
+          fbMessage(sender, result).catch(console.error);
+          sleep(1000);
+          fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+        }).run();
       });
     }
   }
@@ -336,8 +351,11 @@ function processEntities(sender,entities, text){
         if(err){
           throw err;
         }
-        fbMessage(sender, result).catch(console.error);
-        fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+        Fiber(function() {
+          fbMessage(sender, result).catch(console.error);
+          sleep(1000);
+          fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+        }).run();
       });
     }
   }
@@ -349,8 +367,11 @@ function processEntities(sender,entities, text){
         if(err){
           throw err;
         }
-        fbMessage(sender, result).catch(console.error);
-        fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+        Fiber(function() {
+          fbMessage(sender, result).catch(console.error);
+          sleep(1000);
+          fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+        }).run();
       });
     }
   }
@@ -362,8 +383,11 @@ function processEntities(sender,entities, text){
         if(err){
           throw err;
         }
-        fbMessage(sender, result).catch(console.error);
-        fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+        Fiber(function() {
+          fbMessage(sender, result).catch(console.error);
+          sleep(1000);
+          fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+        }).run();
       });
     }
   }
@@ -375,8 +399,11 @@ function processEntities(sender,entities, text){
         if(err){
           throw err;
         }
-        fbMessage(sender, result).catch(console.error);
-        fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+        Fiber(function() {
+          fbMessage(sender, result).catch(console.error);
+          sleep(1000);
+          fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+        }).run();
       });
     }
   }
@@ -388,8 +415,11 @@ function processEntities(sender,entities, text){
         if(err){
           throw err;
         }
-        fbMessage(sender, result).catch(console.error);
-        fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+        Fiber(function() {
+          fbMessage(sender, result).catch(console.error);
+          sleep(1000);
+          fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+        }).run();
       });
     }
   }
@@ -401,8 +431,11 @@ function processEntities(sender,entities, text){
         if(err){
           throw err;
         }
-        fbMessage(sender, result).catch(console.error);
-        fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+        Fiber(function() {
+          fbMessage(sender, result).catch(console.error);
+          sleep(1000);
+          fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+        }).run();
       });
     }
   }
@@ -414,8 +447,11 @@ function processEntities(sender,entities, text){
         if(err){
           throw err;
         }
-        fbMessage(sender, result).catch(console.error);
-        fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+        Fiber(function() {
+          fbMessage(sender, result).catch(console.error);
+          sleep(1000);
+          fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+        }).run();
       });
     }
   }
@@ -427,8 +463,11 @@ function processEntities(sender,entities, text){
         if(err){
           throw err;
         }
-        fbMessage(sender, result).catch(console.error);
-        fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+        Fiber(function() {
+          fbMessage(sender, result).catch(console.error);
+          sleep(1000);
+          fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+        }).run();
       });
     }
   }
@@ -440,8 +479,11 @@ function processEntities(sender,entities, text){
         if(err){
           throw err;
         }
-        fbMessage(sender, result).catch(console.error);
-        fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+        Fiber(function() {
+          fbMessage(sender, result).catch(console.error);
+          sleep(1000);
+          fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+        }).run();
       });
     }
   }

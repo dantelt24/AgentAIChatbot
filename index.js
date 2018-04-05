@@ -117,8 +117,6 @@ app.post('/webhook', (req, res) => {
 
           // We could retrieve the user's current session, or create one if it doesn't exist
           // This is useful if we want our bot to figure out the conversation history
-          // const sessionId = findOrCreateSession(sender);
-          //Use this sessionId as a key for a coversation id/key in mongodb to track user conversations
           const sessionId = findOrCreateSession(sender);
 
           // We retrieve the message content
@@ -199,9 +197,13 @@ function processEntities(sender,entities, text){
   var customerIssueObject = {};
   console.log(entities);
   var keys = Object.keys(entities), key = keys[0];
+  customerIssueObject["issues"] = {};
   customerIssueObject.id = sender;
-  customerIssueObject.text = text;
-  customerIssueObject.intents = keys.toString();
+  customerIssueObject.issues.text = text;
+  customerIssueObject.issues.intents = keys.toString();
+  // customerIssueObject.id = sender;
+  // customerIssueObject.text = text;
+  // customerIssueObject.intents = keys.toString();
   if(keys.length === 1 && key === 'endConvoIntent'){
     //okay to delete the issue
     //Console.log(able to end the conversation)

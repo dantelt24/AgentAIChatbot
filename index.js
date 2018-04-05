@@ -134,7 +134,7 @@ app.post('/webhook', (req, res) => {
             // Create message issue object for chance of issuing customer
             wit.message(text).then(({entities}) => {
               // You can customize your response to these entities
-              //Assign object properties
+              //process the entities with wit
               processEntities(sender, entities, text);
               // For now, let's reply with another automatic message
               fbMessage(sender, `We've received your message: ${text}.`);
@@ -213,7 +213,7 @@ function processEntities(sender,entities, text){
   }
   else if(entities.hasOwnProperty('message_body') && keys.length === 1){
     console.log('Intents are not clear enough, need to ask for clarification.');
-    fbMessage(sender, 'We couldn\'t quite understand what you asked. Could please repeat the question you need help with.').catch(console.error);
+    fbMessage(sender, 'We couldn\'t quite understand what you asked. Could please repeat the question you need help with.').catch(console.error).then(fbMessage(sender, 'Testing Message Order').catch(console.error));
   }
   else if(entities.hasOwnProperty('agentIntent') && entities.hasOwnProperty('autoIntent')){
     console.log('Agent Intent and Auto Intent found');

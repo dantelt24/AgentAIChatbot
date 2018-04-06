@@ -818,7 +818,7 @@ PolicyWrapper.prototype.deleteIssue = function(senderInfo, callback){
     }
     var db = client.db(db_name);
     db.collection('messages', function(err, collection){
-      collection.deleteOne({id: senderInfo.id, solveFlag: true}, function(err, result){
+      collection.deleteMany({id: senderInfo.id}, function(err, result){
         if(err){
           throw err;
         }

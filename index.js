@@ -49,6 +49,29 @@ const findOrCreateSession = (fbid) => {
 };
 //-------------------------------------------------------------------------
 
+//FB Message Typing Action - Using Messenger API
+const typingBubble = (id, text) => {
+  const body = JSON.stringify({
+      recipient: { id },
+      "sender_action":"typing_on"
+  });
+
+  const qs = 'access_token=' + encodeURIComponent(fb_page_token);
+  return fetch('https://graph.facebook.com/me/messages?' + qs, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body,
+  })
+  .then(rsp => rsp.json())
+  .then(json => {
+    if (json.error && json.error.message) {
+      throw new Error(json.error.message);
+    }
+    return json;
+  });
+};
+
+
 //FB Messenger Message - Using Messenger API
 const fbMessage = (id, text) => {
     const body = JSON.stringify({
@@ -136,7 +159,7 @@ app.post('/webhook', (req, res) => {
               //process the entities with wit
               processEntities(sender, entities, text);
               // For now, let's reply with another automatic message
-              fbMessage(sender, `We've received your message: ${text}.`);
+              // fbMessage(sender, `We've received your message: ${text}.`);
             })
             .catch((err) => {
               console.error('Oops! Got an error from Wit: ', err.stack || err);
@@ -234,6 +257,8 @@ function processEntities(sender,entities, text){
   else if(entities.hasOwnProperty('message_body') && keys.length === 1){
     console.log('Intents are not clear enough, need to ask for clarification.');
     Fiber(function() {
+      typingBubble(sender, text).catch(console.error);
+      sleep(1000);
       fbMessage(sender, 'We couldn\'t quite understand what you asked. Could please repeat the question you need help with.').catch(console.error);
       sleep(1000);
       fbMessage(sender, 'This should be sent after the response.').catch(console.error);

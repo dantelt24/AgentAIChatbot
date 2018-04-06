@@ -252,7 +252,11 @@ function processEntities(sender,entities, text){
   }
   else if(keys.length === 1 && key === 'keepConvoIntent'){
     //keep issue, need to solve customer issue
-    fbMessage(sender, 'What else could I help you with today?').catch(console.error);
+    Fiber(function() {
+      typingBubble(sender, text).catch(console.error);
+      sleep(1000);
+      fbMessage(sender, 'What else could I help you with today?').catch(console.error);
+    }).run();
   }
   else if(entities.hasOwnProperty('message_body') && keys.length === 1){
     console.log('Intents are not clear enough, need to ask for clarification.');
@@ -261,7 +265,7 @@ function processEntities(sender,entities, text){
       sleep(1000);
       fbMessage(sender, 'We couldn\'t quite understand what you asked. Could please repeat the question you need help with.').catch(console.error);
       sleep(1000);
-      fbMessage(sender, 'This should be sent after the response.').catch(console.error);
+      // fbMessage(sender, 'This should be sent after the response.').catch(console.error);
     }).run();
   }
   else if(entities.hasOwnProperty('agentIntent') && entities.hasOwnProperty('autoIntent')){
@@ -281,6 +285,8 @@ function processEntities(sender,entities, text){
         }else{
           console.log('getAutoAgent Result is ' + result);
           Fiber(function() {
+            typingBubble(sender, text).catch(console.error);
+            sleep(1000);
             fbMessage(sender, result).catch(console.error);
             sleep(1000);
             fbMessage(sender, fbConfirmationQuestion).catch(console.error);
@@ -306,6 +312,8 @@ function processEntities(sender,entities, text){
         }else{
           console.log('getHomeAgent Result is ' + result);
           Fiber(function() {
+            typingBubble(sender, text).catch(console.error);
+            sleep(1000);
             fbMessage(sender, result).catch(console.error);
             sleep(1000);
             fbMessage(sender, fbConfirmationQuestion).catch(console.error);
@@ -330,6 +338,8 @@ function processEntities(sender,entities, text){
           throw err;
         }
         Fiber(function() {
+          typingBubble(sender, text).catch(console.error);
+          sleep(1000);
           fbMessage(sender, result).catch(console.error);
           sleep(1000);
           fbMessage(sender, fbConfirmationQuestion).catch(console.error);
@@ -353,6 +363,8 @@ function processEntities(sender,entities, text){
           throw err;
         }
         Fiber(function() {
+          typingBubble(sender, text).catch(console.error);
+          sleep(1000);
           fbMessage(sender, result).catch(console.error);
           sleep(1000);
           fbMessage(sender, fbConfirmationQuestion).catch(console.error);
@@ -376,6 +388,8 @@ function processEntities(sender,entities, text){
           throw err;
         }
         Fiber(function() {
+          typingBubble(sender, text).catch(console.error);
+          sleep(1000);
           fbMessage(sender, result).catch(console.error);
           sleep(1000);
           fbMessage(sender, fbConfirmationQuestion).catch(console.error);
@@ -399,6 +413,8 @@ function processEntities(sender,entities, text){
           throw err;
         }
         Fiber(function() {
+          typingBubble(sender, text).catch(console.error);
+          sleep(1000);
           fbMessage(sender, result).catch(console.error);
           sleep(1000);
           fbMessage(sender, fbConfirmationQuestion).catch(console.error);
@@ -422,6 +438,8 @@ function processEntities(sender,entities, text){
           throw err;
         }
         Fiber(function() {
+          typingBubble(sender, text).catch(console.error);
+          sleep(1000);
           fbMessage(sender, result).catch(console.error);
           sleep(1000);
           fbMessage(sender, fbConfirmationQuestion).catch(console.error);
@@ -445,6 +463,8 @@ function processEntities(sender,entities, text){
           throw err;
         }
         Fiber(function() {
+          typingBubble(sender, text).catch(console.error);
+          sleep(1000);
           fbMessage(sender, result).catch(console.error);
           sleep(1000);
           fbMessage(sender, fbConfirmationQuestion).catch(console.error);
@@ -468,6 +488,8 @@ function processEntities(sender,entities, text){
           throw err;
         }
         Fiber(function() {
+          typingBubble(sender, text).catch(console.error);
+          sleep(1000);
           fbMessage(sender, result).catch(console.error);
           sleep(1000);
           fbMessage(sender, fbConfirmationQuestion).catch(console.error);
@@ -491,6 +513,8 @@ function processEntities(sender,entities, text){
           throw err;
         }
         Fiber(function() {
+          typingBubble(sender, text).catch(console.error);
+          sleep(1000);
           fbMessage(sender, result).catch(console.error);
           sleep(1000);
           fbMessage(sender, fbConfirmationQuestion).catch(console.error);
@@ -514,6 +538,8 @@ function processEntities(sender,entities, text){
           throw err;
         }
         Fiber(function() {
+          typingBubble(sender, text).catch(console.error);
+          sleep(1000);
           fbMessage(sender, result).catch(console.error);
           sleep(1000);
           fbMessage(sender, fbConfirmationQuestion).catch(console.error);
@@ -537,6 +563,8 @@ function processEntities(sender,entities, text){
           throw err;
         }
         Fiber(function() {
+          typingBubble(sender, text).catch(console.error);
+          sleep(1000);
           fbMessage(sender, result).catch(console.error);
           sleep(1000);
           fbMessage(sender, fbConfirmationQuestion).catch(console.error);
@@ -560,6 +588,8 @@ function processEntities(sender,entities, text){
           throw err;
         }
         Fiber(function() {
+          typingBubble(sender, text).catch(console.error);
+          sleep(1000);
           fbMessage(sender, result).catch(console.error);
           sleep(1000);
           fbMessage(sender, fbConfirmationQuestion).catch(console.error);
@@ -583,6 +613,8 @@ function processEntities(sender,entities, text){
           throw err;
         }
         Fiber(function() {
+          typingBubble(sender, text).catch(console.error);
+          sleep(1000);
           fbMessage(sender, result).catch(console.error);
           sleep(1000);
           fbMessage(sender, fbConfirmationQuestion).catch(console.error);
@@ -606,6 +638,8 @@ function processEntities(sender,entities, text){
           throw err;
         }
         Fiber(function() {
+          typingBubble(sender, text).catch(console.error);
+          sleep(1000);
           fbMessage(sender, result).catch(console.error);
           sleep(1000);
           fbMessage(sender, fbConfirmationQuestion).catch(console.error);

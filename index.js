@@ -210,7 +210,7 @@ function processEntities(sender,entities, text){
       if(err){
         throw err;
       }
-      if(result.matchedCount === 1 && result.modifiedCount === 1){
+      if(result.matchedCount === 1 || result.modifiedCount === 1){
         console.log('Successful modification of issue for customer, can now delete issue from db as conversation is resolved.');
         polWrapper.deleteIssue(customerIssueObject, function(err, result){
           if(err){

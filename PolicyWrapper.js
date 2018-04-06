@@ -812,7 +812,7 @@ PolicyWrapper.prototype.setIssueSolved = function(senderInfo, callback){
 }
 
 PolicyWrapper.prototype.deleteIssue = function(senderInfo, callback){
-  MongoClient.connect(this.db_uri, function(err, collection){
+  MongoClient.connect(this.db_uri, function(err, client){
     if(err){
       throw err;
     }

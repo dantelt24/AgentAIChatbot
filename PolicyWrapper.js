@@ -758,7 +758,7 @@ PolicyWrapper.prototype.setCustomerIssue = function(senderInfo, callback){
     }
     var db = client.db(db_name);
     db.collection('messages', function(err, collection){
-      collection.updateOne({id: senderInfo.id},
+      collection.updateOne({_id: senderInfo.id},
         {$set: {_id: senderInfo.id, 'issue.text': senderInfo.text, 'issue.context': senderInfo.intents, 'issue.solveFlag': false}},
         {upsert: true}, function(err, result){
           if(err){

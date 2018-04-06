@@ -823,7 +823,7 @@ PolicyWrapper.prototype.deleteIssue = function(senderInfo, callback){
         if(err){
           throw err;
         }
-        console.log(results);
+        console.log(result);
         callback(err, result);
       });
     });

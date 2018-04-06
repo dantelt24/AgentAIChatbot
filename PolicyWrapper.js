@@ -489,7 +489,7 @@ PolicyWrapper.prototype.getPersonalLiabilityInfo = function(callback){
 //------------------------------------------------------------------------------
 //AUTO Intents
 
-//get drivers on policy
+//get cars on policy
 PolicyWrapper.prototype.getCarsUnderPolicy = function(callback) {
   MongoClient.connect(this.db_uri, function(err, client){
     if(err){
@@ -525,6 +525,7 @@ PolicyWrapper.prototype.getCarsUnderPolicy = function(callback) {
   });
 }
 
+//get drivers under policy
 PolicyWrapper.prototype.getAutoDrivers = function(callback) {
   MongoClient.connect(this.db_uri, function(err, client){
     if(err){
@@ -546,9 +547,9 @@ PolicyWrapper.prototype.getAutoDrivers = function(callback) {
             for(var j = 1; j < drivers.length; j++) response += ', ' + drivers[j].name;
           }
           else{
-            response += 'There are no drivers for your policy'
+            response += 'There are no drivers for your policy';
           }
-          response += '.'
+          response += '.';
           console.log(response);
           // return response;
           callback(err, response);
@@ -632,19 +633,17 @@ PolicyWrapper.prototype.getAutoCoverageTypes = function(callback) {
         if(err){
           throw err;
         }else{
+          var response = 'The general coverages on this policy are ';
           for(var i  = 0; i < docs.length; i++){
             var coverages = docs[i].policies['1-PAC-1-200711458641'].policyGenericCoverages;
-            var response = '';
-            if(coverages.length > 0){
-              response += 'The types of the drivers on this policy are ' + coverages[0].label;
-              for(var j = 1; j < coverages.length; j++) response += ', ' + coverages[j].name;
+            for(var j = 0; j < coverages.length; j++){
+              if(j === coverages.length-1){
+                response += coverages[j].label + ', and the limit for this coverage is ' +coverages[j].limitsDed+ '. ';
+              }else{
+                response += coverages[j].label + ', and the limit for this coverage is ' +coverages[j].limitsDed+ ', ';
+              }
             }
-            else{
-              response += 'There is no coverage your policy'
-            }
-            response += '.'
             console.log(response);
-            // return response;
             callback(err, response);
           }
         }
@@ -675,7 +674,7 @@ PolicyWrapper.prototype.getAutoDiscounts = function(callback) {
               response = 'There are no discounts on this policy';
             }
             else{
-              response = 'The discount on this policy is $' + discounts;
+              response = 'The discount on this policy is ' + discounts;
             }
             response += '.';
             console.log(response);
@@ -748,7 +747,7 @@ PolicyWrapper.prototype.getExpirationDate = function(callback) {
 
 
 
-//messages Collection functions
+//MESSAGES COLLECTION FUNCTIONS
 
 // set Issues for conversation flow, updateOne Test
 PolicyWrapper.prototype.setCustomerIssue = function(senderInfo, callback){

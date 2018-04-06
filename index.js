@@ -218,7 +218,6 @@ function processEntities(sender,entities, text){
           }
           if(result.deletedCount === 1){
             console.log('Successfully deleted issue');
-            console.log('test');
           }else{
             console.log('Issue wasn\'t deleted successfully');
           }

@@ -747,6 +747,7 @@ PolicyWrapper.prototype.getExpirationDate = function(callback) {
 }
 
 
+
 //messages Collection functions
 
 //set Issues for conversation flow
@@ -806,6 +807,23 @@ PolicyWrapper.prototype.setIssueSolved = function(senderInfo, callback){
           console.log('Modified Count: ' + result.modifiedCount);
           callback(err, result);
         });
+    });
+  });
+}
+
+PolicyWrapper.prototype.deleteIssue = function(senderInfo, callback){
+  MongoClient.connect(this.db_uri, function(err, collection){
+    if(err){
+      throw err;
+    }
+    var db = client.db(db_name);
+    db.collection('messages', function(err, collection){
+      collection.deleteOne({id: senderInfo.id, issues.solveFlag: true}, function(err, result){
+        if(err){
+          throw err;
+        }
+        callback(err, result);
+      });
     });
   });
 }

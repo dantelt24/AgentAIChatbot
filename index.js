@@ -193,7 +193,6 @@ function processPostback(event) {
 }
 
 function processEntities(sender,entities, text){
-
   var customerIssueObject = {};
   console.log(entities);
   var keys = Object.keys(entities), key = keys[0];
@@ -206,14 +205,23 @@ function processEntities(sender,entities, text){
   // customerIssueObject.intents = keys.toString();
   if(keys.length === 1 && key === 'endConvoIntent'){
     //okay to delete the issue
-    //Console.log(able to end the conversation)
     fbMessage(sender, 'Glad we could help you with your questions today. Have a nice day.').catch(console.error);
     polWrapper.setIssueSolved(customerIssueObject, function(err, result){
       if(err){
         throw err;
       }
       if(result.matchedCount === 1 && result.modifiedCount === 1){
-        console.log('Successful modification of issue for customer');
+        console.log('Successful modification of issue for customer, can now delete issue from db as conversation is resolved.');
+        polWrapper.deleteIssue(customerIssueObject, function(err, result){
+          if(err){
+            throw err;
+          }
+          if(result.deletedCount === 1){
+            console.log('Successfully deleted issue');
+          }else{
+            console.log('Issue wasn\'t deleted successfully');
+          }
+        });
       }else{
         console.log('Issue not found or updated');
       }

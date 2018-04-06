@@ -779,7 +779,7 @@ PolicyWrapper.prototype.setCustomerIssue = function(senderInfo, callback){
     }
     var db = client.db(db_name);
     db.collection('messages', function(err, collection){
-      collection.insertOne({id: senderInfo.id, issue: {text: senderInfo.issues.text, context: senderInfo.issues.intents, solveFlag: false}}, function(err, result){
+      collection.insertOne({_id: senderInfo.id, issue: {text: senderInfo.issues.text, context: senderInfo.issues.intents, solveFlag: false}}, function(err, result){
         if(err){
           throw err;
         }
@@ -797,7 +797,7 @@ PolicyWrapper.prototype.setIssueSolved = function(senderInfo, callback){
     }
     var db = client.db(db_name);
     db.collection('messages', function(err, collection){
-      collection.updateOne({id: senderInfo.id},
+      collection.updateOne({_id: senderInfo.id},
         {$set: {'issue.solveFlag': true}},
         {upsert: true}, function(err, result){
           if(err){
@@ -818,7 +818,7 @@ PolicyWrapper.prototype.deleteIssue = function(senderInfo, callback){
     }
     var db = client.db(db_name);
     db.collection('messages', function(err, collection){
-      collection.deleteMany({id: senderInfo.id}, function(err, result){
+      collection.deleteOne({_id: senderInfo.id, issue: {solveFlag:true}}, function(err, result){
         if(err){
           throw err;
         }

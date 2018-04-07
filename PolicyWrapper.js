@@ -796,7 +796,7 @@ PolicyWrapper.prototype.getVehicleDiscounts = function(callback) {
           throw err;
         }else{
           for(var i = 0; i < docs.length; i++){
-            var discount = docs[i].policies['1-PAC-1-200711458641'].vehicles.discounts;
+            var discount = docs[i].policies['1-PAC-1-200711458641'].vehicles[i].discounts;
             var response = "Your vehicle discount includes ";
             for(var j = 0; j < discount.length; j++)
             {
@@ -830,7 +830,7 @@ PolicyWrapper.prototype.vehicleGenericCoverages = function(callback) {
           throw err;
         }else{
           for(var i = 0; i < docs.length; i++){
-            var coverages = docs[i].policies['1-PAC-1-200711458641'].vehicles.vehicleGenericCoverages;
+            var coverages = docs[i].policies['1-PAC-1-200711458641'].vehicles[0].vehicleGenericCoverages;
             for(var j =0; j < coverages.length; j++)
             {
             var response = 'Your covered in case of ' + coverages[j].label + '.' + 'With a limits deductible of ' + coverages[j].limitsDed;
@@ -859,8 +859,19 @@ PolicyWrapper.prototype.getVinNumber = function(callback) {
           throw err;
         }else{
           for(var i = 0; i < docs.length; i++){
-            var vin = docs[i].policies['1-PAC-1-200711458641'].vehicles.vin;
-            var response = 'Your vin number on file is ' + vin;
+            var vin = docs[i].policies['1-PAC-1-200711458641'].vehicles;
+            var response = 'The vin numbers on file are ';
+            for(var j = 0; j < discount.length; j++)
+            {
+              if(j === vehicles.length - 1)
+              {
+                response += vehicles[j].vin + ". ";
+              }
+              else {
+                response += vehicles[j].vin + ", ";
+              }
+            }
+
             console.log(response);
             // return response;
             callback(err, response);
@@ -911,7 +922,7 @@ PolicyWrapper.prototype.effectiveDate = function(callback) {
           throw err;
         }else{
           for(var i = 0; i < docs.length; i++){
-            var date = docs[i].policies['1-PAC-1-200711458641'].vehicles.effectiveDate;
+            var date = docs[i].policies['1-PAC-1-200711458641'].vehicles[i].effectiveDate;
             var response = 'You have been insured since ' + date + '.';
             console.log(response);
             // return response;
@@ -937,7 +948,7 @@ PolicyWrapper.prototype.easyPay = function(callback) {
           throw err;
         }else{
           for(var i = 0; i < docs.length; i++){
-            var ePay = docs[i].policies['1-PAC-1-200711458641'].vehicles.isEnrolledInEasyPay;
+            var ePay = docs[i].policies['1-PAC-1-200711458641'].isEnrolledInEasyPay;
             if(ePay == 'false')
             {
               var response = 'You are not enrolled in easy pay. Sign up here: https://webapp.ciginsurance.com/PolicyInquiry/Login/Login.aspx?ReturnUrl=%2fpolicyinquiry%2fpolicyholder%2fdefault.aspx';
@@ -948,6 +959,41 @@ PolicyWrapper.prototype.easyPay = function(callback) {
             console.log(response);
             // return response;
             callback(err, response);
+          }
+        }
+      });
+      client.close();
+    });
+  });
+}
+
+PolicyWrapper.prototype.enhancedCoverages = function(callback) {
+  MongoClient.connect(this.db_uri, function(err, client){
+    if(err){
+      throw err;
+    }else{
+      console.log('Successful database connection')
+    }
+    var db = client.db(db_name);
+    db.collection('aiData', function(err, collection) {
+      collection.find({}).project({'policies': 1}).toArray(function (err, docs){
+        if(err){
+          throw err;
+        }else{
+          for(var i = 0; i < docs.length; i++){
+            var eCoverages = docs[i].policies['1-PAC-1-200711458641'].enhancedCoverages;
+            if(eCoverages == "")
+            {
+              var response = 'You do not have enhanced coverages ';
+              callback(err, response);
+            }
+            else {
+              var response = 'You have enhanced coverages. Dollar amount: ' + eCoverages;
+              callback(err, response);
+            }
+            console.log(response);
+            // return response;
+
           }
         }
       });

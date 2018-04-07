@@ -649,7 +649,7 @@ function processEntities(sender,entities, text){
   }
   else if(entities.hasOwnProperty('vehicleDiscounts')){
     console.log('Vehicle discounts intent');
-    if(entities.agentIntent[0].confidence > .50){
+    if(entities.vehicleDiscounts[0].confidence > .50){
       console.log('High enough confidence to perform query.');
       polWrapper.setCustomerIssue(customerIssueObject, function(err, result){
         if(err){
@@ -678,7 +678,7 @@ function processEntities(sender,entities, text){
 
   else if(entities.hasOwnProperty('vehicleGenericCoverages')){
     console.log('Vehicle generic coverages ');
-    if(entities.agentIntent[0].confidence > .50){
+    if(entities.vehicleGenericCoverages[0].confidence > .50){
       console.log('High enough confidence to perform query.');
       polWrapper.setCustomerIssue(customerIssueObject, function(err, result){
         if(err){
@@ -706,7 +706,7 @@ function processEntities(sender,entities, text){
 
   else if(entities.hasOwnProperty('lineOfBusinessIntent')){
     console.log('Line of Business Intent ');
-    if(entities.agentIntent[0].confidence > .50){
+    if(entities.lineOfBusinessIntent[0].confidence > .50){
       console.log('High enough confidence to perform query.');
       polWrapper.setCustomerIssue(customerIssueObject, function(err, result){
         if(err){
@@ -734,7 +734,7 @@ function processEntities(sender,entities, text){
 
   else if(entities.hasOwnProperty('vinNumIntent')){
     console.log('Vin number intent found ');
-    if(entities.agentIntent[0].confidence > .50){
+    if(entities.vinNumIntent[0].confidence > .50){
       console.log('High enough confidence to perform query.');
       polWrapper.setCustomerIssue(customerIssueObject, function(err, result){
         if(err){
@@ -758,10 +758,10 @@ function processEntities(sender,entities, text){
         }
       });
     }
-
+  }
     else if(entities.hasOwnProperty('effectiveDateIntent')){
       console.log('Effective date intent found');
-      if(entities.agentIntent[0].confidence > .50){
+      if(entities.effectiveDateIntent[0].confidence > .50){
         console.log('High enough confidence to perform query.');
         polWrapper.setCustomerIssue(customerIssueObject, function(err, result){
           if(err){
@@ -786,11 +786,10 @@ function processEntities(sender,entities, text){
         });
       }
     }
-  }
 
-  else if(entities.hasOwnProperty('eastPayIntent')){
+  else if(entities.hasOwnProperty('easyPayIntent')){
     console.log('Easy pay Intent found ');
-    if(entities.agentIntent[0].confidence > .50){
+    if(entities.easyPayIntent[0].confidence > .50){
       console.log('High enough confidence to perform query.');
       polWrapper.setCustomerIssue(customerIssueObject, function(err, result){
         if(err){
@@ -818,7 +817,7 @@ function processEntities(sender,entities, text){
 
   else if(entities.hasOwnProperty('enhancedCoveragesIntent')){
     console.log('Easy pay Intent found ');
-    if(entities.agentIntent[0].confidence > .50){
+    if(entities.enhancedCoveragesIntent[0].confidence > .50){
       console.log('High enough confidence to perform query.');
       polWrapper.setCustomerIssue(customerIssueObject, function(err, result){
         if(err){
@@ -843,5 +842,4 @@ function processEntities(sender,entities, text){
       });
     }
   }
-
 }

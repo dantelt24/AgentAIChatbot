@@ -352,7 +352,7 @@ PolicyWrapper.prototype.getDwellingLimit = function(callback){
           for(var i = 0; i < docs.length; i++){
             var docObject = docs[i];
             var dwellingObject = docObject.policies['1-HOC-1-1394462794']['basic coverage'].basicCoverage.dwelling;
-            var response = 'The value of the dwelling on this policy is ' + dwellingObject.limit + '.';
+            var response = 'The value of the home on this policy is ' + dwellingObject.limit + '.';
             console.log(response);
             // return response;
             callback(err, response);
@@ -922,7 +922,7 @@ PolicyWrapper.prototype.effectiveDate = function(callback) {
           throw err;
         }else{
           for(var i = 0; i < docs.length; i++){
-            var date = docs[i].policies['1-PAC-1-200711458641'].vehicles[i].effectiveDate;
+            var date = docs[i].policies['1-PAC-1-200711458641'].effectiveDate;
             var response = 'You have been insured since ' + date + '.';
             console.log(response);
             // return response;

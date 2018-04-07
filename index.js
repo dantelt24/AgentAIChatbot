@@ -674,4 +674,118 @@ function processEntities(sender,entities, text){
       });
     }
   }
+
+
+  else if(entities.hasOwnProperty('vehicleGenericCoverages')){
+    console.log('Agent Intent and Home Intent found');
+    if(entities.agentIntent[0].confidence > .50){
+      console.log('High enough confidence to perform query.');
+      polWrapper.setCustomerIssue(customerIssueObject, function(err, result){
+        if(err){
+          throw err;
+        }else{
+          console.log('Set customer issue object');
+        }
+      });
+      polWrapper.vehicleGenericCoverages(function(err, result){
+        if(err){
+          throw err;
+        }else{
+          console.log('Vehicle generic coverages ' + result);
+          Fiber(function() {
+            typingBubble(sender, text).catch(console.error);
+            sleep(1000);
+            fbMessage(sender, result).catch(console.error);
+            sleep(1000);
+            fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+          }).run();
+        }
+      });
+    }
+  }
+
+  else if(entities.hasOwnProperty('lineOfBusinessIntent')){
+    console.log('Agent Intent and Home Intent found');
+    if(entities.agentIntent[0].confidence > .50){
+      console.log('High enough confidence to perform query.');
+      polWrapper.setCustomerIssue(customerIssueObject, function(err, result){
+        if(err){
+          throw err;
+        }else{
+          console.log('Set customer issue object');
+        }
+      });
+      polWrapper.lineOfBusiness(function(err, result){
+        if(err){
+          throw err;
+        }else{
+          console.log('Line of business ' + result);
+          Fiber(function() {
+            typingBubble(sender, text).catch(console.error);
+            sleep(1000);
+            fbMessage(sender, result).catch(console.error);
+            sleep(1000);
+            fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+          }).run();
+        }
+      });
+    }
+  }
+
+  else if(entities.hasOwnProperty('vinNumIntent')){
+    console.log('Agent Intent and Home Intent found');
+    if(entities.agentIntent[0].confidence > .50){
+      console.log('High enough confidence to perform query.');
+      polWrapper.setCustomerIssue(customerIssueObject, function(err, result){
+        if(err){
+          throw err;
+        }else{
+          console.log('Set customer issue object');
+        }
+      });
+      polWrapper.getVinNumber(function(err, result){
+        if(err){
+          throw err;
+        }else{
+          console.log('Vehicle vin number ' + result);
+          Fiber(function() {
+            typingBubble(sender, text).catch(console.error);
+            sleep(1000);
+            fbMessage(sender, result).catch(console.error);
+            sleep(1000);
+            fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+          }).run();
+        }
+      });
+    }
+
+    else if(entities.hasOwnProperty('effectiveDateIntent')){
+      console.log('Agent Intent and Home Intent found');
+      if(entities.agentIntent[0].confidence > .50){
+        console.log('High enough confidence to perform query.');
+        polWrapper.setCustomerIssue(customerIssueObject, function(err, result){
+          if(err){
+            throw err;
+          }else{
+            console.log('Set customer issue object');
+          }
+        });
+        polWrapper.effectiveDate(function(err, result){
+          if(err){
+            throw err;
+          }else{
+            console.log('Effective date ' + result);
+            Fiber(function() {
+              typingBubble(sender, text).catch(console.error);
+              sleep(1000);
+              fbMessage(sender, result).catch(console.error);
+              sleep(1000);
+              fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+            }).run();
+          }
+        });
+      }
+    }
+  }
+
 }

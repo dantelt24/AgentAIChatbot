@@ -647,4 +647,201 @@ function processEntities(sender,entities, text){
       });
     }
   }
+  else if(entities.hasOwnProperty('vehicleDiscounts')){
+    console.log('Vehicle discounts intent');
+    if(entities.agentIntent[0].confidence > .50){
+      console.log('High enough confidence to perform query.');
+      polWrapper.setCustomerIssue(customerIssueObject, function(err, result){
+        if(err){
+          throw err;
+        }else{
+          console.log('Set customer issue object');
+        }
+      });
+      polWrapper.getVehicleDiscounts(function(err, result){
+        if(err){
+          throw err;
+        }else{
+          console.log('Vehicle discounts ' + result);
+          Fiber(function() {
+            typingBubble(sender, text).catch(console.error);
+            sleep(1000);
+            fbMessage(sender, result).catch(console.error);
+            sleep(1000);
+            fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+          }).run();
+        }
+      });
+    }
+  }
+
+
+  else if(entities.hasOwnProperty('vehicleGenericCoverages')){
+    console.log('Vehicle generic coverages ');
+    if(entities.agentIntent[0].confidence > .50){
+      console.log('High enough confidence to perform query.');
+      polWrapper.setCustomerIssue(customerIssueObject, function(err, result){
+        if(err){
+          throw err;
+        }else{
+          console.log('Set customer issue object');
+        }
+      });
+      polWrapper.vehicleGenericCoverages(function(err, result){
+        if(err){
+          throw err;
+        }else{
+          console.log('Vehicle generic coverages ' + result);
+          Fiber(function() {
+            typingBubble(sender, text).catch(console.error);
+            sleep(1000);
+            fbMessage(sender, result).catch(console.error);
+            sleep(1000);
+            fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+          }).run();
+        }
+      });
+    }
+  }
+
+  else if(entities.hasOwnProperty('lineOfBusinessIntent')){
+    console.log('Line of Business Intent ');
+    if(entities.agentIntent[0].confidence > .50){
+      console.log('High enough confidence to perform query.');
+      polWrapper.setCustomerIssue(customerIssueObject, function(err, result){
+        if(err){
+          throw err;
+        }else{
+          console.log('Set customer issue object');
+        }
+      });
+      polWrapper.lineOfBusiness(function(err, result){
+        if(err){
+          throw err;
+        }else{
+          console.log('Line of business ' + result);
+          Fiber(function() {
+            typingBubble(sender, text).catch(console.error);
+            sleep(1000);
+            fbMessage(sender, result).catch(console.error);
+            sleep(1000);
+            fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+          }).run();
+        }
+      });
+    }
+  }
+
+  else if(entities.hasOwnProperty('vinNumIntent')){
+    console.log('Vin number intent found ');
+    if(entities.agentIntent[0].confidence > .50){
+      console.log('High enough confidence to perform query.');
+      polWrapper.setCustomerIssue(customerIssueObject, function(err, result){
+        if(err){
+          throw err;
+        }else{
+          console.log('Set customer issue object');
+        }
+      });
+      polWrapper.getVinNumber(function(err, result){
+        if(err){
+          throw err;
+        }else{
+          console.log('Vehicle vin number ' + result);
+          Fiber(function() {
+            typingBubble(sender, text).catch(console.error);
+            sleep(1000);
+            fbMessage(sender, result).catch(console.error);
+            sleep(1000);
+            fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+          }).run();
+        }
+      });
+    }
+
+    else if(entities.hasOwnProperty('effectiveDateIntent')){
+      console.log('Effective date intent found');
+      if(entities.agentIntent[0].confidence > .50){
+        console.log('High enough confidence to perform query.');
+        polWrapper.setCustomerIssue(customerIssueObject, function(err, result){
+          if(err){
+            throw err;
+          }else{
+            console.log('Set customer issue object');
+          }
+        });
+        polWrapper.effectiveDate(function(err, result){
+          if(err){
+            throw err;
+          }else{
+            console.log('Effective date ' + result);
+            Fiber(function() {
+              typingBubble(sender, text).catch(console.error);
+              sleep(1000);
+              fbMessage(sender, result).catch(console.error);
+              sleep(1000);
+              fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+            }).run();
+          }
+        });
+      }
+    }
+  }
+
+  else if(entities.hasOwnProperty('eastPayIntent')){
+    console.log('Easy pay Intent found ');
+    if(entities.agentIntent[0].confidence > .50){
+      console.log('High enough confidence to perform query.');
+      polWrapper.setCustomerIssue(customerIssueObject, function(err, result){
+        if(err){
+          throw err;
+        }else{
+          console.log('Set customer issue object');
+        }
+      });
+      polWrapper.easyPay(function(err, result){
+        if(err){
+          throw err;
+        }else{
+          console.log('Easy pay result ' + result);
+          Fiber(function() {
+            typingBubble(sender, text).catch(console.error);
+            sleep(1000);
+            fbMessage(sender, result).catch(console.error);
+            sleep(1000);
+            fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+          }).run();
+        }
+      });
+    }
+  }
+
+  else if(entities.hasOwnProperty('enhancedCoveragesIntent')){
+    console.log('Easy pay Intent found ');
+    if(entities.agentIntent[0].confidence > .50){
+      console.log('High enough confidence to perform query.');
+      polWrapper.setCustomerIssue(customerIssueObject, function(err, result){
+        if(err){
+          throw err;
+        }else{
+          console.log('Set customer issue object');
+        }
+      });
+      polWrapper.enhancedCoverages(function(err, result){
+        if(err){
+          throw err;
+        }else{
+          console.log('Enhanced Coverages intent ' + result);
+          Fiber(function() {
+            typingBubble(sender, text).catch(console.error);
+            sleep(1000);
+            fbMessage(sender, result).catch(console.error);
+            sleep(1000);
+            fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+          }).run();
+        }
+      });
+    }
+  }
+
 }

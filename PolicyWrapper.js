@@ -937,7 +937,7 @@ PolicyWrapper.prototype.easyPay = function(callback) {
           throw err;
         }else{
           for(var i = 0; i < docs.length; i++){
-            var ePay = docs[i].policies['1-PAC-1-200711458641'].vehicles.isEnrolledInEasyPay;
+            var ePay = docs[i].policies['1-PAC-1-200711458641'].isEnrolledInEasyPay;
             if(ePay == 'false')
             {
               var response = 'You are not enrolled in easy pay. Sign up here: https://webapp.ciginsurance.com/PolicyInquiry/Login/Login.aspx?ReturnUrl=%2fpolicyinquiry%2fpolicyholder%2fdefault.aspx';
@@ -948,6 +948,41 @@ PolicyWrapper.prototype.easyPay = function(callback) {
             console.log(response);
             // return response;
             callback(err, response);
+          }
+        }
+      });
+      client.close();
+    });
+  });
+}
+
+PolicyWrapper.prototype.enhancedCoverages = function(callback) {
+  MongoClient.connect(this.db_uri, function(err, client){
+    if(err){
+      throw err;
+    }else{
+      console.log('Successful database connection')
+    }
+    var db = client.db(db_name);
+    db.collection('aiData', function(err, collection) {
+      collection.find({}).project({'policies': 1}).toArray(function (err, docs){
+        if(err){
+          throw err;
+        }else{
+          for(var i = 0; i < docs.length; i++){
+            var eCoverages = docs[i].policies['1-PAC-1-200711458641'].enhancedCoverages;
+            if(eCoverages == "")
+            {
+              var response = 'You do not have enhanced coverages ';
+              callback(err, response);
+            }
+            else {
+              var response = 'You have enhanced coverages. Dollar amount: ' + eCoverages;
+              callback(err, response);
+            }
+            console.log(response);
+            // return response;
+
           }
         }
       });

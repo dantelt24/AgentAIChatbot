@@ -782,6 +782,179 @@ PolicyWrapper.prototype.getAutoClaimsList = function(callback){
   });
 }
 
+PolicyWrapper.prototype.getVehicleDiscounts = function(callback) {
+  MongoClient.connect(this.db_uri, function(err, client){
+    if(err){
+      throw err;
+    }else{
+      console.log('Successful database connection')
+    }
+    var db = client.db(db_name);
+    db.collection('aiData', function(err, collection) {
+      collection.find({}).project({'policies': 1}).toArray(function (err, docs){
+        if(err){
+          throw err;
+        }else{
+          for(var i = 0; i < docs.length; i++){
+            var discount = docs[i].policies['1-PAC-1-200711458641'].vehicles.discounts;
+            var response = "Your vehicle discount includes ";
+            for(var j = 0; j < discount.length; j++)
+            {
+              if(j === discount.length - 1)
+                response += discount[j].discount + ". ";
+              else {
+                response += discount[j].discount + ", ";
+              }
+            }
+            console.log(response);
+            // return response;
+            callback(err, response);
+          }
+        }
+      });
+      client.close();
+    });
+  });
+}
+PolicyWrapper.prototype.vehicleGenericCoverages = function(callback) {
+  MongoClient.connect(this.db_uri, function(err, client){
+    if(err){
+      throw err;
+    }else{
+      console.log('Successful database connection')
+    }
+    var db = client.db(db_name);
+    db.collection('aiData', function(err, collection) {
+      collection.find({}).project({'policies': 1}).toArray(function (err, docs){
+        if(err){
+          throw err;
+        }else{
+          for(var i = 0; i < docs.length; i++){
+            var coverages = docs[i].policies['1-PAC-1-200711458641'].vehicles.vehicleGenericCoverages;
+            for(var j =0; j < coverages.length; j++)
+            {
+            var response = 'Your covered in case of ' + coverages[j].label + '.' + 'With a limits deductible of ' + coverages[j].limitsDed;
+            }
+            console.log(response);
+            // return response;
+            callback(err, response);
+          }
+        }
+      });
+      client.close();
+    });
+  });
+}
+PolicyWrapper.prototype.getVinNumber = function(callback) {
+  MongoClient.connect(this.db_uri, function(err, client){
+    if(err){
+      throw err;
+    }else{
+      console.log('Successful database connection')
+    }
+    var db = client.db(db_name);
+    db.collection('aiData', function(err, collection) {
+      collection.find({}).project({'policies': 1}).toArray(function (err, docs){
+        if(err){
+          throw err;
+        }else{
+          for(var i = 0; i < docs.length; i++){
+            var vin = docs[i].policies['1-PAC-1-200711458641'].vehicles.vin;
+            var response = 'Your vin number on file is ' + vin;
+            console.log(response);
+            // return response;
+            callback(err, response);
+          }
+        }
+      });
+      client.close();
+    });
+  });
+}
+PolicyWrapper.prototype.lineOfBusiness = function(callback) {
+  MongoClient.connect(this.db_uri, function(err, client){
+    if(err){
+      throw err;
+    }else{
+      console.log('Successful database connection')
+    }
+    var db = client.db(db_name);
+    db.collection('aiData', function(err, collection) {
+      collection.find({}).project({'policies': 1}).toArray(function (err, docs){
+        if(err){
+          throw err;
+        }else{
+          for(var i = 0; i < docs.length; i++){
+            var business = docs[i].policies['1-PAC-1-200711458641'].lineOfBusiness;
+            var response = 'Your account currently shows your vehicle as a ' + lineOfBusiness +'.';
+            console.log(response);
+            // return response;
+            callback(err, response);
+          }
+        }
+      });
+      client.close();
+    });
+  });
+}
+PolicyWrapper.prototype.effectiveDate = function(callback) {
+  MongoClient.connect(this.db_uri, function(err, client){
+    if(err){
+      throw err;
+    }else{
+      console.log('Successful database connection')
+    }
+    var db = client.db(db_name);
+    db.collection('aiData', function(err, collection) {
+      collection.find({}).project({'policies': 1}).toArray(function (err, docs){
+        if(err){
+          throw err;
+        }else{
+          for(var i = 0; i < docs.length; i++){
+            var date = docs[i].policies['1-PAC-1-200711458641'].vehicles.effectiveDate;
+            var response = 'You have been insured since ' + date + '.';
+            console.log(response);
+            // return response;
+            callback(err, response);
+          }
+        }
+      });
+      client.close();
+    });
+  });
+}
+PolicyWrapper.prototype.easyPay = function(callback) {
+  MongoClient.connect(this.db_uri, function(err, client){
+    if(err){
+      throw err;
+    }else{
+      console.log('Successful database connection')
+    }
+    var db = client.db(db_name);
+    db.collection('aiData', function(err, collection) {
+      collection.find({}).project({'policies': 1}).toArray(function (err, docs){
+        if(err){
+          throw err;
+        }else{
+          for(var i = 0; i < docs.length; i++){
+            var ePay = docs[i].policies['1-PAC-1-200711458641'].vehicles.isEnrolledInEasyPay;
+            if(ePay == 'false')
+            {
+              var response = 'You are not enrolled in easy pay. Sign up here: https://webapp.ciginsurance.com/PolicyInquiry/Login/Login.aspx?ReturnUrl=%2fpolicyinquiry%2fpolicyholder%2fdefault.aspx';
+            }
+            else {
+              var response = 'You are already enrolled in easy pay. '
+            }
+            console.log(response);
+            // return response;
+            callback(err, response);
+          }
+        }
+      });
+      client.close();
+    });
+  });
+}
 //------------------------------------------------------------------------------
 
 //MESSAGES COLLECTION FUNCTIONS

@@ -796,7 +796,7 @@ PolicyWrapper.prototype.getVehicleDiscounts = function(callback) {
           throw err;
         }else{
           for(var i = 0; i < docs.length; i++){
-            var discount = docs[i].policies['1-PAC-1-200711458641'].vehicles.discounts;
+            var discount = docs[i].policies['1-PAC-1-200711458641'].vehicles[i].discounts;
             var response = "Your vehicle discount includes ";
             for(var j = 0; j < discount.length; j++)
             {
@@ -830,7 +830,7 @@ PolicyWrapper.prototype.vehicleGenericCoverages = function(callback) {
           throw err;
         }else{
           for(var i = 0; i < docs.length; i++){
-            var coverages = docs[i].policies['1-PAC-1-200711458641'].vehicles.vehicleGenericCoverages;
+            var coverages = docs[i].policies['1-PAC-1-200711458641'].vehicles[0].vehicleGenericCoverages;
             for(var j =0; j < coverages.length; j++)
             {
             var response = 'Your covered in case of ' + coverages[j].label + '.' + 'With a limits deductible of ' + coverages[j].limitsDed;
@@ -859,8 +859,19 @@ PolicyWrapper.prototype.getVinNumber = function(callback) {
           throw err;
         }else{
           for(var i = 0; i < docs.length; i++){
-            var vin = docs[i].policies['1-PAC-1-200711458641'].vehicles.vin;
-            var response = 'Your vin number on file is ' + vin;
+            var vin = docs[i].policies['1-PAC-1-200711458641'].vehicles;
+            var response = 'The vin numbers on file are ';
+            for(var j = 0; j < discount.length; j++)
+            {
+              if(j === vehicles.length - 1)
+              {
+                response += vehicles[j].vin + ". ";
+              }
+              else {
+                response += vehicles[j].vin + ", ";
+              }
+            }
+
             console.log(response);
             // return response;
             callback(err, response);
@@ -911,7 +922,7 @@ PolicyWrapper.prototype.effectiveDate = function(callback) {
           throw err;
         }else{
           for(var i = 0; i < docs.length; i++){
-            var date = docs[i].policies['1-PAC-1-200711458641'].vehicles.effectiveDate;
+            var date = docs[i].policies['1-PAC-1-200711458641'].vehicles[i].effectiveDate;
             var response = 'You have been insured since ' + date + '.';
             console.log(response);
             // return response;

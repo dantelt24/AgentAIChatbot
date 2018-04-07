@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/CSUMB-CST499-S18/AgentAIChatbot.git"
+    "url": "git+https://github.com/CSUMB-CST499-S18/AgentAIChatbot.git"
   },
   "keywords": [
     "\"chatbot\""
@@ -26,5 +26,9 @@
     "node-wit": "^5.0.0",
     "npm": "^5.8.0",
     "request": "^2.83.0"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/CSUMB-CST499-S18/AgentAIChatbot/issues"
+  },
+  "homepage": "https://github.com/CSUMB-CST499-S18/AgentAIChatbot#readme"
 }

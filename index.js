@@ -788,4 +788,32 @@ function processEntities(sender,entities, text){
     }
   }
 
+  else if(entities.hasOwnProperty('eastPayIntent')){
+    console.log('Easy pay Intent found ');
+    if(entities.agentIntent[0].confidence > .50){
+      console.log('High enough confidence to perform query.');
+      polWrapper.setCustomerIssue(customerIssueObject, function(err, result){
+        if(err){
+          throw err;
+        }else{
+          console.log('Set customer issue object');
+        }
+      });
+      polWrapper.easyPay(function(err, result){
+        if(err){
+          throw err;
+        }else{
+          console.log('Easy pay result ' + result);
+          Fiber(function() {
+            typingBubble(sender, text).catch(console.error);
+            sleep(1000);
+            fbMessage(sender, result).catch(console.error);
+            sleep(1000);
+            fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+          }).run();
+        }
+      });
+    }
+  }
+
 }

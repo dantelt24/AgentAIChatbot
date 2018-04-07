@@ -209,7 +209,7 @@ function processPostback(event) {
         name = bodyObj.first_name;
         greeting = "Hi " + name + ". ";
       }
-      var message = greeting + "My name is AgentAI. I can tell you various details regarding your CIG policies. What policy can I help you with today?";
+      var message = greeting + "My name is AgentAI. I can tell you various details regarding your CIG policies. What questions about your policy can I help you with today?";
       fbMessage(senderId, message).catch(console.error);
     });
   }
@@ -263,7 +263,7 @@ function processEntities(sender,entities, text){
     Fiber(function() {
       typingBubble(sender, text).catch(console.error);
       sleep(1000);
-      fbMessage(sender, 'We couldn\'t quite understand what you asked. Could please repeat the question you need help with.').catch(console.error);
+      fbMessage(sender, 'We couldn\'t quite understand what you asked. Could please rephrase the question you need help with.').catch(console.error);
       sleep(1000);
       // fbMessage(sender, 'This should be sent after the response.').catch(console.error);
     }).run();

@@ -922,7 +922,7 @@ PolicyWrapper.prototype.effectiveDate = function(callback) {
           throw err;
         }else{
           for(var i = 0; i < docs.length; i++){
-            var date = docs[i].policies['1-PAC-1-200711458641'].vehicles[i].effectiveDate;
+            var date = docs[i].policies['1-PAC-1-200711458641'].effectiveDate;
             var response = 'You have been insured since ' + date + '.';
             console.log(response);
             // return response;

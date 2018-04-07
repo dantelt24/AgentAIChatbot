@@ -971,11 +971,18 @@ PolicyWrapper.prototype.enhancedCoverages = function(callback) {
         }else{
           for(var i = 0; i < docs.length; i++){
             var eCoverages = docs[i].policies['1-PAC-1-200711458641'].enhancedCoverages;
-
-              var response = 'Your enhanced coverages are as follows: ' + eCoverages;
+            if(eCoverages == "")
+            {
+              var response = 'You do not have enhanced coverages ';
+              callback(err, response);
+            }
+            else {
+              var response = 'You have enhanced coverages. Dollar amount: ' + eCoverages;
+              callback(err, response);
+            }
             console.log(response);
             // return response;
-            callback(err, response);
+
           }
         }
       });

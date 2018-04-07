@@ -539,20 +539,28 @@ PolicyWrapper.prototype.getAutoDrivers = function(callback) {
       if(err){
         throw err;
       }else{
+        var response = 'The names of the drivers on this policy are ';
         for(var i = 0; i < docs.length; i++){
           var drivers = docs[i].policies['1-PAC-1-200711458641'].drivers;
-          var response = '';
-          if(drivers.length > 0){
-            response += 'The names of the drivers on this policy are ' + drivers[0].name;
-            for(var j = 1; j < drivers.length; j++) response += ', ' + drivers[j].name;
+          for(var j = 0; j < drivers.length; j++){
+            if(j === drivers.length-1){
+              response += drivers[j].name + '.';
+            }else{
+              response += drivers[j].name + ', ';
+            }
           }
-          else{
-            response += 'There are no drivers for your policy';
-          }
-          response += '.';
-          console.log(response);
-          // return response;
           callback(err, response);
+          // if(drivers.length > 0){
+          //   response += 'The names of the drivers on this policy are ' + drivers[0].name;
+          //   for(var j = 1; j < drivers.length; j++) response += ', ' + drivers[j].name;
+          // }
+          // else{
+          //   response += 'There are no drivers for your policy';
+          // }
+          // response += '.';
+          // console.log(response);
+          // // return response;
+          // callback(err, response);
           }
         }
       });
@@ -643,9 +651,9 @@ PolicyWrapper.prototype.getAutoCoverageTypes = function(callback) {
                 response += coverages[j].label + ', and the limit for this coverage is ' +coverages[j].limitsDed+ ', ';
               }
             }
-            console.log(response);
-            callback(err, response);
           }
+          console.log(response);
+          callback(err, response);
         }
       });
       client.close();
@@ -745,7 +753,36 @@ PolicyWrapper.prototype.getExpirationDate = function(callback) {
   });
 }
 
+//AutoPolicy Claims List
+PolicyWrapper.prototype.getAutoClaimsList = function(callback){
+  MongoClient.connect(this.db_uri, function(err,client){
+    if(err){
+      throw err;
+    }
+    var db = client.db(db_name);
+    db.collection('aiData', function(err, collection){
+      collection.find({}).project({'policies': 1}).toArray(function(err, docs){
+        if(err){
+          throw err;
+        }
+        var response = 'The list of claims and their statuses are ';
+        for(var i = 0; i < docs.length; i++){
+          var claimsList = docs[i].policies['1-PAC-1-200711458641'].claimsList;
+          for(var j = 0; j < claimsList.length; j++){
+            if(j === claimsList.length - 1){
+              response += 'claim number ' + claimsList[j].claimNumber + ' and the status of this claim is ' + claimsList[j].claimStatus + '.';
+            }else{
+              response += 'claim number ' + claimsList[j].claimNumber + ' and the status of this claim is ' + claimsList[j].claimStatus + ', ';
+            }
+          }
+        }
+        callback(err, response);
+      });
+    });
+  });
+}
 
+//------------------------------------------------------------------------------
 
 //MESSAGES COLLECTION FUNCTIONS
 

@@ -758,7 +758,7 @@ function processEntities(sender,entities, text){
         }
       });
     }
-
+  }
     else if(entities.hasOwnProperty('effectiveDateIntent')){
       console.log('Effective date intent found');
       if(entities.effectiveDateIntent[0].confidence > .50){
@@ -786,7 +786,6 @@ function processEntities(sender,entities, text){
         });
       }
     }
-  }
 
   else if(entities.hasOwnProperty('easyPayIntent')){
     console.log('Easy pay Intent found ');
@@ -843,5 +842,4 @@ function processEntities(sender,entities, text){
       });
     }
   }
-
 }

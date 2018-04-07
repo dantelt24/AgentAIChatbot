@@ -352,7 +352,7 @@ PolicyWrapper.prototype.getDwellingLimit = function(callback){
           for(var i = 0; i < docs.length; i++){
             var docObject = docs[i];
             var dwellingObject = docObject.policies['1-HOC-1-1394462794']['basic coverage'].basicCoverage.dwelling;
-            var response = 'The value of the dwelling on this policy is ' + dwellingObject.limit + '.';
+            var response = 'The value of the home on this policy is ' + dwellingObject.limit + '.';
             console.log(response);
             // return response;
             callback(err, response);

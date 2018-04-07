@@ -648,7 +648,7 @@ function processEntities(sender,entities, text){
     }
   }
   else if(entities.hasOwnProperty('vehicleDiscounts')){
-    console.log('Agent Intent and Home Intent found');
+    console.log('Vehicle discounts intent ');
     if(entities.agentIntent[0].confidence > .50){
       console.log('High enough confidence to perform query.');
       polWrapper.setCustomerIssue(customerIssueObject, function(err, result){
@@ -677,7 +677,7 @@ function processEntities(sender,entities, text){
 
 
   else if(entities.hasOwnProperty('vehicleGenericCoverages')){
-    console.log('Agent Intent and Home Intent found');
+    console.log('Vehicle generic coverages ');
     if(entities.agentIntent[0].confidence > .50){
       console.log('High enough confidence to perform query.');
       polWrapper.setCustomerIssue(customerIssueObject, function(err, result){
@@ -705,7 +705,7 @@ function processEntities(sender,entities, text){
   }
 
   else if(entities.hasOwnProperty('lineOfBusinessIntent')){
-    console.log('Agent Intent and Home Intent found');
+    console.log('Line of Business Intent ');
     if(entities.agentIntent[0].confidence > .50){
       console.log('High enough confidence to perform query.');
       polWrapper.setCustomerIssue(customerIssueObject, function(err, result){
@@ -733,7 +733,7 @@ function processEntities(sender,entities, text){
   }
 
   else if(entities.hasOwnProperty('vinNumIntent')){
-    console.log('Agent Intent and Home Intent found');
+    console.log('Vin number intent found ');
     if(entities.agentIntent[0].confidence > .50){
       console.log('High enough confidence to perform query.');
       polWrapper.setCustomerIssue(customerIssueObject, function(err, result){
@@ -760,7 +760,7 @@ function processEntities(sender,entities, text){
     }
 
     else if(entities.hasOwnProperty('effectiveDateIntent')){
-      console.log('Agent Intent and Home Intent found');
+      console.log('Effective date intent found');
       if(entities.agentIntent[0].confidence > .50){
         console.log('High enough confidence to perform query.');
         polWrapper.setCustomerIssue(customerIssueObject, function(err, result){

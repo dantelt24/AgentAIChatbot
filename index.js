@@ -842,4 +842,20 @@ function processEntities(sender,entities, text){
       });
     }
   }
+  else if (entities.hasOwnProperty('homeownersIntent') && entities.length === 1){
+    console.log('Customer is concerned with their home policy');
+    Fiber(function() {
+      typingBubble(sender, text).catch(console.error);
+      sleep(1000);
+      fbMessage(sender, 'What questions can I help you with concerning your homeowners policy?').catch(console.error);
+    }).run();
+  }
+  else if (entities.hasOwnProperty('autoIntent') && entities.length === 1){
+    console.log('Customer is concerned with their home policy');
+    Fiber(function() {
+      typingBubble(sender, text).catch(console.error);
+      sleep(1000);
+      fbMessage(sender, 'What questions can I help you with concerning your auto policy?').catch(console.error);
+    }).run();
+  }
 }

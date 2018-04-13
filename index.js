@@ -14,7 +14,12 @@ const polWrapper = new policyWrapper(process.env.MONGO_DB_URI);
 
 //global variables
 const fbConfirmationQuestion = 'Is there anything else I can help you with regarding your CIG policy(ies)?';
-
+const autoIntents = ["autoPolicyDiscountIntent", "getCarsIntent", "easyPayIntent", "numCarsIntent","lineOfBusinessIntent",
+"autoClaimIntent", "autoCoverageIntent", "vinNumIntent", "autoIntent", "vehicleDiscounts", "vehicleGenericCoverages","driverIntent", ];
+const homeIntents = ["lossOfUseIntent", "SpecialtyProgramsIntent", "dwellingIntent", "homeownersIntent", "personalLiabilityIntent",
+"homeMedicalCovIntent", "personalPropertyIntent", "OptionalCoveragesIntent", "basicPremiumIntent", "OtherStructuresIntent"];
+const bothTypeIntents = ["enhancedCoveragesIntent", "policyEndDateIntent", "policyDeductibleIntent", "totalPremiumIntent", "claimIntent"];
+console.log(autoIntents.length + homeIntents.length + bothTypeIntents.length);
 //environment variables
 // const uri = process.env.MONGO_DB_URI;
 const wit_token = process.env.WIT_TOKEN;

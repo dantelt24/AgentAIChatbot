@@ -1027,25 +1027,6 @@ PolicyWrapper.prototype.setCustomerIssue = function(senderInfo, callback){
   });
 }
 
-//InsertOne Test
-// PolicyWrapper.prototype.setCustomerIssue = function(senderInfo, callback){
-//   MongoClient.connect(this.db_uri, function(err, client){
-//     if(err){
-//       throw(err);
-//     }
-//     var db = client.db(db_name);
-//     db.collection('messages', function(err, collection){
-//       collection.insertOne({_id: senderInfo.id, issue: {text: senderInfo.issues.text, context: senderInfo.issues.intents, solveFlag: false}}, function(err, result){
-//         if(err){
-//           throw err;
-//         }
-//         console.log(result);
-//         callback(err, result);
-//       });
-//     });
-//   });
-// }
-
 PolicyWrapper.prototype.setIssueSolved = function(senderInfo, callback){
   MongoClient.connect(this.db_uri, function(err, client){
     if(err){
@@ -1081,6 +1062,27 @@ PolicyWrapper.prototype.deleteIssue = function(senderInfo, callback){
         console.log(result);
         callback(err, result);
       });
+    });
+  });
+}
+
+PolicyWrapper.prototype.policySetter = function(senderInfo, callback){
+  MongoClient.connect(this.db_uri, function(err, client){
+    if(err){
+      throw err;
+    }
+    var db = client.db(db_name);
+    db.collection('messages', function(err, collection){
+      collection.updateOne({_id: senderInfo.id},
+        {$set: {'issue.solveFlag': true}},
+        {upsert: true}, function(err, result){
+          if(err){
+            throw err;
+          }
+          console.log('Matched Count: ' + result.matchedCount);
+          console.log('Modified Count: ' + result.modifiedCount);
+          callback(err, result);
+        });
     });
   });
 }

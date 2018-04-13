@@ -18,7 +18,7 @@ const autoIntents = ["autoPolicyDiscountIntent", "getCarsIntent", "easyPayIntent
 "autoClaimIntent", "autoCoverageIntent", "vinNumIntent", "autoIntent", "vehicleDiscounts", "vehicleGenericCoverages","driverIntent", ];
 const homeIntents = ["lossOfUseIntent", "SpecialtyProgramsIntent", "dwellingIntent", "homeownersIntent", "personalLiabilityIntent",
 "homeMedicalCovIntent", "personalPropertyIntent", "OptionalCoveragesIntent", "basicPremiumIntent", "OtherStructuresIntent"];
-const bothTypeIntents = ["enhancedCoveragesIntent", "policyEndDateIntent", "policyDeductibleIntent", "totalPremiumIntent", "claimIntent"];
+const bothTypeIntents = ["enhancedCoveragesIntent", "policyEndDateIntent", "policyDeductibleIntent", "totalPremiumIntent", "claimIntent", "agentIntent"];
 console.log(autoIntents.length + homeIntents.length + bothTypeIntents.length);
 //environment variables
 // const uri = process.env.MONGO_DB_URI;

@@ -239,9 +239,18 @@ function processEntities(sender,entities, text){
   customerIssueObject.issues.text = text;
   customerIssueObject.issues.intents = keys.toString();
   if(!keys.includes('message_body')){ //Believed to have understand user intents
-    let found = keys.some(r => bothTypeIntents.includes(r));
-    console.log('found result: ' + found);
-    if(keys.length === 1 && key === 'endConvoIntent'){
+    // let found = keys.some(r => bothTypeIntents.includes(r)));
+    // console.log('found result: ' + found);
+    if(keys.some(r => bothTypeIntents.includes(r)) && !keys.some(r2 => homeIntents.includes(r2)) && !keys.some(r3 => autoIntents.includes(r3))) {
+    // found bothTypeIntents but no intents for the others so we need to get clarification
+    Fiber(function() {
+      typingBubble(sender, text).catch(console.error);
+      sleep(1000);
+      fbMessage(sender, fbPolicyQuestion).catch(console.error);
+      }).run();
+    }
+    //else got enough clarity to perform
+    else if(keys.length === 1 && key === 'endConvoIntent'){
       //okay to delete the issue
       fbMessage(sender, 'Glad we could help you with your questions today. Have a nice day.').catch(console.error);
       polWrapper.setIssueSolved(customerIssueObject, function(err, result){

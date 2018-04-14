@@ -240,7 +240,7 @@ function processEntities(sender,entities, text){
   customerIssueObject.issues.intents = keys.toString();
   if(!keys.includes('message_body')){ //Believed to have understand user intents
     let found = keys.some(r => bothTypeIntents.includes(r));
-    console.log(found);
+    console.log('found result: ' + found);
     if(keys.length === 1 && key === 'endConvoIntent'){
       //okay to delete the issue
       fbMessage(sender, 'Glad we could help you with your questions today. Have a nice day.').catch(console.error);

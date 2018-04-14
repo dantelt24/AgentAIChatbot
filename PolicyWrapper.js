@@ -1014,7 +1014,7 @@ PolicyWrapper.prototype.setCustomerIssue = function(senderInfo, callback){
     var db = client.db(db_name);
     db.collection('messages', function(err, collection){
       collection.updateOne({_id: senderInfo.id},
-        {$set: {_id: senderInfo.id, 'issue.text': senderInfo.issues.text, 'issue.context': senderInfo.issues.intents, 'issue.solveFlag': false}},
+        {$set: {_id: senderInfo.id, policyType: senderInfo.policyType, 'issue.text': senderInfo.issues.text, 'issue.context': senderInfo.issues.intents, 'issue.solveFlag': false}},
         {upsert: true}, function(err, result){
           if(err){
             throw err;
@@ -1066,7 +1066,7 @@ PolicyWrapper.prototype.deleteIssue = function(senderInfo, callback){
   });
 }
 
-PolicyWrapper.prototype.policySetter = function(senderInfo, callback){
+PolicyWrapper.prototype.policyTypeSetter = function(senderInfo, callback){
   MongoClient.connect(this.db_uri, function(err, client){
     if(err){
       throw err;
@@ -1074,7 +1074,7 @@ PolicyWrapper.prototype.policySetter = function(senderInfo, callback){
     var db = client.db(db_name);
     db.collection('messages', function(err, collection){
       collection.updateOne({_id: senderInfo.id},
-        {$set: {'issue.solveFlag': true}},
+        {$set: {policyType: senderInfo.policyType}},
         {upsert: true}, function(err, result){
           if(err){
             throw err;

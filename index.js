@@ -14,7 +14,7 @@ const polWrapper = new policyWrapper(process.env.MONGO_DB_URI);
 
 //global variables
 const fbConfirmationQuestion = 'Is there anything else I can help you with regarding your CIG policy(ies)?';
-const fbPolicyQuestion = '';
+const fbPolicyQuestion = 'Which policy (Home or Auto) would you like to know the answer to this question for';
 const autoIntents = ["autoPolicyDiscountIntent", "getCarsIntent", "easyPayIntent", "numCarsIntent","lineOfBusinessIntent",
 "autoClaimIntent", "autoCoverageIntent", "vinNumIntent", "autoIntent", "vehicleDiscounts", "vehicleGenericCoverages","driverIntent", ];
 const homeIntents = ["lossOfUseIntent", "SpecialtyProgramsIntent", "dwellingIntent", "homeownersIntent", "personalLiabilityIntent",
@@ -241,6 +241,7 @@ function processEntities(sender,entities, text){
   if(!keys.includes('message_body')){ //Believed to have understand user intents
     // let found = keys.some(r => bothTypeIntents.includes(r)));
     // console.log('found result: ' + found);
+    //Check for entity mapping(bothTypes-withNoIdentifier, bothTypes-withAnotherIdentifier, normalMapping )
     if(keys.some(r => bothTypeIntents.includes(r)) && !keys.some(r2 => homeIntents.includes(r2)) && !keys.some(r3 => autoIntents.includes(r3))) {
     // found bothTypeIntents but no intents for the others so we need to get clarification
     Fiber(function() {
@@ -249,7 +250,117 @@ function processEntities(sender,entities, text){
       fbMessage(sender, fbPolicyQuestion).catch(console.error);
       }).run();
     }
-    //else got enough clarity to perform
+    else if(keys.some(r => bothTypeIntents.includes(r)) && keys.some(r2 => homeIntents.includes(r2)) && !keys.some(r3 => autoIntents.includes(r3))) {
+      // found bothTypeIntents and home intent
+      if(entities.hasOwnProperty('agentIntent') && entities.hasOwnProperty('homeownersIntent')){
+        console.log('Agent Intent and Home Intent found');
+        if(entities.agentIntent[0].confidence > .75 && entities.homeownersIntent[0].confidence > .75){
+          console.log('High enough confidence to perform query.');
+          polWrapper.setCustomerIssue(customerIssueObject, function(err, result){
+            if(err){
+              throw err;
+            }else{
+              console.log('Set customer issue object');
+            }
+          });
+          polWrapper.getHomeOwnerAgent(function(err, result){
+            if(err){
+              throw err;
+            }else{
+              console.log('getHomeAgent Result is ' + result);
+              Fiber(function() {
+                typingBubble(sender, text).catch(console.error);
+                sleep(1000);
+                fbMessage(sender, result).catch(console.error);
+                sleep(1000);
+                fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+              }).run();
+            }
+          });
+        }
+      }
+      else if(entities.hasOwnProperty('policyEndDate') && enitities.hasOwnProperty('homeownersIntent')){
+        console.log('End date and home intent found');
+        if(entities.policyEndDate[0].confidence > .50 && entities.homeownersIntent[0].confidence > .50){
+          console.log('High Enough confidence to perform query');
+          polWrapper.setCustomerIssue(customerIssueObject, function(err, result){
+            if(err){
+              throw err;
+            }else{
+              console.log('Set customer issue object');
+            }
+          });
+          polWrapper.getHomePolicyEndDate(function(err, result){
+            if(err){
+              throw err;
+            }
+            Fiber(function() {
+              typingBubble(sender, text).catch(console.error);
+              sleep(1000);
+              fbMessage(sender, result).catch(console.error);
+              sleep(1000);
+              fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+            }).run();
+          });
+        }
+      }
+    }
+    else if(keys.some(r => bothTypeIntents.includes(r)) && keys.some(r2 => !homeIntents.includes(r2)) && keys.some(r3 => autoIntents.includes(r3))){
+      //found bothTypeIntents and autoIntents
+      if(entities.hasOwnProperty('agentIntent') && entities.hasOwnProperty('autoIntent')){
+        console.log('Agent Intent and Auto Intent found');
+        if(entities.agentIntent[0].confidence > .75 && entities.autoIntent[0].confidence > .75){
+          polWrapper.setCustomerIssue(customerIssueObject, function(err, result){
+            if(err){
+              throw err;
+            }else{
+              console.log('Set customer issue object');
+            }
+          });
+          console.log('High enough confidence to perform query.');
+          polWrapper.getAutoAgent(function(err, result){
+            if(err){
+              throw err;
+            }else{
+              console.log('getAutoAgent Result is ' + result);
+              Fiber(function() {
+                typingBubble(sender, text).catch(console.error);
+                sleep(1000);
+                fbMessage(sender, result).catch(console.error);
+                sleep(1000);
+                fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+              }).run();
+            }
+          });
+        }
+      }
+      else if(entities.hasOwnProperty('policyEndDate') && enitities.hasOwnProperty('autoIntent')){
+        console.log('End date and auto intent found');
+        if(entities.policyEndDate[0].confidence > .50 && entities.autoIntent[0].confidence > .50){
+          console.log('High Enough confidence to perform query');
+          polWrapper.setCustomerIssue(customerIssueObject, function(err, result){
+            if(err){
+              throw err;
+            }else{
+              console.log('Set customer issue object');
+            }
+          });
+          polWrapper.getExpirationDate(function(err, result){
+            if(err){
+              throw err;
+            }
+            Fiber(function() {
+              typingBubble(sender, text).catch(console.error);
+              sleep(1000);
+              fbMessage(sender, result).catch(console.error);
+              sleep(1000);
+              fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+            }).run();
+          });
+        }
+      }
+    }
+    //else got enough clarity to perform normalMapping
     else if(keys.length === 1 && key === 'endConvoIntent'){
       //okay to delete the issue
       fbMessage(sender, 'Glad we could help you with your questions today. Have a nice day.').catch(console.error);
@@ -282,110 +393,110 @@ function processEntities(sender,entities, text){
         fbMessage(sender, 'What else could I help you with today?').catch(console.error);
       }).run();
     }
-    else if(entities.hasOwnProperty('agentIntent') && entities.hasOwnProperty('autoIntent')){
-      console.log('Agent Intent and Auto Intent found');
-      if(entities.agentIntent[0].confidence > .75 && entities.autoIntent[0].confidence > .75){
-        polWrapper.setCustomerIssue(customerIssueObject, function(err, result){
-          if(err){
-            throw err;
-          }else{
-            console.log('Set customer issue object');
-          }
-        });
-        console.log('High enough confidence to perform query.');
-        polWrapper.getAutoAgent(function(err, result){
-          if(err){
-            throw err;
-          }else{
-            console.log('getAutoAgent Result is ' + result);
-            Fiber(function() {
-              typingBubble(sender, text).catch(console.error);
-              sleep(1000);
-              fbMessage(sender, result).catch(console.error);
-              sleep(1000);
-              fbMessage(sender, fbConfirmationQuestion).catch(console.error);
-            }).run();
-          }
-        });
-      }
-    }
-    else if(entities.hasOwnProperty('agentIntent') && entities.hasOwnProperty('homeownersIntent')){
-      console.log('Agent Intent and Home Intent found');
-      if(entities.agentIntent[0].confidence > .75 && entities.homeownersIntent[0].confidence > .75){
-        console.log('High enough confidence to perform query.');
-        polWrapper.setCustomerIssue(customerIssueObject, function(err, result){
-          if(err){
-            throw err;
-          }else{
-            console.log('Set customer issue object');
-          }
-        });
-        polWrapper.getHomeOwnerAgent(function(err, result){
-          if(err){
-            throw err;
-          }else{
-            console.log('getHomeAgent Result is ' + result);
-            Fiber(function() {
-              typingBubble(sender, text).catch(console.error);
-              sleep(1000);
-              fbMessage(sender, result).catch(console.error);
-              sleep(1000);
-              fbMessage(sender, fbConfirmationQuestion).catch(console.error);
-            }).run();
-          }
-        });
-      }
-    }
-    else if(entities.hasOwnProperty('policyEndDate') && enitities.hasOwnProperty('autoIntent')){
-      console.log('End date and auto intent found');
-      if(entities.policyEndDate[0].confidence > .50 && entities.autoIntent[0].confidence > .50){
-        console.log('High Enough confidence to perform query');
-        polWrapper.setCustomerIssue(customerIssueObject, function(err, result){
-          if(err){
-            throw err;
-          }else{
-            console.log('Set customer issue object');
-          }
-        });
-        polWrapper.getExpirationDate(function(err, result){
-          if(err){
-            throw err;
-          }
-          Fiber(function() {
-            typingBubble(sender, text).catch(console.error);
-            sleep(1000);
-            fbMessage(sender, result).catch(console.error);
-            sleep(1000);
-            fbMessage(sender, fbConfirmationQuestion).catch(console.error);
-          }).run();
-        });
-      }
-    }
-    else if(entities.hasOwnProperty('policyEndDate') && enitities.hasOwnProperty('homeownersIntent')){
-      console.log('End date and home intent found');
-      if(entities.policyEndDate[0].confidence > .50 && entities.homeownersIntent[0].confidence > .50){
-        console.log('High Enough confidence to perform query');
-        polWrapper.setCustomerIssue(customerIssueObject, function(err, result){
-          if(err){
-            throw err;
-          }else{
-            console.log('Set customer issue object');
-          }
-        });
-        polWrapper.getHomePolicyEndDate(function(err, result){
-          if(err){
-            throw err;
-          }
-          Fiber(function() {
-            typingBubble(sender, text).catch(console.error);
-            sleep(1000);
-            fbMessage(sender, result).catch(console.error);
-            sleep(1000);
-            fbMessage(sender, fbConfirmationQuestion).catch(console.error);
-          }).run();
-        });
-      }
-    }
+    // else if(entities.hasOwnProperty('agentIntent') && entities.hasOwnProperty('autoIntent')){
+    //   console.log('Agent Intent and Auto Intent found');
+    //   if(entities.agentIntent[0].confidence > .75 && entities.autoIntent[0].confidence > .75){
+    //     polWrapper.setCustomerIssue(customerIssueObject, function(err, result){
+    //       if(err){
+    //         throw err;
+    //       }else{
+    //         console.log('Set customer issue object');
+    //       }
+    //     });
+    //     console.log('High enough confidence to perform query.');
+    //     polWrapper.getAutoAgent(function(err, result){
+    //       if(err){
+    //         throw err;
+    //       }else{
+    //         console.log('getAutoAgent Result is ' + result);
+    //         Fiber(function() {
+    //           typingBubble(sender, text).catch(console.error);
+    //           sleep(1000);
+    //           fbMessage(sender, result).catch(console.error);
+    //           sleep(1000);
+    //           fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+    //         }).run();
+    //       }
+    //     });
+    //   }
+    // }
+    // else if(entities.hasOwnProperty('agentIntent') && entities.hasOwnProperty('homeownersIntent')){
+    //   console.log('Agent Intent and Home Intent found');
+    //   if(entities.agentIntent[0].confidence > .75 && entities.homeownersIntent[0].confidence > .75){
+    //     console.log('High enough confidence to perform query.');
+    //     polWrapper.setCustomerIssue(customerIssueObject, function(err, result){
+    //       if(err){
+    //         throw err;
+    //       }else{
+    //         console.log('Set customer issue object');
+    //       }
+    //     });
+    //     polWrapper.getHomeOwnerAgent(function(err, result){
+    //       if(err){
+    //         throw err;
+    //       }else{
+    //         console.log('getHomeAgent Result is ' + result);
+    //         Fiber(function() {
+    //           typingBubble(sender, text).catch(console.error);
+    //           sleep(1000);
+    //           fbMessage(sender, result).catch(console.error);
+    //           sleep(1000);
+    //           fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+    //         }).run();
+    //       }
+    //     });
+    //   }
+    // }
+    // else if(entities.hasOwnProperty('policyEndDate') && enitities.hasOwnProperty('autoIntent')){
+    //   console.log('End date and auto intent found');
+    //   if(entities.policyEndDate[0].confidence > .50 && entities.autoIntent[0].confidence > .50){
+    //     console.log('High Enough confidence to perform query');
+    //     polWrapper.setCustomerIssue(customerIssueObject, function(err, result){
+    //       if(err){
+    //         throw err;
+    //       }else{
+    //         console.log('Set customer issue object');
+    //       }
+    //     });
+    //     polWrapper.getExpirationDate(function(err, result){
+    //       if(err){
+    //         throw err;
+    //       }
+    //       Fiber(function() {
+    //         typingBubble(sender, text).catch(console.error);
+    //         sleep(1000);
+    //         fbMessage(sender, result).catch(console.error);
+    //         sleep(1000);
+    //         fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+    //       }).run();
+    //     });
+    //   }
+    // }
+    // else if(entities.hasOwnProperty('policyEndDate') && enitities.hasOwnProperty('homeownersIntent')){
+    //   console.log('End date and home intent found');
+    //   if(entities.policyEndDate[0].confidence > .50 && entities.homeownersIntent[0].confidence > .50){
+    //     console.log('High Enough confidence to perform query');
+    //     polWrapper.setCustomerIssue(customerIssueObject, function(err, result){
+    //       if(err){
+    //         throw err;
+    //       }else{
+    //         console.log('Set customer issue object');
+    //       }
+    //     });
+    //     polWrapper.getHomePolicyEndDate(function(err, result){
+    //       if(err){
+    //         throw err;
+    //       }
+    //       Fiber(function() {
+    //         typingBubble(sender, text).catch(console.error);
+    //         sleep(1000);
+    //         fbMessage(sender, result).catch(console.error);
+    //         sleep(1000);
+    //         fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+    //       }).run();
+    //     });
+    //   }
+    // }
     else if(entities.hasOwnProperty('lossOfUseIntent')){
       console.log('Loss of Use intent found');
       if(entities.lossOfUseIntent[0].confidence > .50){

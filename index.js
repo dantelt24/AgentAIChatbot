@@ -416,6 +416,28 @@ function processEntities(sender,entities, text){
                 throw err;
               }else{
                 console.log('Previous Result:' + result);
+                //"enhancedCoveragesIntent", "policyEndDateIntent", "policyDeductibleIntent", "totalPremiumIntent", "claimIntent", "agentIntent", "policyDiscountIntent"
+                if(result === 'policyDeductibleIntent'){
+
+                }
+                else if (result === 'effectiveDateIntent') {
+
+                }
+                else if (result === 'enhancedCoveragesIntent') {
+
+                }
+                else if (result === 'agentIntent') {
+
+                }
+                else if (result === 'policyEndDateIntent') {
+
+                }
+                else if (result === 'totalPremiumIntent') {
+
+                }
+                else if (result === 'claimIntent') {
+
+                }
               }
             });
           }
@@ -435,6 +457,37 @@ function processEntities(sender,entities, text){
           throw err;
         }else{
           console.log('Set home policy type');
+          if(result.matchedCount === 1 || result.upsertedCount === 1){
+            polWrapper.getPreviousIntent(customerIssueObject, function(err, result){
+              if(err){
+                throw err;
+              }else{
+                console.log('Previous Result:' + result);
+                //"enhancedCoveragesIntent", "policyEndDateIntent", "policyDeductibleIntent", "totalPremiumIntent", "claimIntent", "agentIntent", "policyDiscountIntent"
+                if(result === 'policyDeductibleIntent'){
+
+                }
+                else if (result === 'effectiveDateIntent') {
+
+                }
+                else if (result === 'enhancedCoveragesIntent') {
+
+                }
+                else if (result === 'agentIntent') {
+
+                }
+                else if (result === 'policyEndDateIntent') {
+
+                }
+                else if (result === 'totalPremiumIntent') {
+
+                }
+                else if (result === 'claimIntent') {
+
+                }
+              }
+            });
+          }
         }
       });
       // Fiber(function() {

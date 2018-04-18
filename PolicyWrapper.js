@@ -486,6 +486,41 @@ PolicyWrapper.prototype.getPersonalLiabilityInfo = function(callback){
     });
   });
 }
+//Homeowner Enhanced Coverages
+PolicyWrapper.prototype.homeOwnerEnhancedCoverages = function(callback) {
+  MongoClient.connect(this.db_uri, function(err, client){
+    if(err){
+      throw err;
+    }else{
+      console.log('Successful database connection')
+    }
+    var db = client.db(db_name);
+    db.collection('aiData', function(err, collection) {
+      collection.find({}).project({'policies': 1}).toArray(function (err, docs){
+        if(err){
+          throw err;
+        }else{
+          for(var i = 0; i < docs.length; i++){
+            var eCoverages = docs[i].policies['1-HOC-1-1394462794'].enhancedCoverages;
+            if(eCoverages == "")
+            {
+              var response = 'You do not have enhanced coverages ';
+              callback(err, response);
+            }
+            else {
+              var response = 'You have enhanced coverages. Dollar amount: ' + eCoverages;
+              callback(err, response);
+            }
+            console.log(response);
+            // return response;
+
+          }
+        }
+      });
+      client.close();
+    });
+  });
+}
 //------------------------------------------------------------------------------
 //AUTO Intents
 
@@ -967,7 +1002,7 @@ PolicyWrapper.prototype.easyPay = function(callback) {
   });
 }
 
-PolicyWrapper.prototype.enhancedCoverages = function(callback) {
+PolicyWrapper.prototype.autoEnhancedCoverages = function(callback) {
   MongoClient.connect(this.db_uri, function(err, client){
     if(err){
       throw err;

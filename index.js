@@ -235,6 +235,7 @@ function processEntities(sender,entities, text){
   var keys = Object.keys(entities), key = keys[0];
   customerIssueObject["issues"] = {};
   customerIssueObject.id = sender;
+  customerIssueObject.previous = "";
   customerIssueObject.policyType = "unknown";
   customerIssueObject.issues.text = text;
   customerIssueObject.issues.intents = keys.toString();
@@ -244,6 +245,14 @@ function processEntities(sender,entities, text){
     //Check for entity mapping(bothTypes-withNoIdentifier, bothTypes-withAnotherIdentifier, normalMapping )
     if(keys.some(r => bothTypeIntents.includes(r)) && !keys.some(r2 => homeIntents.includes(r2)) && !keys.some(r3 => autoIntents.includes(r3))) {
     // found bothTypeIntents but no intents for the others so we need to get clarification
+    customerIssueObject.previous = keys.toString();
+    polWrapper.setCustomerIssue(customerIssueObject, function(err, result){
+      if(err){
+        throw err;
+      }else{
+        console.log('Set customer issue object');
+      }
+    });
     Fiber(function() {
       typingBubble(sender, text).catch(console.error);
       sleep(1000);
@@ -392,6 +401,38 @@ function processEntities(sender,entities, text){
         sleep(1000);
         fbMessage(sender, 'What else could I help you with today?').catch(console.error);
       }).run();
+    }
+    else if(keys.length === 1 && key === 'autoIntent'){
+      //need to set autoPolicy as type
+      customerIssueObject.policyType = 'auto';
+      polWrapper.policyTypeSetter(customerIssueObject, function(err, result){
+        if(err){
+          throw err;
+        }else{
+          console.log('Set auto policy type');
+        }
+      });
+      // Fiber(function() {
+      //   typingBubble(sender, text).catch(console.error);
+      //   sleep(1000);
+      //   fbMessage(sender, 'What else could I help you with today?').catch(console.error);
+      // }).run();
+    }
+    else if(keys.length === 1 && key === 'homeownersIntent'){
+      //need to set homepolicy as type
+      customerIssueObject.policyType = 'home';
+      polWrapper.policyTypeSetter(customerIssueObject, function(err, result){
+        if(err){
+          throw err;
+        }else{
+          console.log('Set home policy type');
+        }
+      });
+      // Fiber(function() {
+      //   typingBubble(sender, text).catch(console.error);
+      //   sleep(1000);
+      //   fbMessage(sender, 'What else could I help you with today?').catch(console.error);
+      // }).run();
     }
     // else if(entities.hasOwnProperty('agentIntent') && entities.hasOwnProperty('autoIntent')){
     //   console.log('Agent Intent and Auto Intent found');
@@ -968,6 +1009,7 @@ function processEntities(sender,entities, text){
       }
     }
   }
+  //Believed to not have fully understood
   else if(keys.includes('message_body')){//Believed to not have fully understood
     console.log('Intents are not clear enough, need to ask for clarification.');
     Fiber(function() {

@@ -1014,7 +1014,7 @@ PolicyWrapper.prototype.setCustomerIssue = function(senderInfo, callback){
     var db = client.db(db_name);
     db.collection('messages', function(err, collection){
       collection.updateOne({_id: senderInfo.id},
-        {$set: {_id: senderInfo.id, policyType: senderInfo.policyType, 'issue.text': senderInfo.issues.text, 'issue.context': senderInfo.issues.intents, 'issue.solveFlag': false}},
+        {$set: {_id: senderInfo.id, prev: senderInfo.previous, policyType: senderInfo.policyType, 'issue.text': senderInfo.issues.text, 'issue.context': senderInfo.issues.intents, 'issue.solveFlag': false}},
         {upsert: true}, function(err, result){
           if(err){
             throw err;
@@ -1083,6 +1083,23 @@ PolicyWrapper.prototype.policyTypeSetter = function(senderInfo, callback){
           console.log('Modified Count: ' + result.modifiedCount);
           callback(err, result);
         });
+    });
+  });
+}
+
+PolicyWrapper.prototype.getPreviousMessage = function(senderInfo, callback){
+  MongoClient.connect(this.db_uri, function(err, client){
+    if(err){
+      throw err;
+    }
+    var db = client.db(db_name);
+    db.collection('messages', function(err,collection){
+      collection.find({_id: senderInfo.id}, function(err, result){
+        if(err){
+          throw(err);
+        }
+        console.log(result);
+      });
     });
   });
 }

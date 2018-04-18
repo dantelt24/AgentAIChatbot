@@ -1098,11 +1098,12 @@ PolicyWrapper.prototype.getPreviousMessage = function(senderInfo, callback){
         if(err){
           throw(err);
         }
-        var docObject = {};
         for(var i = 0; i < docs.length; i++){
-          docObject = docs[i];
+          var docObject = docs[i];
+          for(var property in docObject){
+            console.log(property + ' = ' + docObject[property]);
+          }
         }
-        console.log('docObject:' + JSON.stringify(docObject));
       });
     });
   });

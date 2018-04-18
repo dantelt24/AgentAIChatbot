@@ -410,6 +410,15 @@ function processEntities(sender,entities, text){
           throw err;
         }else{
           console.log('Set auto policy type');
+          if(result.matchedCount === 1 || result.upsertedCount === 1){
+            polWrapper.getPreviousMessage(customerIssueObject, function(err, result){
+              if(err){
+                throw err;
+              }else{
+                console.log('Previous Result:' + result);
+              }
+            });
+          }
         }
       });
       // Fiber(function() {
@@ -840,8 +849,6 @@ function processEntities(sender,entities, text){
         });
       }
     }
-
-
     else if(entities.hasOwnProperty('vehicleGenericCoverages')){
       console.log('Vehicle generic coverages ');
       if(entities.vehicleGenericCoverages[0].confidence > .50){

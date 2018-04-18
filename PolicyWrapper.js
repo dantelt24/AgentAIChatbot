@@ -611,17 +611,6 @@ PolicyWrapper.prototype.getAutoDrivers = function(callback) {
             }
           }
           callback(err, response);
-          // if(drivers.length > 0){
-          //   response += 'The names of the drivers on this policy are ' + drivers[0].name;
-          //   for(var j = 1; j < drivers.length; j++) response += ', ' + drivers[j].name;
-          // }
-          // else{
-          //   response += 'There are no drivers for your policy';
-          // }
-          // response += '.';
-          // console.log(response);
-          // // return response;
-          // callback(err, response);
           }
         }
       });
@@ -1166,6 +1155,27 @@ PolicyWrapper.prototype.getPreviousIntent = function(senderInfo, callback){
           callback(err, prevIntent);
         }
       });
+    });
+  });
+}
+
+PolicyWrapper.prototype.clearPreviousIntent = function(senderInfo, callback){
+  MongoClient.connect(this.db_uri, function(err, client){
+    if(err){
+      throw err;
+    }
+    var db = client.db(db_name);
+    db.collection('messages', function(err, collection){
+      collection.updateOne({_id: senderInfo.id},
+        {$set: {prev: ""}},
+        {upsert: true}, function(err, result){
+          if(err){
+            throw err;
+          }
+          console.log('Matched Count: ' + result.matchedCount);
+          console.log('Modified Count: ' + result.modifiedCount);
+          callback(err, result);
+        });
     });
   });
 }

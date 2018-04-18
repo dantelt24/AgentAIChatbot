@@ -428,6 +428,13 @@ function processEntities(sender,entities, text){
                         fbMessage(sender, result).catch(console.error);
                         sleep(1000);
                         fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+                        polWrapper.clearPreviousIntent(customerIssueObject, function(err, result){
+                          if(err){
+                            throw err;
+                          }
+                          if(result.matchedCount === 1 && result.modifiedCount === 1){
+                            console.log('Successful reset of prevIntent');
+                          }
                       }).run();
                     }
                   });
@@ -443,6 +450,13 @@ function processEntities(sender,entities, text){
                         fbMessage(sender, result).catch(console.error);
                         sleep(1000);
                         fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+                        polWrapper.clearPreviousIntent(customerIssueObject, function(err, result){
+                          if(err){
+                            throw err;
+                          }
+                          if(result.matchedCount === 1 && result.modifiedCount === 1){
+                            console.log('Successful reset of prevIntent');
+                          }
                       }).run();
                     }
                   });
@@ -459,6 +473,13 @@ function processEntities(sender,entities, text){
                         fbMessage(sender, result).catch(console.error);
                         sleep(1000);
                         fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+                        polWrapper.clearPreviousIntent(customerIssueObject, function(err, result){
+                          if(err){
+                            throw err;
+                          }
+                          if(result.matchedCount === 1 && result.modifiedCount === 1){
+                            console.log('Successful reset of prevIntent');
+                          }
                       }).run();
                     }
                   });
@@ -475,6 +496,13 @@ function processEntities(sender,entities, text){
                         fbMessage(sender, result).catch(console.error);
                         sleep(1000);
                         fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+                        polWrapper.clearPreviousIntent(customerIssueObject, function(err, result){
+                          if(err){
+                            throw err;
+                          }
+                          if(result.matchedCount === 1 && result.modifiedCount === 1){
+                            console.log('Successful reset of prevIntent');
+                          }
                       }).run();
                     }
                   });
@@ -490,6 +518,13 @@ function processEntities(sender,entities, text){
                         fbMessage(sender, result).catch(console.error);
                         sleep(1000);
                         fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+                        polWrapper.clearPreviousIntent(customerIssueObject, function(err, result){
+                          if(err){
+                            throw err;
+                          }
+                          if(result.matchedCount === 1 && result.modifiedCount === 1){
+                            console.log('Successful reset of prevIntent');
+                          }
                       }).run();
                     }
                   });
@@ -505,6 +540,13 @@ function processEntities(sender,entities, text){
                         fbMessage(sender, result).catch(console.error);
                         sleep(1000);
                         fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+                        polWrapper.clearPreviousIntent(customerIssueObject, function(err, result){
+                          if(err){
+                            throw err;
+                          }
+                          if(result.matchedCount === 1 && result.modifiedCount === 1){
+                            console.log('Successful reset of prevIntent');
+                          }
                       }).run();
                     }
                   });
@@ -520,6 +562,14 @@ function processEntities(sender,entities, text){
                         fbMessage(sender, 'If you need to file a claim you can do so through your agent. ' + result).catch(console.error);
                         sleep(1000);
                         fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+                        polWrapper.clearPreviousIntent(customerIssueObject, function(err, result){
+                          if(err){
+                            throw err;
+                          }
+                          if(result.matchedCount === 1 && result.modifiedCount === 1){
+                            console.log('Successful reset of prevIntent');
+                          }
+                        });
                       }).run();
                     }
                   });
@@ -556,6 +606,13 @@ function processEntities(sender,entities, text){
                         fbMessage(sender, result).catch(console.error);
                         sleep(1000);
                         fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+                        polWrapper.clearPreviousIntent(customerIssueObject, function(err, result){
+                          if(err){
+                            throw err;
+                          }
+                          if(result.matchedCount === 1 && result.modifiedCount === 1){
+                            console.log('Successful reset of prevIntent');
+                          }
                       }).run();
                     }
                   });
@@ -571,6 +628,13 @@ function processEntities(sender,entities, text){
                         fbMessage(sender, result).catch(console.error);
                         sleep(1000);
                         fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+                        polWrapper.clearPreviousIntent(customerIssueObject, function(err, result){
+                          if(err){
+                            throw err;
+                          }
+                          if(result.matchedCount === 1 && result.modifiedCount === 1){
+                            console.log('Successful reset of prevIntent');
+                          }
                       }).run();
                     }
                   });
@@ -586,6 +650,13 @@ function processEntities(sender,entities, text){
                         fbMessage(sender, result).catch(console.error);
                         sleep(1000);
                         fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+                        polWrapper.clearPreviousIntent(customerIssueObject, function(err, result){
+                          if(err){
+                            throw err;
+                          }
+                          if(result.matchedCount === 1 && result.modifiedCount === 1){
+                            console.log('Successful reset of prevIntent');
+                          }
                       }).run();
                     }
                   });
@@ -602,6 +673,13 @@ function processEntities(sender,entities, text){
                         fbMessage(sender, result).catch(console.error);
                         sleep(1000);
                         fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+                        polWrapper.clearPreviousIntent(customerIssueObject, function(err, result){
+                          if(err){
+                            throw err;
+                          }
+                          if(result.matchedCount === 1 && result.modifiedCount === 1){
+                            console.log('Successful reset of prevIntent');
+                          }
                       }).run();
                     }
                   });
@@ -617,6 +695,13 @@ function processEntities(sender,entities, text){
                         fbMessage(sender, result).catch(console.error);
                         sleep(1000);
                         fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+                        polWrapper.clearPreviousIntent(customerIssueObject, function(err, result){
+                          if(err){
+                            throw err;
+                          }
+                          if(result.matchedCount === 1 && result.modifiedCount === 1){
+                            console.log('Successful reset of prevIntent');
+                          }
                       }).run();
                     }
                   });
@@ -632,6 +717,13 @@ function processEntities(sender,entities, text){
                         fbMessage(sender, result).catch(console.error);
                         sleep(1000);
                         fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+                        polWrapper.clearPreviousIntent(customerIssueObject, function(err, result){
+                          if(err){
+                            throw err;
+                          }
+                          if(result.matchedCount === 1 && result.modifiedCount === 1){
+                            console.log('Successful reset of prevIntent');
+                          }
                       }).run();
                     }
                   });
@@ -647,6 +739,13 @@ function processEntities(sender,entities, text){
                         fbMessage(sender, 'If you need to file a claim you can do so through your agent. ' + result).catch(console.error);
                         sleep(1000);
                         fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+                        polWrapper.clearPreviousIntent(customerIssueObject, function(err, result){
+                          if(err){
+                            throw err;
+                          }
+                          if(result.matchedCount === 1 && result.modifiedCount === 1){
+                            console.log('Successful reset of prevIntent');
+                          }
                       }).run();
                     }
                   });

@@ -442,6 +442,7 @@ function processEntities(sender,entities, text){
                           if(result.matchedCount === 1 && result.modifiedCount === 1){
                             console.log('Successful reset of prevIntent');
                           }
+                        });
                       }).run();
                     }
                   });
@@ -464,6 +465,7 @@ function processEntities(sender,entities, text){
                           if(result.matchedCount === 1 && result.modifiedCount === 1){
                             console.log('Successful reset of prevIntent');
                           }
+                        });
                       }).run();
                     }
                   });
@@ -487,6 +489,7 @@ function processEntities(sender,entities, text){
                           if(result.matchedCount === 1 && result.modifiedCount === 1){
                             console.log('Successful reset of prevIntent');
                           }
+                        });
                       }).run();
                     }
                   });
@@ -510,6 +513,7 @@ function processEntities(sender,entities, text){
                           if(result.matchedCount === 1 && result.modifiedCount === 1){
                             console.log('Successful reset of prevIntent');
                           }
+                        });
                       }).run();
                     }
                   });
@@ -532,6 +536,7 @@ function processEntities(sender,entities, text){
                           if(result.matchedCount === 1 && result.modifiedCount === 1){
                             console.log('Successful reset of prevIntent');
                           }
+                        });
                       }).run();
                     }
                   });
@@ -554,6 +559,7 @@ function processEntities(sender,entities, text){
                           if(result.matchedCount === 1 && result.modifiedCount === 1){
                             console.log('Successful reset of prevIntent');
                           }
+                        });
                       }).run();
                     }
                   });
@@ -627,6 +633,7 @@ function processEntities(sender,entities, text){
                           if(result.matchedCount === 1 && result.modifiedCount === 1){
                             console.log('Successful reset of prevIntent');
                           }
+                        });
                       }).run();
                     }
                   });
@@ -649,6 +656,7 @@ function processEntities(sender,entities, text){
                           if(result.matchedCount === 1 && result.modifiedCount === 1){
                             console.log('Successful reset of prevIntent');
                           }
+                        });
                       }).run();
                     }
                   });
@@ -671,6 +679,7 @@ function processEntities(sender,entities, text){
                           if(result.matchedCount === 1 && result.modifiedCount === 1){
                             console.log('Successful reset of prevIntent');
                           }
+                        });
                       }).run();
                     }
                   });
@@ -694,6 +703,7 @@ function processEntities(sender,entities, text){
                           if(result.matchedCount === 1 && result.modifiedCount === 1){
                             console.log('Successful reset of prevIntent');
                           }
+                        });
                       }).run();
                     }
                   });
@@ -716,6 +726,7 @@ function processEntities(sender,entities, text){
                           if(result.matchedCount === 1 && result.modifiedCount === 1){
                             console.log('Successful reset of prevIntent');
                           }
+                        });
                       }).run();
                     }
                   });
@@ -738,6 +749,7 @@ function processEntities(sender,entities, text){
                           if(result.matchedCount === 1 && result.modifiedCount === 1){
                             console.log('Successful reset of prevIntent');
                           }
+                        });
                       }).run();
                     }
                   });
@@ -760,6 +772,7 @@ function processEntities(sender,entities, text){
                           if(result.matchedCount === 1 && result.modifiedCount === 1){
                             console.log('Successful reset of prevIntent');
                           }
+                        });
                       }).run();
                     }
                   });

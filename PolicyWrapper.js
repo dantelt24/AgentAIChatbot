@@ -1094,7 +1094,7 @@ PolicyWrapper.prototype.getPreviousMessage = function(senderInfo, callback){
     }
     var db = client.db(db_name);
     db.collection('messages', function(err,collection){
-      collection.find({_id: senderInfo.id}, function(err, doc){
+      collection.find({_id: senderInfo.id}).toArray(function(err, doc){
         if(err){
           throw(err);
         }

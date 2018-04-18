@@ -1099,6 +1099,8 @@ PolicyWrapper.prototype.getPreviousMessage = function(senderInfo, callback){
           throw(err);
         }
         console.log(docs);
+        var docObject = docs[0];
+        console.log('docObject' + docObject);
       });
     });
   });

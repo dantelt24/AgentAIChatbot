@@ -1102,7 +1102,7 @@ PolicyWrapper.prototype.getPreviousMessage = function(senderInfo, callback){
         for(var i = 0; i < docs.length; i++){
           docObject = docs[i];
         }
-        console.log('docObject:' + docObject);
+        console.log('docObject:' + JSON.stringify(docObject));
       });
     });
   });

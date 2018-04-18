@@ -1094,16 +1094,11 @@ PolicyWrapper.prototype.getPreviousMessage = function(senderInfo, callback){
     }
     var db = client.db(db_name);
     db.collection('messages', function(err,collection){
-      collection.find({_id: senderInfo.id}, function(err, docs){
+      collection.find({_id: senderInfo.id}).toArray(function(err, docs){
         if(err){
           throw(err);
         }
-        for(var i = 0; i < docs.length; i++){
-          var docObject = docs[i];
-          for(var property in docObject){
-            console.log(property + ' = ' + docObject[property]);
-          }
-        }
+        console.log(docs);
       });
     });
   });

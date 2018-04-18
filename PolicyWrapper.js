@@ -1087,7 +1087,7 @@ PolicyWrapper.prototype.policyTypeSetter = function(senderInfo, callback){
   });
 }
 
-PolicyWrapper.prototype.getPreviousMessage = function(senderInfo, callback){
+PolicyWrapper.prototype.getPreviousIntent = function(senderInfo, callback){
   MongoClient.connect(this.db_uri, function(err, client){
     if(err){
       throw err;
@@ -1099,8 +1099,10 @@ PolicyWrapper.prototype.getPreviousMessage = function(senderInfo, callback){
           throw(err);
         }
         console.log(docs);
-        var docObject = docs[0];
-        console.log('docObject' + docObject);
+        for(var i = 0; i < docs.length; i++){
+          var prevIntent = docs[i].previous;
+          callback(err, prevIntent);
+        }
       });
     });
   });

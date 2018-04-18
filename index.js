@@ -411,7 +411,7 @@ function processEntities(sender,entities, text){
         }else{
           console.log('Set auto policy type');
           if(result.matchedCount === 1 || result.upsertedCount === 1){
-            polWrapper.getPreviousMessage(customerIssueObject, function(err, result){
+            polWrapper.getPreviousIntent(customerIssueObject, function(err, result){
               if(err){
                 throw err;
               }else{

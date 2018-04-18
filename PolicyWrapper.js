@@ -1100,7 +1100,7 @@ PolicyWrapper.prototype.getPreviousIntent = function(senderInfo, callback){
         }
         console.log(docs);
         for(var i = 0; i < docs.length; i++){
-          var prevIntent = docs[i].previous;
+          var prevIntent = docs[i].prev;
           callback(err, prevIntent);
         }
       });

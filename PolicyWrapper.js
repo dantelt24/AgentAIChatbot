@@ -76,7 +76,7 @@ PolicyWrapper.prototype.getHomeOwnerAgent = function(callback){
   });
 }
 
-PolicyWrapper.prototype.getHomePolicyEndDate = function(callback) {
+PolicyWrapper.prototype.getHomePolicyExpirationDate = function(callback) {
   MongoClient.connect(this.db_uri, function(err, client){
     if(err){
       throw err;
@@ -521,6 +521,32 @@ PolicyWrapper.prototype.homeOwnerEnhancedCoverages = function(callback) {
     });
   });
 }
+PolicyWrapper.prototype.homeownerEffectiveDate = function(callback) {
+  MongoClient.connect(this.db_uri, function(err, client){
+    if(err){
+      throw err;
+    }else{
+      console.log('Successful database connection')
+    }
+    var db = client.db(db_name);
+    db.collection('aiData', function(err, collection) {
+      collection.find({}).project({'policies': 1}).toArray(function (err, docs){
+        if(err){
+          throw err;
+        }else{
+          for(var i = 0; i < docs.length; i++){
+            var date = docs[i].policies['1-HOC-1-1394462794'].effectiveDate;
+            var response = 'You have been insured since ' + date + '.';
+            console.log(response);
+            // return response;
+            callback(err, response);
+          }
+        }
+      });
+      client.close();
+    });
+  });
+}
 //------------------------------------------------------------------------------
 //AUTO Intents
 
@@ -761,7 +787,7 @@ PolicyWrapper.prototype.getNumberOfCars = function(callback) {
 
 
 //AutoPolicy Expiration date
-PolicyWrapper.prototype.getExpirationDate = function(callback) {
+PolicyWrapper.prototype.autoPolicyExpirationDate = function(callback) {
   MongoClient.connect(this.db_uri, function(err, client){
     if(err){
       throw err;
@@ -776,7 +802,7 @@ PolicyWrapper.prototype.getExpirationDate = function(callback) {
         }else{
           for(var i  = 0; i < docs.length; i++){
             var expirationDate = docs[i].policies['1-PAC-1-200711458641'].expirationDate;
-            var response = 'Your policy is valid until ' + expirationDate + '.'
+            var response = 'Your auto policy is valid until ' + expirationDate + '.'
             console.log(response);
             // return response;
             callback(err, response);
@@ -864,11 +890,12 @@ PolicyWrapper.prototype.vehicleGenericCoverages = function(callback) {
         if(err){
           throw err;
         }else{
+          var response = '';
           for(var i = 0; i < docs.length; i++){
             var coverages = docs[i].policies['1-PAC-1-200711458641'].vehicles[0].vehicleGenericCoverages;
             for(var j =0; j < coverages.length; j++)
             {
-            var response = 'Your covered in case of ' + coverages[j].label + '.' + 'With a limits deductible of ' + coverages[j].limitsDed;
+            response += 'Your covered in case of ' + coverages[j].label + '.' + 'With a deductible of ' + coverages[j].limitsDed;
             }
             console.log(response);
             // return response;
@@ -943,7 +970,7 @@ PolicyWrapper.prototype.lineOfBusiness = function(callback) {
     });
   });
 }
-PolicyWrapper.prototype.effectiveDate = function(callback) {
+PolicyWrapper.prototype.autoEffectiveDate = function(callback) {
   MongoClient.connect(this.db_uri, function(err, client){
     if(err){
       throw err;

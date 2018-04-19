@@ -76,7 +76,7 @@ PolicyWrapper.prototype.getHomeOwnerAgent = function(callback){
   });
 }
 
-PolicyWrapper.prototype.getHomePolicyEndDate = function(callback) {
+PolicyWrapper.prototype.getHomePolicyExpirationDate = function(callback) {
   MongoClient.connect(this.db_uri, function(err, client){
     if(err){
       throw err;
@@ -486,6 +486,67 @@ PolicyWrapper.prototype.getPersonalLiabilityInfo = function(callback){
     });
   });
 }
+//Homeowner Enhanced Coverages
+PolicyWrapper.prototype.homeOwnerEnhancedCoverages = function(callback) {
+  MongoClient.connect(this.db_uri, function(err, client){
+    if(err){
+      throw err;
+    }else{
+      console.log('Successful database connection')
+    }
+    var db = client.db(db_name);
+    db.collection('aiData', function(err, collection) {
+      collection.find({}).project({'policies': 1}).toArray(function (err, docs){
+        if(err){
+          throw err;
+        }else{
+          for(var i = 0; i < docs.length; i++){
+            var eCoverages = docs[i].policies['1-HOC-1-1394462794'].enhancedCoverages;
+            if(eCoverages == "")
+            {
+              var response = 'You do not have enhanced coverages ';
+              callback(err, response);
+            }
+            else {
+              var response = 'You have enhanced coverages. Dollar amount: ' + eCoverages;
+              callback(err, response);
+            }
+            console.log(response);
+            // return response;
+
+          }
+        }
+      });
+      client.close();
+    });
+  });
+}
+PolicyWrapper.prototype.homeownerEffectiveDate = function(callback) {
+  MongoClient.connect(this.db_uri, function(err, client){
+    if(err){
+      throw err;
+    }else{
+      console.log('Successful database connection')
+    }
+    var db = client.db(db_name);
+    db.collection('aiData', function(err, collection) {
+      collection.find({}).project({'policies': 1}).toArray(function (err, docs){
+        if(err){
+          throw err;
+        }else{
+          for(var i = 0; i < docs.length; i++){
+            var date = docs[i].policies['1-HOC-1-1394462794'].effectiveDate;
+            var response = 'You have been insured since ' + date + '.';
+            console.log(response);
+            // return response;
+            callback(err, response);
+          }
+        }
+      });
+      client.close();
+    });
+  });
+}
 //------------------------------------------------------------------------------
 //AUTO Intents
 
@@ -550,17 +611,6 @@ PolicyWrapper.prototype.getAutoDrivers = function(callback) {
             }
           }
           callback(err, response);
-          // if(drivers.length > 0){
-          //   response += 'The names of the drivers on this policy are ' + drivers[0].name;
-          //   for(var j = 1; j < drivers.length; j++) response += ', ' + drivers[j].name;
-          // }
-          // else{
-          //   response += 'There are no drivers for your policy';
-          // }
-          // response += '.';
-          // console.log(response);
-          // // return response;
-          // callback(err, response);
           }
         }
       });
@@ -726,7 +776,7 @@ PolicyWrapper.prototype.getNumberOfCars = function(callback) {
 
 
 //AutoPolicy Expiration date
-PolicyWrapper.prototype.getExpirationDate = function(callback) {
+PolicyWrapper.prototype.autoPolicyExpirationDate = function(callback) {
   MongoClient.connect(this.db_uri, function(err, client){
     if(err){
       throw err;
@@ -741,7 +791,7 @@ PolicyWrapper.prototype.getExpirationDate = function(callback) {
         }else{
           for(var i  = 0; i < docs.length; i++){
             var expirationDate = docs[i].policies['1-PAC-1-200711458641'].expirationDate;
-            var response = 'Your policy is valid until ' + expirationDate + '.'
+            var response = 'Your auto policy is valid until ' + expirationDate + '.'
             console.log(response);
             // return response;
             callback(err, response);
@@ -829,11 +879,12 @@ PolicyWrapper.prototype.vehicleGenericCoverages = function(callback) {
         if(err){
           throw err;
         }else{
+          var response = '';
           for(var i = 0; i < docs.length; i++){
             var coverages = docs[i].policies['1-PAC-1-200711458641'].vehicles[0].vehicleGenericCoverages;
             for(var j =0; j < coverages.length; j++)
             {
-            var response = 'Your covered in case of ' + coverages[j].label + '.' + 'With a limits deductible of ' + coverages[j].limitsDed;
+            response += 'Your covered in case of ' + coverages[j].label + '.' + 'With a deductible of ' + coverages[j].limitsDed;
             }
             console.log(response);
             // return response;
@@ -908,7 +959,7 @@ PolicyWrapper.prototype.lineOfBusiness = function(callback) {
     });
   });
 }
-PolicyWrapper.prototype.effectiveDate = function(callback) {
+PolicyWrapper.prototype.autoEffectiveDate = function(callback) {
   MongoClient.connect(this.db_uri, function(err, client){
     if(err){
       throw err;
@@ -967,7 +1018,7 @@ PolicyWrapper.prototype.easyPay = function(callback) {
   });
 }
 
-PolicyWrapper.prototype.enhancedCoverages = function(callback) {
+PolicyWrapper.prototype.autoEnhancedCoverages = function(callback) {
   MongoClient.connect(this.db_uri, function(err, client){
     if(err){
       throw err;
@@ -1014,7 +1065,7 @@ PolicyWrapper.prototype.setCustomerIssue = function(senderInfo, callback){
     var db = client.db(db_name);
     db.collection('messages', function(err, collection){
       collection.updateOne({_id: senderInfo.id},
-        {$set: {_id: senderInfo.id, 'issue.text': senderInfo.issues.text, 'issue.context': senderInfo.issues.intents, 'issue.solveFlag': false}},
+        {$set: {_id: senderInfo.id, prev: senderInfo.previous, policyType: senderInfo.policyType, 'issue.text': senderInfo.issues.text, 'issue.context': senderInfo.issues.intents, 'issue.solveFlag': false}},
         {upsert: true}, function(err, result){
           if(err){
             throw err;
@@ -1026,25 +1077,6 @@ PolicyWrapper.prototype.setCustomerIssue = function(senderInfo, callback){
     });
   });
 }
-
-//InsertOne Test
-// PolicyWrapper.prototype.setCustomerIssue = function(senderInfo, callback){
-//   MongoClient.connect(this.db_uri, function(err, client){
-//     if(err){
-//       throw(err);
-//     }
-//     var db = client.db(db_name);
-//     db.collection('messages', function(err, collection){
-//       collection.insertOne({_id: senderInfo.id, issue: {text: senderInfo.issues.text, context: senderInfo.issues.intents, solveFlag: false}}, function(err, result){
-//         if(err){
-//           throw err;
-//         }
-//         console.log(result);
-//         callback(err, result);
-//       });
-//     });
-//   });
-// }
 
 PolicyWrapper.prototype.setIssueSolved = function(senderInfo, callback){
   MongoClient.connect(this.db_uri, function(err, client){
@@ -1081,6 +1113,69 @@ PolicyWrapper.prototype.deleteIssue = function(senderInfo, callback){
         console.log(result);
         callback(err, result);
       });
+    });
+  });
+}
+
+PolicyWrapper.prototype.policyTypeSetter = function(senderInfo, callback){
+  MongoClient.connect(this.db_uri, function(err, client){
+    if(err){
+      throw err;
+    }
+    var db = client.db(db_name);
+    db.collection('messages', function(err, collection){
+      collection.updateOne({_id: senderInfo.id},
+        {$set: {policyType: senderInfo.policyType}},
+        {upsert: true}, function(err, result){
+          if(err){
+            throw err;
+          }
+          console.log('Matched Count: ' + result.matchedCount);
+          console.log('Modified Count: ' + result.modifiedCount);
+          callback(err, result);
+        });
+    });
+  });
+}
+
+PolicyWrapper.prototype.getPreviousIntent = function(senderInfo, callback){
+  MongoClient.connect(this.db_uri, function(err, client){
+    if(err){
+      throw err;
+    }
+    var db = client.db(db_name);
+    db.collection('messages', function(err,collection){
+      collection.find({_id: senderInfo.id}).toArray(function(err, docs){
+        if(err){
+          throw(err);
+        }
+        console.log(docs);
+        for(var i = 0; i < docs.length; i++){
+          var prevIntent = docs[i].prev;
+          callback(err, prevIntent);
+        }
+      });
+    });
+  });
+}
+
+PolicyWrapper.prototype.clearPreviousIntent = function(senderInfo, callback){
+  MongoClient.connect(this.db_uri, function(err, client){
+    if(err){
+      throw err;
+    }
+    var db = client.db(db_name);
+    db.collection('messages', function(err, collection){
+      collection.updateOne({_id: senderInfo.id},
+        {$set: {prev: ""}},
+        {upsert: true}, function(err, result){
+          if(err){
+            throw err;
+          }
+          console.log('Matched Count: ' + result.matchedCount);
+          console.log('Modified Count: ' + result.modifiedCount);
+          callback(err, result);
+        });
     });
   });
 }

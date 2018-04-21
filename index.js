@@ -684,7 +684,20 @@ function processEntities(sender,entities, text){
             });
         }
         else if(result === 1){ //User exists
-
+          polWrapper.getPolicyType(customerIssueObject, function(err, result){
+            if(err){
+              throw err;
+            }else{
+              if(result === 'unknown' || result === "" || result === null){
+                console.log('Unknown policy type');
+                Fiber(function() {
+                  typingBubble(sender, text).catch(console.error);
+                  sleep(1000);
+                  fbMessage(sender, fbPolicyQuestion).catch(console.error);
+                  }).run();
+                }
+              }
+          });
         }
       }
     });

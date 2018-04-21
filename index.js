@@ -656,6 +656,9 @@ function processEntities(sender,entities, text){
         throw err;
       }else{
         console.log('CheckUserInDB:' + result);
+        if(result === 0){
+
+        }
       }
     });
 

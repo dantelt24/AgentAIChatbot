@@ -508,7 +508,7 @@ function processEntities(sender,entities, text){
               console.log('Set customer issue object');
             }
           });
-          polWrapper.getAutPolicyDeductible(function(err, result){
+          polWrapper.vehicleGenericCoverages(function(err, result){
             if(err){
               throw err;
             }

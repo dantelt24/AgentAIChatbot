@@ -1221,4 +1221,23 @@ PolicyWrapper.prototype.clearPolicyType = function(senderInfo, callback){
     });
   });
 }
+
+PolicyWrapper.prototype.checkUserInDB = function(senderInfo, callback){
+  MongoClient.connect(this.db_uri, function(err, client){
+    if(err){
+      throw err;
+    }
+    var db = client.db(db_name);
+    db.collection('messages', function(err, collection){
+      collection.count({id: senderInfo.id}, function(err, result){
+        if(err){
+          throw err;
+        }else{
+          console.log(result);
+          callback(err, result);
+        }
+      });
+    });
+  });
+}
 module.exports = PolicyWrapper;

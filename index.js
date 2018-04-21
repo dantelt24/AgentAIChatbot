@@ -243,6 +243,7 @@ function processEntities(sender,entities, text){
     // let found = keys.some(r => bothTypeIntents.includes(r)));
     // console.log('found result: ' + found);
     //Check for entity mapping(bothTypes-withNoIdentifier, bothTypes-withAnotherIdentifier, normalMapping )
+    //entities that are dual and home
     if(keys.some(r => bothTypeIntents.includes(r)) && keys.some(r2 => homeIntents.includes(r2)) && !keys.some(r3 => autoIntents.includes(r3))) {
       // found bothTypeIntents and home intent
       if(entities.hasOwnProperty('agentIntent') && entities.hasOwnProperty('homeownersIntent')){
@@ -444,6 +445,7 @@ function processEntities(sender,entities, text){
         }
       }
     }
+    //entities that are dual and auto
     else if(keys.some(r => bothTypeIntents.includes(r)) && !keys.some(r2 => homeIntents.includes(r2)) && keys.some(r3 => autoIntents.includes(r3))){
       //found bothTypeIntents and autoIntents
       if(entities.hasOwnProperty('agentIntent') && entities.hasOwnProperty('autoIntent')){
@@ -645,39 +647,49 @@ function processEntities(sender,entities, text){
         }
       }
     }
+    //entities that are dual
     else if(keys.some(r => bothTypeIntents.includes(r)) && !keys.some(r2 => homeIntents.includes(r2)) && !keys.some(r3 => autoIntents.includes(r3))) {
     // found bothTypeIntents but no intents for the others so we need to get clarification
     // customerIssueObject.policyType = 'dual';
-    customerIssueObject.previous = keys.toString();
-    polWrapper.setCustomerIssue(customerIssueObject, function(err, result){
+    polWrapper.checkUserInDB(customerIssueObject, function(err, result){
       if(err){
         throw err;
       }else{
-        console.log('Set customer issue object');
-        //Perform relevant check to see if policy type is known, if its known perform query based on policy type, if not known ask the policy question
-        if(result.matchedCount === 1 || result.upsertedCount === 1){
-          polWrapper.getPolicyType(customerIssueObject, function(err, result){
-            if(err){
-              throw err;
-            }else{
-              if(result === 'unknown'){
-                Fiber(function() {
-                  typingBubble(sender, text).catch(console.error);
-                  sleep(1000);
-                  fbMessage(sender, fbPolicyQuestion).catch(console.error);
-                  }).run();
-                }
-                else if (result === 'home') { //perform relevant home query
+        console.log('CheckUserInDB:' + result);
+      }
+    });
 
-                }
-                else if (result === 'auto') {//perform relevant auto query
-
-                }
-              }
-            });
-          }
-        }
-      });
+    // customerIssueObject.previous = keys.toString();
+    // polWrapper.setCustomerIssue(customerIssueObject, function(err, result){
+    //   if(err){
+    //     throw err;
+    //   }else{
+    //     console.log('Set customer issue object');
+    //     //Perform relevant check to see if policy type is known, if its known perform query based on policy type, if not known ask the policy question
+    //     if(result.matchedCount === 1 || result.upsertedCount === 1){
+    //       polWrapper.getPolicyType(customerIssueObject, function(err, result){
+    //         if(err){
+    //           throw err;
+    //         }else{
+    //           if(result === 'unknown' || result === "" || result === null){
+    //             console.log('Unknown policy type');
+    //             Fiber(function() {
+    //               typingBubble(sender, text).catch(console.error);
+    //               sleep(1000);
+    //               fbMessage(sender, fbPolicyQuestion).catch(console.error);
+    //               }).run();
+    //             }
+    //             else if (result === 'home') { //perform relevant home query
+    //
+    //             }
+    //             else if (result === 'auto') {//perform relevant auto query
+    //
+    //             }
+    //           }
+    //         });
+    //       }
+    //     }
+    //   });
     }
     //else got enough clarity to perform normalMapping
     else if(keys.length === 1 && key === 'endConvoIntent'){
@@ -1293,31 +1305,6 @@ function processEntities(sender,entities, text){
         });
       }
     }
-    // else if(entities.hasOwnProperty('policyDeductibleIntent')){//Dual Intent
-    //   console.log('Policy Deductible Intent found');
-    //   if(entities.policyDeductibleIntent[0].confidence > .50){
-    //     console.log('High enough confidence to perform query');
-    //     polWrapper.setCustomerIssue(customerIssueObject, function(err, result){
-    //       if(err){
-    //         throw err;
-    //       }else{
-    //         console.log('Set customer issue object');
-    //       }
-    //     });
-    //     polWrapper.getHomePolicyDeductible(function(err, result){
-    //       if(err){
-    //         throw err;
-    //       }
-    //       Fiber(function() {
-    //         typingBubble(sender, text).catch(console.error);
-    //         sleep(1000);
-    //         fbMessage(sender, result).catch(console.error);
-    //         sleep(1000);
-    //         fbMessage(sender, fbConfirmationQuestion).catch(console.error);
-    //       }).run();
-    //     });
-    //   }
-    // }
     else if(entities.hasOwnProperty('driverIntent')){
       console.log('Driver Intent found');
       if(entities.driverIntent[0].confidence > .50){
@@ -1477,33 +1464,6 @@ function processEntities(sender,entities, text){
         });
       }
     }
-    // else if(entities.hasOwnProperty('effectiveDateIntent')){ Dual Intent
-    //   console.log('Effective date intent found');
-    //   if(entities.effectiveDateIntent[0].confidence > .50){
-    //     console.log('High enough confidence to perform query.');
-    //     polWrapper.setCustomerIssue(customerIssueObject, function(err, result){
-    //       if(err){
-    //         throw err;
-    //       }else{
-    //         console.log('Set customer issue object');
-    //       }
-    //     });
-    //     polWrapper.effectiveDate(function(err, result){
-    //       if(err){
-    //         throw err;
-    //       }else{
-    //         console.log('Effective date ' + result);
-    //         Fiber(function() {
-    //           typingBubble(sender, text).catch(console.error);
-    //           sleep(1000);
-    //           fbMessage(sender, result).catch(console.error);
-    //           sleep(1000);
-    //           fbMessage(sender, fbConfirmationQuestion).catch(console.error);
-    //         }).run();
-    //       }
-    //     });
-    //   }
-    // }
     else if(entities.hasOwnProperty('easyPayIntent')){
       console.log('Easy pay Intent found ');
       if(entities.easyPayIntent[0].confidence > .50){

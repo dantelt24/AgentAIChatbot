@@ -701,38 +701,37 @@ function processEntities(sender,entities, text){
         }
       }
     });
-
-    customerIssueObject.previous = keys.toString();
-    polWrapper.setCustomerIssue(customerIssueObject, function(err, result){
-      if(err){
-        throw err;
-      }else{
-        console.log('Set customer issue object');
-        //Perform relevant check to see if policy type is known, if its known perform query based on policy type, if not known ask the policy question
-        if(result.matchedCount === 1 || result.upsertedCount === 1){
-          polWrapper.getPolicyType(customerIssueObject, function(err, result){
-            if(err){
-              throw err;
-            }else{
-              if(result === 'unknown' || result === "" || result === null){
-                console.log('Unknown policy type');
-                Fiber(function() {
-                  typingBubble(sender, text).catch(console.error);
-                  sleep(1000);
-                  fbMessage(sender, fbPolicyQuestion).catch(console.error);
-                  }).run();
-                }
-                else if (result === 'home') { //perform relevant home query
-
-                }
-                else if (result === 'auto') {//perform relevant auto query
-
-                }
-              }
-            });
-          }
-        }
-      });
+    // customerIssueObject.previous = keys.toString();
+    // polWrapper.setCustomerIssue(customerIssueObject, function(err, result){
+    //   if(err){
+    //     throw err;
+    //   }else{
+    //     console.log('Set customer issue object');
+    //     //Perform relevant check to see if policy type is known, if its known perform query based on policy type, if not known ask the policy question
+    //     if(result.matchedCount === 1 || result.upsertedCount === 1){
+    //       polWrapper.getPolicyType(customerIssueObject, function(err, result){
+    //         if(err){
+    //           throw err;
+    //         }else{
+    //           if(result === 'unknown' || result === "" || result === null){
+    //             console.log('Unknown policy type');
+    //             Fiber(function() {
+    //               typingBubble(sender, text).catch(console.error);
+    //               sleep(1000);
+    //               fbMessage(sender, fbPolicyQuestion).catch(console.error);
+    //               }).run();
+    //             }
+    //             else if (result === 'home') { //perform relevant home query
+    //
+    //             }
+    //             else if (result === 'auto') {//perform relevant auto query
+    //
+    //             }
+    //           }
+    //         });
+    //       }
+    //     }
+    //   });
     }
     //else got enough clarity to perform normalMapping
     else if(keys.length === 1 && key === 'endConvoIntent'){

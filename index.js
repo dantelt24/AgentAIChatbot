@@ -369,6 +369,30 @@ function processEntities(sender,entities, text){
           });
         }
       }
+      else if(entities.hasOwnProperty('totalPremiumIntent') && entities.hasOwnProperty('homeownersIntent')){
+        console.log('Total Premium and Home Intent found');
+        if(entities.totalPremiumIntent[0].confidence > .50 && entities.homeownersIntent[0].confidence > .50){
+          polWrapper.setCustomerIssue(customerIssueObject, function(err, result){
+            if(err){
+              throw err;
+            }else{
+              console.log('Set customer issue object');
+            }
+          });
+          polWrapper.getHomeTotalPremium(function(err, result){
+            if(err){
+              throw err;
+            }
+            Fiber(function() {
+              typingBubble(sender, text).catch(console.error);
+              sleep(1000);
+              fbMessage(sender, result).catch(console.error);
+              sleep(1000);
+              fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+            }).run();
+          });
+        }
+      }
     }
     else if(keys.some(r => bothTypeIntents.includes(r)) && !keys.some(r2 => homeIntents.includes(r2)) && keys.some(r3 => autoIntents.includes(r3))){
       //found bothTypeIntents and autoIntents
@@ -483,6 +507,30 @@ function processEntities(sender,entities, text){
             }
           });
           polWrapper.autoEffectiveDate(function(err, result){
+            if(err){
+              throw err;
+            }
+            Fiber(function() {
+              typingBubble(sender, text).catch(console.error);
+              sleep(1000);
+              fbMessage(sender, result).catch(console.error);
+              sleep(1000);
+              fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+            }).run();
+          });
+        }
+      }
+      else if(entities.hasOwnProperty('totalPremiumIntent') && entities.hasOwnProperty('autoIntent')){
+        console.log('Total Premium and Home Intent found');
+        if(entities.totalPremiumIntent[0].confidence > .50 && entities.autoIntent[0].confidence > .50){
+          polWrapper.setCustomerIssue(customerIssueObject, function(err, result){
+            if(err){
+              throw err;
+            }else{
+              console.log('Set customer issue object');
+            }
+          });
+          polWrapper.getAutoPremium(function(err, result){
             if(err){
               throw err;
             }

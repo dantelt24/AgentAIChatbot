@@ -1159,6 +1159,27 @@ PolicyWrapper.prototype.getPreviousIntent = function(senderInfo, callback){
   });
 }
 
+PolicyWrapper.prototype.getPolicyType = function(senderInfo, callback){
+  MongoClient.connect(this.db_uri, function(err, client){
+    if(err){
+      throw err;
+    }
+    var db = client.db(db_name);
+    db.collection('messages', function(err,collection){
+      collection.find({_id: senderInfo.id}).toArray(function(err, docs){
+        if(err){
+          throw(err);
+        }
+        console.log(docs);
+        for(var i = 0; i < docs.length; i++){
+          var policyType = docs[i].policyType;
+          callback(err, policyType);
+        }
+      });
+    });
+  });
+}
+
 PolicyWrapper.prototype.clearPreviousIntent = function(senderInfo, callback){
   MongoClient.connect(this.db_uri, function(err, client){
     if(err){
@@ -1180,4 +1201,24 @@ PolicyWrapper.prototype.clearPreviousIntent = function(senderInfo, callback){
   });
 }
 
+PolicyWrapper.prototype.clearPolicyType = function(senderInfo, callback){
+  MongoClient.connect(this.db_uri, function(err, client){
+    if(err){
+      throw err;
+    }
+    var db = client.db(db_name);
+    db.collection('messages', function(err, collection){
+      collection.updateOne({_id: senderInfo.id},
+        {$set: {policyType: ""}},
+        {upsert: true}, function(err, result){
+          if(err){
+            throw err;
+          }
+          console.log('Matched Count: ' + result.matchedCount);
+          console.log('Modified Count: ' + result.modifiedCount);
+          callback(err, result);
+        });
+    });
+  });
+}
 module.exports = PolicyWrapper;

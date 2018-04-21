@@ -393,6 +393,32 @@ function processEntities(sender,entities, text){
           });
         }
       }
+      else if(entities.hasOwnProperty('claimIntent') && entities.hasOwnProperty('homeownersIntent')){
+        console.log('Claim and Home Intent found');
+        if(entities.claimIntent[0].confidence > .50 && entities.homeownersIntent[0].confidence > .50){
+          polWrapper.setCustomerIssue(customerIssueObject, function(err, result){
+            if(err){
+              throw err;
+            }else{
+              console.log('Set customer issue object');
+            }
+          });
+          polWrapper.getHomeOwnerAgent(function(err, result){
+            if(err){
+              throw err;
+            }else{
+              console.log('getHomeAgent Result is ' + result);
+              Fiber(function() {
+                typingBubble(sender, text).catch(console.error);
+                sleep(1000);
+                fbMessage(sender, 'If you need help with a claim, you need to contact your agent. ' +result).catch(console.error);
+                sleep(1000);
+                fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+              }).run();
+            }
+          });
+        }
+      }
     }
     else if(keys.some(r => bothTypeIntents.includes(r)) && !keys.some(r2 => homeIntents.includes(r2)) && keys.some(r3 => autoIntents.includes(r3))){
       //found bothTypeIntents and autoIntents
@@ -541,6 +567,32 @@ function processEntities(sender,entities, text){
               sleep(1000);
               fbMessage(sender, fbConfirmationQuestion).catch(console.error);
             }).run();
+          });
+        }
+      }
+      else if(entities.hasOwnProperty('claimIntent') && entities.hasOwnProperty('autoIntent')){
+        console.log('Claim and auto Intent found');
+        if(entities.claimIntent[0].confidence > .50 && entities.autoIntent[0].confidence > .50){
+          polWrapper.setCustomerIssue(customerIssueObject, function(err, result){
+            if(err){
+              throw err;
+            }else{
+              console.log('Set customer issue object');
+            }
+          });
+          polWrapper.getAutoAgent(function(err, result){
+            if(err){
+              throw err;
+            }else{
+              console.log('getHomeAgent Result is ' + result);
+              Fiber(function() {
+                typingBubble(sender, text).catch(console.error);
+                sleep(1000);
+                fbMessage(sender, 'If you need help with a claim, you need to contact your agent. ' +result).catch(console.error);
+                sleep(1000);
+                fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+              }).run();
+            }
           });
         }
       }

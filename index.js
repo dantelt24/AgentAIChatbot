@@ -758,15 +758,15 @@ function processEntities(sender,entities, text){
     //       }
     //     }
     //   });
-    polWrapper.clearPolicyType(function(err, result){
-        if(err){
-          throw err;
-        }else{
-          if(result.matchedCount === 1 && result.modifiedCount === 1){
-            console.log('Successful reset of prevIntent');
-          }
-        }
-      });
+    // polWrapper.clearPolicyType(function(err, result){
+    //     if(err){
+    //       throw err;
+    //     }else{
+    //       if(result.matchedCount === 1 && result.modifiedCount === 1){
+    //         console.log('Successful reset of prevIntent');
+    //       }
+    //     }
+    //   });
     }
     //else got enough clarity to perform normalMapping
     else if(keys.length === 1 && key === 'endConvoIntent'){

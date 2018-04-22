@@ -803,6 +803,7 @@ function processEntities(sender,entities, text){
     }
     else if(keys.length === 1 && key === 'autoIntent'){
       //need to set autoPolicy as type
+      console.log('Only detected auto Intent');
       customerIssueObject.policyType = 'auto';
       polWrapper.policyTypeSetter(customerIssueObject, function(err, result){
         if(err){
@@ -994,6 +995,7 @@ function processEntities(sender,entities, text){
     }
     else if(keys.length === 1 && key === 'homeownersIntent'){
       //need to set homepolicy as type
+      console.log('Only detected home policy');
       customerIssueObject.policyType = 'home';
       polWrapper.policyTypeSetter(customerIssueObject, function(err, result){
         if(err){

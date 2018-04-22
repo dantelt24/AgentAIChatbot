@@ -708,7 +708,7 @@ function processEntities(sender,entities, text){
                       throw err;
                     }else{
                       var intentArray = result.split(',');
-                      console.log(intentArray);
+                      console.log(intentArray + typeof(intentArray));
                     }
                   });
                 }
@@ -718,7 +718,7 @@ function processEntities(sender,entities, text){
                       throw err;
                     }else{
                       var intentArray = result.split(',');
-                      console.log(intentArray);
+                      console.log(intentArray + typeof(intentArray));
                     }
                   });
                 }

@@ -730,6 +730,14 @@ function processEntities(sender,entities, text){
                                   fbMessage(sender, result).catch(console.error);
                                   sleep(1000);
                                   fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+                                  sleep(1000);
+                                  polWrapper.clearPolicyType(customerIssueObject, function(err, result){
+                                    if(err){
+                                      throw err;
+                                    }else{
+                                      console.log('Successfully cleared policy type');
+                                    }
+                                  });
                                 }).run();
                               });
                             }
@@ -744,6 +752,14 @@ function processEntities(sender,entities, text){
                                   fbMessage(sender, result).catch(console.error);
                                   sleep(1000);
                                   fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+                                  sleep(1000);
+                                  polWrapper.clearPolicyType(customerIssueObject, function(err, result){
+                                    if(err){
+                                      throw err;
+                                    }else{
+                                      console.log('Successfully cleared policy type');
+                                    }
+                                  });
                                 }).run();
                               });
                             }
@@ -758,6 +774,14 @@ function processEntities(sender,entities, text){
                                   fbMessage(sender, result).catch(console.error);
                                   sleep(1000);
                                   fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+                                  sleep(1000);
+                                  polWrapper.clearPolicyType(customerIssueObject, function(err, result){
+                                    if(err){
+                                      throw err;
+                                    }else{
+                                      console.log('Successfully cleared policy type');
+                                    }
+                                  });
                                 }).run();
                               });
                             }
@@ -772,6 +796,14 @@ function processEntities(sender,entities, text){
                                   fbMessage(sender, result).catch(console.error);
                                   sleep(1000);
                                   fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+                                  sleep(1000);
+                                  polWrapper.clearPolicyType(customerIssueObject, function(err, result){
+                                    if(err){
+                                      throw err;
+                                    }else{
+                                      console.log('Successfully cleared policy type');
+                                    }
+                                  });
                                 }).run();
                               });
                             }
@@ -787,6 +819,14 @@ function processEntities(sender,entities, text){
                                     fbMessage(sender, 'If you need help with a claim, you need to contact your agent. ' +result).catch(console.error);
                                     sleep(1000);
                                     fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+                                    sleep(1000);
+                                    polWrapper.clearPolicyType(customerIssueObject, function(err, result){
+                                      if(err){
+                                        throw err;
+                                      }else{
+                                        console.log('Successfully cleared policy type');
+                                      }
+                                    });
                                   }).run();
                                 }
                               });
@@ -803,6 +843,14 @@ function processEntities(sender,entities, text){
                                     fbMessage(sender, result).catch(console.error);
                                     sleep(1000);
                                     fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+                                    sleep(1000);
+                                    polWrapper.clearPolicyType(customerIssueObject, function(err, result){
+                                      if(err){
+                                        throw err;
+                                      }else{
+                                        console.log('Successfully cleared policy type');
+                                      }
+                                    });
                                   }).run();
                                 }
                               });
@@ -818,6 +866,14 @@ function processEntities(sender,entities, text){
                                   fbMessage(sender, 'For discounts concerning your homeowner\'s policy you need to contact your agent. ' +result).catch(console.error);
                                   sleep(1000);
                                   fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+                                  sleep(1000);
+                                  polWrapper.clearPolicyType(customerIssueObject, function(err, result){
+                                    if(err){
+                                      throw err;
+                                    }else{
+                                      console.log('Successfully cleared policy type');
+                                    }
+                                  });
                                 }).run();
                               });
                             }
@@ -832,6 +888,14 @@ function processEntities(sender,entities, text){
                                   fbMessage(sender, result).catch(console.error);
                                   sleep(1000);
                                   fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+                                  sleep(1000);
+                                  polWrapper.clearPolicyType(customerIssueObject, function(err, result){
+                                    if(err){
+                                      throw err;
+                                    }else{
+                                      console.log('Successfully cleared policy type');
+                                    }
+                                  });
                                 }).run();
                               });
                             }
@@ -868,6 +932,14 @@ function processEntities(sender,entities, text){
                                   fbMessage(sender, result).catch(console.error);
                                   sleep(1000);
                                   fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+                                  sleep(1000);
+                                  polWrapper.clearPolicyType(customerIssueObject, function(err, result){
+                                    if(err){
+                                      throw err;
+                                    }else{
+                                      console.log('Successfully cleared policy type');
+                                    }
+                                  });
                                 }).run();
                               });
                             }
@@ -882,6 +954,14 @@ function processEntities(sender,entities, text){
                                   fbMessage(sender, result).catch(console.error);
                                   sleep(1000);
                                   fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+                                  sleep(1000);
+                                  polWrapper.clearPolicyType(customerIssueObject, function(err, result){
+                                    if(err){
+                                      throw err;
+                                    }else{
+                                      console.log('Successfully cleared policy type');
+                                    }
+                                  });
                                 }).run();
                               });
                             }
@@ -896,6 +976,14 @@ function processEntities(sender,entities, text){
                                   fbMessage(sender, result).catch(console.error);
                                   sleep(1000);
                                   fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+                                  sleep(1000);
+                                  polWrapper.clearPolicyType(customerIssueObject, function(err, result){
+                                    if(err){
+                                      throw err;
+                                    }else{
+                                      console.log('Successfully cleared policy type');
+                                    }
+                                  });
                                 }).run();
                               });
                             }
@@ -910,6 +998,14 @@ function processEntities(sender,entities, text){
                                   fbMessage(sender, result).catch(console.error);
                                   sleep(1000);
                                   fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+                                  sleep(1000);
+                                  polWrapper.clearPolicyType(customerIssueObject, function(err, result){
+                                    if(err){
+                                      throw err;
+                                    }else{
+                                      console.log('Successfully cleared policy type');
+                                    }
+                                  });
                                 }).run();
                               });
                             }
@@ -925,6 +1021,14 @@ function processEntities(sender,entities, text){
                                     fbMessage(sender, 'If you need help with a claim, you need to contact your agent. ' +result).catch(console.error);
                                     sleep(1000);
                                     fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+                                    sleep(1000);
+                                    polWrapper.clearPolicyType(customerIssueObject, function(err, result){
+                                      if(err){
+                                        throw err;
+                                      }else{
+                                        console.log('Successfully cleared policy type');
+                                      }
+                                    });
                                   }).run();
                                 }
                               });
@@ -941,6 +1045,14 @@ function processEntities(sender,entities, text){
                                     fbMessage(sender, result).catch(console.error);
                                     sleep(1000);
                                     fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+                                    sleep(1000);
+                                    polWrapper.clearPolicyType(customerIssueObject, function(err, result){
+                                      if(err){
+                                        throw err;
+                                      }else{
+                                        console.log('Successfully cleared policy type');
+                                      }
+                                    });
                                   }).run();
                                 }
                               });
@@ -956,6 +1068,14 @@ function processEntities(sender,entities, text){
                                   fbMessage(sender, result).catch(console.error);
                                   sleep(1000);
                                   fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+                                  sleep(1000);
+                                  polWrapper.clearPolicyType(customerIssueObject, function(err, result){
+                                    if(err){
+                                      throw err;
+                                    }else{
+                                      console.log('Successfully cleared policy type');
+                                    }
+                                  });
                                 }).run();
                               });
                             }
@@ -970,6 +1090,14 @@ function processEntities(sender,entities, text){
                                   fbMessage(sender, result).catch(console.error);
                                   sleep(1000);
                                   fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+                                  sleep(1000);
+                                  polWrapper.clearPolicyType(customerIssueObject, function(err, result){
+                                    if(err){
+                                      throw err;
+                                    }else{
+                                      console.log('Successfully cleared policy type');
+                                    }
+                                  });
                                 }).run();
                               });
                             }

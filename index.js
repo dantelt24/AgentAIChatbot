@@ -720,28 +720,120 @@ function processEntities(sender,entities, text){
                             console.log('getDualPolicyDuplicateResult: ' + intentIndx);
                             console.log('Intent to query: ' + bothTypeIntents[intentIndx]);
                             if(bothTypeIntents[intentIndx] === "enhancedCoveragesIntent"){
-
+                              polWrapper.homeOwnerEnhancedCoverages(function(err, result){
+                                if(err){
+                                  throw err;
+                                }
+                                Fiber(function() {
+                                  typingBubble(sender, text).catch(console.error);
+                                  sleep(1000);
+                                  fbMessage(sender, result).catch(console.error);
+                                  sleep(1000);
+                                  fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+                                }).run();
+                              });
                             }
                             else if(bothTypeIntents[intentIndx] === "policyEndDateIntent"){
-
+                              polWrapper.getHomePolicyEndDate(function(err, result){
+                                if(err){
+                                  throw err;
+                                }
+                                Fiber(function() {
+                                  typingBubble(sender, text).catch(console.error);
+                                  sleep(1000);
+                                  fbMessage(sender, result).catch(console.error);
+                                  sleep(1000);
+                                  fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+                                }).run();
+                              });
                             }
                             else if(bothTypeIntents[intentIndx] === "policyDeductibleIntent"){
-
+                              polWrapper.getHomePolicyDeductible(function(err, result){
+                                if(err){
+                                  throw err;
+                                }
+                                Fiber(function() {
+                                  typingBubble(sender, text).catch(console.error);
+                                  sleep(1000);
+                                  fbMessage(sender, result).catch(console.error);
+                                  sleep(1000);
+                                  fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+                                }).run();
+                              });
                             }
                             else if(bothTypeIntents[intentIndx] === "totalPremiumIntent"){
-
+                              polWrapper.getHomeTotalPremium(function(err, result){
+                                if(err){
+                                  throw err;
+                                }
+                                Fiber(function() {
+                                  typingBubble(sender, text).catch(console.error);
+                                  sleep(1000);
+                                  fbMessage(sender, result).catch(console.error);
+                                  sleep(1000);
+                                  fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+                                }).run();
+                              });
                             }
                             else if(bothTypeIntents[intentIndx] === "claimIntent"){
-
+                              polWrapper.getHomeOwnerAgent(function(err, result){
+                                if(err){
+                                  throw err;
+                                }else{
+                                  console.log('getHomeAgent Result is ' + result);
+                                  Fiber(function() {
+                                    typingBubble(sender, text).catch(console.error);
+                                    sleep(1000);
+                                    fbMessage(sender, 'If you need help with a claim, you need to contact your agent. ' +result).catch(console.error);
+                                    sleep(1000);
+                                    fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+                                  }).run();
+                                }
+                              });
                             }
                             else if(bothTypeIntents[intentIndx] === "agentIntent"){
-
+                              polWrapper.getHomeOwnerAgent(function(err, result){
+                                if(err){
+                                  throw err;
+                                }else{
+                                  console.log('getHomeAgent Result is ' + result);
+                                  Fiber(function() {
+                                    typingBubble(sender, text).catch(console.error);
+                                    sleep(1000);
+                                    fbMessage(sender, result).catch(console.error);
+                                    sleep(1000);
+                                    fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+                                  }).run();
+                                }
+                              });
                             }
                             else if(bothTypeIntents[intentIndx] === "policyDiscountIntent"){
-
+                              polWrapper.getHomeOwnerAgent(function(err, result){
+                                if(err){
+                                  throw err;
+                                }
+                                Fiber(function() {
+                                  typingBubble(sender, text).catch(console.error);
+                                  sleep(1000);
+                                  fbMessage(sender, 'For discounts concerning your homeowner\'s policy you need to contact your agent. ' +result).catch(console.error);
+                                  sleep(1000);
+                                  fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+                                }).run();
+                              });
                             }
                             else if(bothTypeIntents[intentIndx] === "effectiveDateIntent"){
-
+                              polWrapper.homeownerEffectiveDate(function(err, result){
+                                if(err){
+                                  throw err;
+                                }
+                                Fiber(function() {
+                                  typingBubble(sender, text).catch(console.error);
+                                  sleep(1000);
+                                  fbMessage(sender, result).catch(console.error);
+                                  sleep(1000);
+                                  fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+                                }).run();
+                              });
                             }
                           }
                         });

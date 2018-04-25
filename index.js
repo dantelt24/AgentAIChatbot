@@ -709,7 +709,7 @@ function processEntities(sender,entities, text){
                     if(err){
                       throw err;
                     }else{
-                      if(result.matchedCount === 1 && result.modifiedCount === 1){
+                      if(result.matchedCount === 1 || result.modifiedCount === 1){
                         polWrapper.getPreviousIntent(customerIssueObject, function(err, result){
                           if(err){
                             throw err;
@@ -730,7 +730,7 @@ function processEntities(sender,entities, text){
                     if(err){
                       throw err;
                     }else{
-                      if(result.matchedCount === 1 && result.modifiedCount === 1){
+                      if(result.matchedCount === 1 || result.modifiedCount === 1){
                         polWrapper.getPreviousIntent(customerIssueObject, function(err, result){
                           if(err){
                             throw err;

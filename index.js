@@ -200,9 +200,11 @@ function contains(a1, a2){
 }
 
 function getDualPolicyDuplicate(arr1, arr2){
+    let indxNum;
     arr2.some(function(v){
-      return arr1.indexOf(v)
+      indxNum = arr1.indexOf(v)
     });
+    return indxNum;
 }
 
 function processPostback(event) {

@@ -738,6 +738,15 @@ function processEntities(sender,entities, text){
                                       console.log('Successfully cleared policy type');
                                     }
                                   });
+                                  sleep(1000);
+                                  polWrapper.clearPreviousIntent(customerIssueObject, function(err, result){
+                                    if(err){
+                                      throw err;
+                                    }
+                                    if(result.matchedCount === 1 && result.modifiedCount === 1){
+                                      console.log('Successful reset of prevIntent');
+                                    }
+                                  });
                                 }).run();
                               });
                             }
@@ -758,6 +767,15 @@ function processEntities(sender,entities, text){
                                       throw err;
                                     }else{
                                       console.log('Successfully cleared policy type');
+                                    }
+                                  });
+                                  sleep(1000);
+                                  polWrapper.clearPreviousIntent(customerIssueObject, function(err, result){
+                                    if(err){
+                                      throw err;
+                                    }
+                                    if(result.matchedCount === 1 && result.modifiedCount === 1){
+                                      console.log('Successful reset of prevIntent');
                                     }
                                   });
                                 }).run();
@@ -782,6 +800,15 @@ function processEntities(sender,entities, text){
                                       console.log('Successfully cleared policy type');
                                     }
                                   });
+                                  sleep(1000);
+                                  polWrapper.clearPreviousIntent(customerIssueObject, function(err, result){
+                                    if(err){
+                                      throw err;
+                                    }
+                                    if(result.matchedCount === 1 && result.modifiedCount === 1){
+                                      console.log('Successful reset of prevIntent');
+                                    }
+                                  });
                                 }).run();
                               });
                             }
@@ -802,6 +829,15 @@ function processEntities(sender,entities, text){
                                       throw err;
                                     }else{
                                       console.log('Successfully cleared policy type');
+                                    }
+                                  });
+                                  sleep(1000);
+                                  polWrapper.clearPreviousIntent(customerIssueObject, function(err, result){
+                                    if(err){
+                                      throw err;
+                                    }
+                                    if(result.matchedCount === 1 && result.modifiedCount === 1){
+                                      console.log('Successful reset of prevIntent');
                                     }
                                   });
                                 }).run();
@@ -825,6 +861,15 @@ function processEntities(sender,entities, text){
                                         throw err;
                                       }else{
                                         console.log('Successfully cleared policy type');
+                                      }
+                                    });
+                                    sleep(1000);
+                                    polWrapper.clearPreviousIntent(customerIssueObject, function(err, result){
+                                      if(err){
+                                        throw err;
+                                      }
+                                      if(result.matchedCount === 1 && result.modifiedCount === 1){
+                                        console.log('Successful reset of prevIntent');
                                       }
                                     });
                                   }).run();
@@ -851,6 +896,15 @@ function processEntities(sender,entities, text){
                                         console.log('Successfully cleared policy type');
                                       }
                                     });
+                                    sleep(1000);
+                                    polWrapper.clearPreviousIntent(customerIssueObject, function(err, result){
+                                      if(err){
+                                        throw err;
+                                      }
+                                      if(result.matchedCount === 1 && result.modifiedCount === 1){
+                                        console.log('Successful reset of prevIntent');
+                                      }
+                                    });
                                   }).run();
                                 }
                               });
@@ -874,6 +928,15 @@ function processEntities(sender,entities, text){
                                       console.log('Successfully cleared policy type');
                                     }
                                   });
+                                  sleep(1000);
+                                  polWrapper.clearPreviousIntent(customerIssueObject, function(err, result){
+                                    if(err){
+                                      throw err;
+                                    }
+                                    if(result.matchedCount === 1 && result.modifiedCount === 1){
+                                      console.log('Successful reset of prevIntent');
+                                    }
+                                  });
                                 }).run();
                               });
                             }
@@ -894,6 +957,15 @@ function processEntities(sender,entities, text){
                                       throw err;
                                     }else{
                                       console.log('Successfully cleared policy type');
+                                    }
+                                  });
+                                  sleep(1000);
+                                  polWrapper.clearPreviousIntent(customerIssueObject, function(err, result){
+                                    if(err){
+                                      throw err;
+                                    }
+                                    if(result.matchedCount === 1 && result.modifiedCount === 1){
+                                      console.log('Successful reset of prevIntent');
                                     }
                                   });
                                 }).run();
@@ -940,6 +1012,15 @@ function processEntities(sender,entities, text){
                                       console.log('Successfully cleared policy type');
                                     }
                                   });
+                                  sleep(1000);
+                                  polWrapper.clearPreviousIntent(customerIssueObject, function(err, result){
+                                    if(err){
+                                      throw err;
+                                    }
+                                    if(result.matchedCount === 1 && result.modifiedCount === 1){
+                                      console.log('Successful reset of prevIntent');
+                                    }
+                                  });
                                 }).run();
                               });
                             }
@@ -960,6 +1041,15 @@ function processEntities(sender,entities, text){
                                       throw err;
                                     }else{
                                       console.log('Successfully cleared policy type');
+                                    }
+                                  });
+                                  sleep(1000);
+                                  polWrapper.clearPreviousIntent(customerIssueObject, function(err, result){
+                                    if(err){
+                                      throw err;
+                                    }
+                                    if(result.matchedCount === 1 && result.modifiedCount === 1){
+                                      console.log('Successful reset of prevIntent');
                                     }
                                   });
                                 }).run();
@@ -984,6 +1074,15 @@ function processEntities(sender,entities, text){
                                       console.log('Successfully cleared policy type');
                                     }
                                   });
+                                  sleep(1000);
+                                  polWrapper.clearPreviousIntent(customerIssueObject, function(err, result){
+                                    if(err){
+                                      throw err;
+                                    }
+                                    if(result.matchedCount === 1 && result.modifiedCount === 1){
+                                      console.log('Successful reset of prevIntent');
+                                    }
+                                  });
                                 }).run();
                               });
                             }
@@ -1004,6 +1103,15 @@ function processEntities(sender,entities, text){
                                       throw err;
                                     }else{
                                       console.log('Successfully cleared policy type');
+                                    }
+                                  });
+                                  sleep(1000);
+                                  polWrapper.clearPreviousIntent(customerIssueObject, function(err, result){
+                                    if(err){
+                                      throw err;
+                                    }
+                                    if(result.matchedCount === 1 && result.modifiedCount === 1){
+                                      console.log('Successful reset of prevIntent');
                                     }
                                   });
                                 }).run();
@@ -1027,6 +1135,15 @@ function processEntities(sender,entities, text){
                                         throw err;
                                       }else{
                                         console.log('Successfully cleared policy type');
+                                      }
+                                    });
+                                    sleep(1000);
+                                    polWrapper.clearPreviousIntent(customerIssueObject, function(err, result){
+                                      if(err){
+                                        throw err;
+                                      }
+                                      if(result.matchedCount === 1 && result.modifiedCount === 1){
+                                        console.log('Successful reset of prevIntent');
                                       }
                                     });
                                   }).run();
@@ -1053,6 +1170,15 @@ function processEntities(sender,entities, text){
                                         console.log('Successfully cleared policy type');
                                       }
                                     });
+                                    sleep(1000);
+                                    polWrapper.clearPreviousIntent(customerIssueObject, function(err, result){
+                                      if(err){
+                                        throw err;
+                                      }
+                                      if(result.matchedCount === 1 && result.modifiedCount === 1){
+                                        console.log('Successful reset of prevIntent');
+                                      }
+                                    });
                                   }).run();
                                 }
                               });
@@ -1076,6 +1202,15 @@ function processEntities(sender,entities, text){
                                       console.log('Successfully cleared policy type');
                                     }
                                   });
+                                  sleep(1000);
+                                  polWrapper.clearPreviousIntent(customerIssueObject, function(err, result){
+                                    if(err){
+                                      throw err;
+                                    }
+                                    if(result.matchedCount === 1 && result.modifiedCount === 1){
+                                      console.log('Successful reset of prevIntent');
+                                    }
+                                  });
                                 }).run();
                               });
                             }
@@ -1096,6 +1231,15 @@ function processEntities(sender,entities, text){
                                       throw err;
                                     }else{
                                       console.log('Successfully cleared policy type');
+                                    }
+                                  });
+                                  sleep(1000);
+                                  polWrapper.clearPreviousIntent(customerIssueObject, function(err, result){
+                                    if(err){
+                                      throw err;
+                                    }
+                                    if(result.matchedCount === 1 && result.modifiedCount === 1){
+                                      console.log('Successful reset of prevIntent');
                                     }
                                   });
                                 }).run();

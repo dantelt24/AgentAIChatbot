@@ -708,7 +708,7 @@ function processEntities(sender,entities, text){
                       throw err;
                     }else{
                       var intentArray = result.split(',');
-                      console.log('intent Array' + intentArray);
+                      console.log('intent Array:' + intentArray);
                       var intentCheck = getDualPolicyDuplicate(bothTypeIntents, intentArray);
                       console.log(intentCheck);
                     }
@@ -762,16 +762,16 @@ function processEntities(sender,entities, text){
     //       }
     //     }
     //   });
-    polWrapper.clearPolicyType(customerIssueObject,function(err, result){
-        if(err){
-          throw err;
-        }else{
-          if(result.matchedCount === 1 && result.modifiedCount === 1){
-            console.log('Successful reset of prevIntent');
-          }
-        }
-      });
-    }
+    // polWrapper.clearPolicyType(customerIssueObject,function(err, result){
+    //     if(err){
+    //       throw err;
+    //     }else{
+    //       if(result.matchedCount === 1 && result.modifiedCount === 1){
+    //         console.log('Successful reset of prevIntent');
+    //       }
+    //     }
+    //   });
+    // }
     //else got enough clarity to perform normalMapping
     else if(keys.length === 1 && key === 'endConvoIntent'){
       //okay to delete the issue
@@ -1586,4 +1586,5 @@ function processEntities(sender,entities, text){
       // fbMessage(sender, 'This should be sent after the response.').catch(console.error);
     }).run();
   }
+
 }

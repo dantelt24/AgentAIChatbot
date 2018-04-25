@@ -1138,6 +1138,27 @@ PolicyWrapper.prototype.policyTypeSetter = function(senderInfo, callback){
   });
 }
 
+PolicyWrapper.prototype.userPrevSetter = function(senderInfo, callback){
+  MongoClient.connect(this.db_uri, function(err, client){
+    if(err){
+      throw err;
+    }
+    var db = client.db(db_name);
+    db.collection('messages', function(err, collection){
+      collection.updateOne({_id: senderInfo.id},
+        {$set: {prev: senderInfo.previous}},
+        {upsert: true}, function(err, result){
+          if(err){
+            throw err;
+          }
+          console.log('Matched Count: ' + result.matchedCount);
+          console.log('Modified Count: ' + result.modifiedCount);
+          callback(err, result);
+        });
+    });
+  });
+}
+
 PolicyWrapper.prototype.getPreviousIntent = function(senderInfo, callback){
   MongoClient.connect(this.db_uri, function(err, client){
     if(err){

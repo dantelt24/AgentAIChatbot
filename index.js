@@ -243,7 +243,7 @@ function processEntities(sender,entities, text){
   var keys = Object.keys(entities), key = keys[0];
   customerIssueObject["issues"] = {};
   customerIssueObject.id = sender;
-  customerIssueObject.previous = "";
+  customerIssueObject.previous = keys.toString();
   // customerIssueObject.policyType = "unknown";
   customerIssueObject.issues.text = text;
   customerIssueObject.issues.intents = keys.toString();
@@ -705,32 +705,48 @@ function processEntities(sender,entities, text){
                   }).run();
                 }
                 else if(result === 'home'){
-                  polWrapper.getPreviousIntent(customerIssueObject, function(err, result){
+                  polWrapper.userPrevSetter(customerIssueObject, function(err, result){
                     if(err){
                       throw err;
                     }else{
-                      var intentArray = result.split(',');
-                      console.log('intent Array:' + intentArray);
-                      var intentIndx = getDualPolicyDuplicate(bothTypeIntents, intentArray);
-                      console.log('getDualPolicyDuplicateResult: ' + intentIndx);
-                      console.log('Intent to query: ' + bothTypeIntents[intentIndx]);
+                      if(result.matchedCount === 1 && result.modifiedCount === 1){
+                        polWrapper.getPreviousIntent(customerIssueObject, function(err, result){
+                          if(err){
+                            throw err;
+                          }else{
+                            var intentArray = result.split(',');
+                            console.log('intent Array:' + intentArray);
+                            var intentIndx = getDualPolicyDuplicate(bothTypeIntents, intentArray);
+                            console.log('getDualPolicyDuplicateResult: ' + intentIndx);
+                            console.log('Intent to query: ' + bothTypeIntents[intentIndx]);
+                          }
+                        });
+                      }
                     }
                   });
                 }
                 else if(result === 'auto'){
-                  polWrapper.getPreviousIntent(customerIssueObject, function(err, result){
+                  polWrapper.userPrevSetter(customerIssueObject, function(err, result){
                     if(err){
                       throw err;
                     }else{
-                      var intentArray = result.split(',');
-                      console.log('intent Array:' + intentArray);
-                      var intentIndx = getDualPolicyDuplicate(bothTypeIntents, intentArray);
-                      console.log('getDualPolicyDuplicateResult: ' + intentIndx);
-                      console.log('Intent to query: ' + bothTypeIntents[intentIndx]);
+                      if(result.matchedCount === 1 && result.modifiedCount === 1){
+                        polWrapper.getPreviousIntent(customerIssueObject, function(err, result){
+                          if(err){
+                            throw err;
+                          }else{
+                            var intentArray = result.split(',');
+                            console.log('intent Array:' + intentArray);
+                            var intentIndx = getDualPolicyDuplicate(bothTypeIntents, intentArray);
+                            console.log('getDualPolicyDuplicateResult: ' + intentIndx);
+                            console.log('Intent to query: ' + bothTypeIntents[intentIndx]);
+                            }
+                        });
                       }
-                    });
-                  }
+                    }
+                  });
                 }
+              }
             });
           }
         }

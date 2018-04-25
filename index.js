@@ -711,9 +711,9 @@ function processEntities(sender,entities, text){
                     }else{
                       var intentArray = result.split(',');
                       console.log('intent Array:' + intentArray);
-                      var intentIndx = getDualPolicyDuplicate(intentArray, bothTypeIntents);
+                      var intentIndx = getDualPolicyDuplicate(bothTypeIntents, intentArray);
                       console.log('getDualPolicyDuplicateResult: ' + intentIndx);
-                      console.log('Intent to query: ' + intentArray[intentIndx]);
+                      console.log('Intent to query: ' + bothTypeIntents[intentIndx]);
                     }
                   });
                 }
@@ -724,9 +724,9 @@ function processEntities(sender,entities, text){
                     }else{
                       var intentArray = result.split(',');
                       console.log('intent Array:' + intentArray);
-                      var intentIndx = getDualPolicyDuplicate(intentArray, bothTypeIntents);
+                      var intentIndx = getDualPolicyDuplicate(bothTypeIntents, intentArray);
                       console.log('getDualPolicyDuplicateResult: ' + intentIndx);
-                      console.log('Intent to query: ' + intentArray[intentIndx]);
+                      console.log('Intent to query: ' + bothTypeIntents[intentIndx]);
                       }
                     });
                   }

@@ -712,7 +712,7 @@ function processEntities(sender,entities, text){
                       var intentArray = result.split(',');
                       console.log('intent Array:' + intentArray);
                       var intentIndx = getDualPolicyDuplicate(bothTypeIntents, intentArray);
-                      console.log('getDualPolicyDuplicateResult: ' + intentIndx;
+                      console.log('getDualPolicyDuplicateResult: ' + intentIndx);
                       console.log('Intent to query: ' + intentArray[intentIndx]);
                     }
                   });

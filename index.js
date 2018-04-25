@@ -720,59 +720,18 @@ function processEntities(sender,entities, text){
                       throw err;
                     }else{
                       var intentArray = result.split(',');
-                      console.log('intent Array' + intentArray);
+                      console.log('intent Array:' + intentArray);
                       var intentCheck = getDualPolicyDuplicate(bothTypeIntents, intentArray);
                       console.log(intentCheck);
-                    }
-                  });
+                      }
+                    });
+                  }
                 }
-              }
-          });
+            });
+          }
         }
-      }
-    });
-    // customerIssueObject.previous = keys.toString();
-    // polWrapper.setCustomerIssue(customerIssueObject, function(err, result){
-    //   if(err){
-    //     throw err;
-    //   }else{
-    //     console.log('Set customer issue object');
-    //     //Perform relevant check to see if policy type is known, if its known perform query based on policy type, if not known ask the policy question
-    //     if(result.matchedCount === 1 || result.upsertedCount === 1){
-    //       polWrapper.getPolicyType(customerIssueObject, function(err, result){
-    //         if(err){
-    //           throw err;
-    //         }else{
-    //           if(result === 'unknown' || result === "" || result === null){
-    //             console.log('Unknown policy type');
-    //             Fiber(function() {
-    //               typingBubble(sender, text).catch(console.error);
-    //               sleep(1000);
-    //               fbMessage(sender, fbPolicyQuestion).catch(console.error);
-    //               }).run();
-    //             }
-    //             else if (result === 'home') { //perform relevant home query
-    //
-    //             }
-    //             else if (result === 'auto') {//perform relevant auto query
-    //
-    //             }
-    //           }
-    //         });
-    //       }
-    //     }
-    //   });
-    // polWrapper.clearPolicyType(customerIssueObject,function(err, result){
-    //     if(err){
-    //       throw err;
-    //     }else{
-    //       if(result.matchedCount === 1 && result.modifiedCount === 1){
-    //         console.log('Successful reset of prevIntent');
-    //       }
-    //     }
-    //   });
-    // }
-    //else got enough clarity to perform normalMapping
+      });
+    }
     else if(keys.length === 1 && key === 'endConvoIntent'){
       //okay to delete the issue
       fbMessage(sender, 'Glad we could help you with your questions today. Have a nice day.').catch(console.error);

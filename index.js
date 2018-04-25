@@ -200,7 +200,7 @@ function contains(a1, a2){
 }
 
 function getDualPolicyDuplicate(arr1, arr2){
-    return arr2.some(function(v){
+    arr2.some(function(v){
       return arr1.indexOf(v)
     });
 }

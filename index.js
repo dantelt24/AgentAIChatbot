@@ -711,7 +711,7 @@ function processEntities(sender,entities, text){
                     }else{
                       var intentArray = result.split(',');
                       console.log('intent Array:' + intentArray);
-                      var intentIndx = getDualPolicyDuplicate(bothTypeIntents, intentArray);
+                      var intentIndx = getDualPolicyDuplicate(intentArray, bothTypeIntents);
                       console.log('getDualPolicyDuplicateResult: ' + intentIndx);
                       console.log('Intent to query: ' + intentArray[intentIndx]);
                     }
@@ -724,7 +724,7 @@ function processEntities(sender,entities, text){
                     }else{
                       var intentArray = result.split(',');
                       console.log('intent Array:' + intentArray);
-                      var intentIndx = getDualPolicyDuplicate(bothTypeIntents, intentArray);
+                      var intentIndx = getDualPolicyDuplicate(intentArray, bothTypeIntents);
                       console.log('getDualPolicyDuplicateResult: ' + intentIndx);
                       console.log('Intent to query: ' + intentArray[intentIndx]);
                       }

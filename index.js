@@ -494,7 +494,7 @@ function processEntities(sender,entities, text){
               console.log('Set customer issue object');
             }
           });
-          polWrapper.getExpirationDate(function(err, result){
+          polWrapper.autoPolicyExpirationDate(function(err, result){
             if(err){
               throw err;
             }
@@ -719,6 +719,30 @@ function processEntities(sender,entities, text){
                             var intentIndx = getDualPolicyDuplicate(bothTypeIntents, intentArray);
                             console.log('getDualPolicyDuplicateResult: ' + intentIndx);
                             console.log('Intent to query: ' + bothTypeIntents[intentIndx]);
+                            if(bothTypeIntents[intentIndx] === "enhancedCoveragesIntent"){
+
+                            }
+                            else if(bothTypeIntents[intentIndx] === "policyEndDateIntent"){
+
+                            }
+                            else if(bothTypeIntents[intentIndx] === "policyDeductibleIntent"){
+
+                            }
+                            else if(bothTypeIntents[intentIndx] === "totalPremiumIntent"){
+
+                            }
+                            else if(bothTypeIntents[intentIndx] === "claimIntent"){
+
+                            }
+                            else if(bothTypeIntents[intentIndx] === "agentIntent"){
+
+                            }
+                            else if(bothTypeIntents[intentIndx] === "policyDiscountIntent"){
+
+                            }
+                            else if(bothTypeIntents[intentIndx] === "effectiveDateIntent"){
+
+                            }
                           }
                         });
                       }
@@ -740,7 +764,124 @@ function processEntities(sender,entities, text){
                             var intentIndx = getDualPolicyDuplicate(bothTypeIntents, intentArray);
                             console.log('getDualPolicyDuplicateResult: ' + intentIndx);
                             console.log('Intent to query: ' + bothTypeIntents[intentIndx]);
+                            //"enhancedCoveragesIntent", "policyEndDateIntent", "policyDeductibleIntent", "totalPremiumIntent", "claimIntent", "agentIntent", "policyDiscountIntent", "effectiveDateIntent"
+                            if(bothTypeIntents[intentIndx] === "enhancedCoveragesIntent"){
+                              polWrapper.autoEnhancedCoverages(function(err, result){
+                                if(err){
+                                  throw err;
+                                }
+                                Fiber(function() {
+                                  typingBubble(sender, text).catch(console.error);
+                                  sleep(1000);
+                                  fbMessage(sender, result).catch(console.error);
+                                  sleep(1000);
+                                  fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+                                }).run();
+                              });
                             }
+                            else if(bothTypeIntents[intentIndx] === "policyEndDateIntent"){
+                              polWrapper.autoPolicyExpirationDate(function(err, result){
+                                if(err){
+                                  throw err;
+                                }
+                                Fiber(function() {
+                                  typingBubble(sender, text).catch(console.error);
+                                  sleep(1000);
+                                  fbMessage(sender, result).catch(console.error);
+                                  sleep(1000);
+                                  fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+                                }).run();
+                              });
+                            }
+                            else if(bothTypeIntents[intentIndx] === "policyDeductibleIntent"){
+                              polWrapper.vehicleGenericCoverages(function(err, result){
+                                if(err){
+                                  throw err;
+                                }
+                                Fiber(function() {
+                                  typingBubble(sender, text).catch(console.error);
+                                  sleep(1000);
+                                  fbMessage(sender, result).catch(console.error);
+                                  sleep(1000);
+                                  fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+                                }).run();
+                              });
+                            }
+                            else if(bothTypeIntents[intentIndx] === "totalPremiumIntent"){
+                              polWrapper.getAutoPremium(function(err, result){
+                                if(err){
+                                  throw err;
+                                }
+                                Fiber(function() {
+                                  typingBubble(sender, text).catch(console.error);
+                                  sleep(1000);
+                                  fbMessage(sender, result).catch(console.error);
+                                  sleep(1000);
+                                  fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+                                }).run();
+                              });
+                            }
+                            else if(bothTypeIntents[intentIndx] === "claimIntent"){
+                              polWrapper.getAutoAgent(function(err, result){
+                                if(err){
+                                  throw err;
+                                }else{
+                                  console.log('getAuto Result is ' + result);
+                                  Fiber(function() {
+                                    typingBubble(sender, text).catch(console.error);
+                                    sleep(1000);
+                                    fbMessage(sender, 'If you need help with a claim, you need to contact your agent. ' +result).catch(console.error);
+                                    sleep(1000);
+                                    fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+                                  }).run();
+                                }
+                              });
+                            }
+                            else if(bothTypeIntents[intentIndx] === "agentIntent"){
+                              polWrapper.getAutoAgent(function(err, result){
+                                if(err){
+                                  throw err;
+                                }else{
+                                  console.log('getAutoAgent Result is ' + result);
+                                  Fiber(function() {
+                                    typingBubble(sender, text).catch(console.error);
+                                    sleep(1000);
+                                    fbMessage(sender, result).catch(console.error);
+                                    sleep(1000);
+                                    fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+                                  }).run();
+                                }
+                              });
+                            }
+                            else if(bothTypeIntents[intentIndx] === "policyDiscountIntent"){
+                              polWrapper.getAutoDiscounts(function(err, result){
+                                if(err){
+                                  throw err;
+                                }
+                                Fiber(function() {
+                                  typingBubble(sender, text).catch(console.error);
+                                  sleep(1000);
+                                  fbMessage(sender, result).catch(console.error);
+                                  sleep(1000);
+                                  fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+                                }).run();
+                              });
+                            }
+                            else if(bothTypeIntents[intentIndx] === "effectiveDateIntent"){
+                              polWrapper.autoEffectiveDate(function(err, result){
+                                if(err){
+                                  throw err;
+                                }
+                                Fiber(function() {
+                                  typingBubble(sender, text).catch(console.error);
+                                  sleep(1000);
+                                  fbMessage(sender, result).catch(console.error);
+                                  sleep(1000);
+                                  fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+                                }).run();
+                              });
+                            }
+                          }
                         });
                       }
                     }

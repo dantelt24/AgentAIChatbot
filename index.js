@@ -1995,7 +1995,7 @@ function processEntities(sender,entities, text){
     }
     else if(entities.hasOwnProperty('lineOfBusinessIntent')){
       console.log('Line of Business Intent ');
-      if(entities.lineOfBusinessIntent[0].confidence > .50){
+      if(entities.lineOfBusinessIntent[0].confidence > .75){
         console.log('High enough confidence to perform query.');
         polWrapper.setCustomerIssue(customerIssueObject, function(err, result){
           if(err){
@@ -2023,7 +2023,7 @@ function processEntities(sender,entities, text){
 
     else if(entities.hasOwnProperty('vinNumIntent')){
       console.log('Vin number intent found ');
-      if(entities.vinNumIntent[0].confidence > .50){
+      if(entities.vinNumIntent[0].confidence > .75){
         console.log('High enough confidence to perform query.');
         polWrapper.setCustomerIssue(customerIssueObject, function(err, result){
           if(err){

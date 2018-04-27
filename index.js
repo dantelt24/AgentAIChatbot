@@ -2096,7 +2096,7 @@ function processEntities(sender,entities, text){
             greeting = "Hi " + name + ". ";
           }
           var message = greeting + "My name is AgentAI. I can tell you various details regarding your CIG policies. What questions about your policy can I help you with today?";
-          fbMessage(senderId, message).catch(console.error);
+          fbMessage(sender, message).catch(console.error);
         });
       }
       else if(keys.includes('message_body') && !keys.some(r => bothTypeIntents.includes(r)) && !keys.some(r2 => homeIntents.includes(r2)) && !keys.some(r3 => autoIntents.includes(r3))){
@@ -2117,7 +2117,7 @@ function processEntities(sender,entities, text){
             greeting = "Hi " + name + ". ";
           }
           var message = greeting + "My name is AgentAI. I can tell you various details regarding your CIG policies. What questions about your policy can I help you with today?";
-          fbMessage(senderId, message).catch(console.error);
+          fbMessage(sender, message).catch(console.error);
         });
       }
     }

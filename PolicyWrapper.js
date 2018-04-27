@@ -910,9 +910,9 @@ PolicyWrapper.prototype.getVinNumber = function(callback) {
           throw err;
         }else{
           for(var i = 0; i < docs.length; i++){
-            var vin = docs[i].policies['1-PAC-1-200711458641'].vehicles;
+            var vehicles = docs[i].policies['1-PAC-1-200711458641'].vehicles;
             var response = 'The vin numbers on file are ';
-            for(var j = 0; j < discount.length; j++)
+            for(var j = 0; j < vehicles.length; j++)
             {
               if(j === vehicles.length - 1)
               {

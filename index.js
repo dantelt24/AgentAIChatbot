@@ -2076,8 +2076,54 @@ function processEntities(sender,entities, text){
       }
     }
   }
+  //Greeting Intent
+  else if(entities.hasOwnProperty('greetingIntent')){
+    if(keys.length === 1){
+      console.log('Believe to have gotten greeting intent');
+      request({
+        url: "https://graph.facebook.com/v2.6/" + sender,
+        qs: {
+          access_token: process.env.VERIFICATION_TOKEN,
+          fields: "first_name"
+        },
+        method: "GET"
+      }, function(error, response, body) {
+        var greeting = "";
+        if (error) {
+          console.log("Error getting user's name: " +  error);
+        } else {
+          var bodyObj = JSON.parse(body);
+          name = bodyObj.first_name;
+          greeting = "Hi " + name + ". ";
+        }
+        var message = greeting + "My name is AgentAI. I can tell you various details regarding your CIG policies. What questions about your policy can I help you with today?";
+        fbMessage(senderId, message).catch(console.error);
+      });
+    }
+    else if(keys.includes('message_body') && !keys.some(r => bothTypeIntents.includes(r)) && !keys.some(r2 => homeIntents.includes(r2)) && !keys.some(r3 => autoIntents.includes(r3))){
+      request({
+        url: "https://graph.facebook.com/v2.6/" + sender,
+        qs: {
+          access_token: process.env.VERIFICATION_TOKEN,
+          fields: "first_name"
+        },
+        method: "GET"
+      }, function(error, response, body) {
+        var greeting = "";
+        if (error) {
+          console.log("Error getting user's name: " +  error);
+        } else {
+          var bodyObj = JSON.parse(body);
+          name = bodyObj.first_name;
+          greeting = "Hi " + name + ". ";
+        }
+        var message = greeting + "My name is AgentAI. I can tell you various details regarding your CIG policies. What questions about your policy can I help you with today?";
+        fbMessage(senderId, message).catch(console.error);
+      });
+    }
+  }
   //Believed to not have fully understood
-  else if(keys.includes('message_body')){//Believed to not have fully understood
+  else if(keys.includes('message_body' && keys.length === 1)){//Believed to not have fully understood
     console.log('Intents are not clear enough, need to ask for clarification.');
     Fiber(function() {
       typingBubble(sender, text).catch(console.error);
@@ -2087,5 +2133,4 @@ function processEntities(sender,entities, text){
       // fbMessage(sender, 'This should be sent after the response.').catch(console.error);
     }).run();
   }
-
 }

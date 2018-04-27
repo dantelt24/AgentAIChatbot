@@ -3,7 +3,7 @@ const express = require('express');
 const request = require('request');
 const bodyParser = require('body-parser');
 // const MongoClient = require('mongodb').MongoClient;
-const mongoose = require('mongoose');
+// const mongoose = require('mongoose');
 const Wit = require('node-wit').Wit;
 const log = require('node-wit').log;
 const Fiber = require('fibers');
@@ -16,7 +16,8 @@ const polWrapper = new policyWrapper(process.env.MONGO_DB_URI);
 const fbConfirmationQuestion = 'Is there anything else I can help you with regarding your CIG policy(ies)?';
 const fbPolicyQuestion = 'Which policy (Home or Auto) would you like to know the answer to this question for';
 const autoIntents = ["autoPolicyDiscountIntent", "getCarsIntent", "easyPayIntent", "numCarsIntent","lineOfBusinessIntent",
-"autoClaimIntent", "autoCoverageIntent", "vinNumIntent", "autoIntent", "vehicleDiscounts", "vehicleGenericCoverages","driverIntent", ];
+"autoClaimIntent", "autoCoverageIntent", "vinNumIntent", "autoIntent", "vehicleDiscounts", "vehicleGenericCoverages","driverIntent",
+"fullAutoCoverage", "glassClaim", "getLoanNumber"];
 const homeIntents = ["lossOfUseIntent", "SpecialtyProgramsIntent", "dwellingIntent", "homeownersIntent", "personalLiabilityIntent",
 "homeMedicalCovIntent", "personalPropertyIntent", "OptionalCoveragesIntent", "basicPremiumIntent", "OtherStructuresIntent"];
 const bothTypeIntents = ["enhancedCoveragesIntent", "policyEndDateIntent", "policyDeductibleIntent", "totalPremiumIntent", "claimIntent", "agentIntent", "policyDiscountIntent", "effectiveDateIntent"];

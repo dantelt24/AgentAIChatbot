@@ -948,7 +948,7 @@ PolicyWrapper.prototype.lineOfBusiness = function(callback) {
         }else{
           for(var i = 0; i < docs.length; i++){
             var business = docs[i].policies['1-PAC-1-200711458641'].lineOfBusiness;
-            var response = 'Your account currently shows your vehicle as a ' + lineOfBusiness +'.';
+            var response = 'Your account currently shows your vehicle as a ' + business +'.';
             console.log(response);
             // return response;
             callback(err, response);

@@ -2099,7 +2099,7 @@ function processEntities(sender,entities, text){
           fbMessage(sender, message).catch(console.error);
         });
       }
-      else if(keys.includes('message_body') && !keys.some(r => bothTypeIntents.includes(r)) && !keys.some(r2 => homeIntents.includes(r2)) && !keys.some(r3 => autoIntents.includes(r3))){
+      else if(!keys.some(r => bothTypeIntents.includes(r)) && !keys.some(r2 => homeIntents.includes(r2)) && !keys.some(r3 => autoIntents.includes(r3))){
         request({
           url: "https://graph.facebook.com/v2.6/" + sender,
           qs: {

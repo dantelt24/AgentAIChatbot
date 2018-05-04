@@ -1316,7 +1316,7 @@ PolicyWrapper.prototype.clearPreviousIntent = function(senderInfo, callback){
           console.log('Matched Count: ' + result.matchedCount);
           console.log('Modified Count: ' + result.modifiedCount);
           callback(err, result);
-        });
+      });
     });
   });
 }
@@ -1337,7 +1337,7 @@ PolicyWrapper.prototype.clearPolicyType = function(senderInfo, callback){
           console.log('Matched Count: ' + result.matchedCount);
           console.log('Modified Count: ' + result.modifiedCount);
           callback(err, result);
-        });
+      });
     });
   });
 }
@@ -1360,4 +1360,5 @@ PolicyWrapper.prototype.checkUserInDB = function(senderInfo, callback){
     });
   });
 }
+//-------------------------
 module.exports = PolicyWrapper;

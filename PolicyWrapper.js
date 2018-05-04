@@ -13,7 +13,6 @@ const db_name = 'aiTestData';
 function PolicyWrapper(uri){
   this.db_uri = uri;
 }
-
 PolicyWrapper.prototype.getUserProfileInformation = function(callback){
   MongoClient.connect(this.db_uri, function(err, client){
     if(err){
@@ -1119,6 +1118,7 @@ PolicyWrapper.prototype.getLoanNumber = function(callback) {
       client.close();
     });
   });
+}
 PolicyWrapper.prototype.fullAutoCoverage = function(callback) {
   MongoClient.connect(this.db_uri, function(err, client){
     if(err){
@@ -1193,7 +1193,7 @@ PolicyWrapper.prototype.setIssueSolved = function(senderInfo, callback){
           console.log('Matched Count: ' + result.matchedCount);
           console.log('Modified Count: ' + result.modifiedCount);
           callback(err, result);
-        });
+      });
     });
   });
 }
@@ -1232,7 +1232,7 @@ PolicyWrapper.prototype.policyTypeSetter = function(senderInfo, callback){
           console.log('Matched Count: ' + result.matchedCount);
           console.log('Modified Count: ' + result.modifiedCount);
           callback(err, result);
-        });
+      });
     });
   });
 }
@@ -1253,11 +1253,10 @@ PolicyWrapper.prototype.userPrevSetter = function(senderInfo, callback){
           console.log('Matched Count: ' + result.matchedCount);
           console.log('Modified Count: ' + result.modifiedCount);
           callback(err, result);
-        });
+      });
     });
   });
 }
-
 PolicyWrapper.prototype.getPreviousIntent = function(senderInfo, callback){
   MongoClient.connect(this.db_uri, function(err, client){
     if(err){
@@ -1316,7 +1315,7 @@ PolicyWrapper.prototype.clearPreviousIntent = function(senderInfo, callback){
           console.log('Matched Count: ' + result.matchedCount);
           console.log('Modified Count: ' + result.modifiedCount);
           callback(err, result);
-        });
+      });
     });
   });
 }
@@ -1337,7 +1336,7 @@ PolicyWrapper.prototype.clearPolicyType = function(senderInfo, callback){
           console.log('Matched Count: ' + result.matchedCount);
           console.log('Modified Count: ' + result.modifiedCount);
           callback(err, result);
-        });
+      });
     });
   });
 }
@@ -1360,4 +1359,5 @@ PolicyWrapper.prototype.checkUserInDB = function(senderInfo, callback){
     });
   });
 }
+//-------------------------
 module.exports = PolicyWrapper;

@@ -1054,103 +1054,103 @@ PolicyWrapper.prototype.autoEnhancedCoverages = function(callback) {
 }
 
 PolicyWrapper.prototype.glassClaim = function(callback) {
--	+  MongoClient.connect(this.db_uri, function(err, client){
-+    if(err){
-+      throw err;
-+    }else{
-+      console.log('Successful database connection')
-+    }
-+    var db = client.db(db_name);
-+    db.collection('aiData', function(err, collection) {
-+      collection.find({}).project({'policies': 1}).toArray(function (err, docs){
-+        if(err){
-+          throw err;
-+        }else{
-+          for(var i = 0; i < docs.length; i++){
-+            var qualify = docs[i].policies['1-PAC-1-200711458641'].isQualifyGlassClaimUnlisted;
-+            if(qualify == 'false')
-+            {
-+              var response = 'You are not covered under glass claims.';
-+            }
-+            else {
-+              var response = 'You are covered for glass claims. ';
-+            }
-+            console.log(response);
-+            // return response;
-+            callback(err, response);
-+          }
-+        }
-+      });
-+      client.close();
-+    });
-+  });
-+}
-+//auto loan number
-+PolicyWrapper.prototype.getLoanNumber = function(callback) {
-+  MongoClient.connect(this.db_uri, function(err, client){
-+    if(err){
-+      throw err;
-+    }else{
-+      console.log('Successful database connection')
-+    }
-+    var db = client.db(db_name);
-+    db.collection('aiData', function(err, collection) {
-+      collection.find({}).project({'policies': 1}).toArray(function (err, docs){
-+        if(err){
-+          throw err;
-+        }else{
-+          for(var i  = 0; i < docs.length; i++){
-+            var vehicles = docs[i].policies['1-PAC-1-200711458641'].vehicles;
-+            var response = '';
-+            if(vehicles.length > 0){
-+              response += 'The respective loan number(s): ' + vehicles[0].loanNumber;
-+              for(var j = 1; j < vehicles.length; j++) response += ', ' + vehicles[j].loanNumber;
-+              response += ' are under this policy';
-+            }
-+            else{
-+              response += 'You have no vehicle loan numbers available';
-+            }
-+            response += '.'
-+            console.log(response);
-+            callback(err, response);
-+          }
-+        }
-+      });
-+      client.close();
-+    });
-+  });
-+PolicyWrapper.prototype.fullAutoCoverage = function(callback) {
--	+  MongoClient.connect(this.db_uri, function(err, client){
-+    if(err){
-+      throw err;
-+    }else{
-+      console.log('Successful database connection')
-+    }
-+    var db = client.db(db_name);
-+    db.collection('aiData', function(err, collection) {
-+      collection.find({}).project({'policies': 1}).toArray(function (err, docs){
-+        if(err){
-+          throw err;
-+        }else{
-+          for(var i = 0; i < docs.length; i++){
-+            var qualify = docs[i].policies['1-PAC-1-200711458641'].isQualifyFullAutoUnlisted;
-+            if(qualify == 'false')
-+            {
-+              var response = 'You are not covered under glass claims.';
-+            }
-+            else {
-+              var response = 'You are covered for glass claims. ';
-+            }
-+            console.log(response);
-+            // return response;
-+            callback(err, response);
-+          }
-+        }
-+      });
-+      client.close();
-+    });
-+  });
-+}
+  MongoClient.connect(this.db_uri, function(err, client){
+    if(err){
+      throw err;
+    }else{
+      console.log('Successful database connection')
+    }
+    var db = client.db(db_name);
+    db.collection('aiData', function(err, collection) {
+      collection.find({}).project({'policies': 1}).toArray(function (err, docs){
+        if(err){
+          throw err;
+        }else{
+          for(var i = 0; i < docs.length; i++){
+            var qualify = docs[i].policies['1-PAC-1-200711458641'].isQualifyGlassClaimUnlisted;
+            if(qualify == 'false')
+            {
+              var response = 'You are not covered under glass claims.';
+            }
+            else {
+              var response = 'You are covered for glass claims. ';
+            }
+            console.log(response);
+            // return response;
+            callback(err, response);
+          }
+        }
+      });
+      client.close();
+    });
+  });
+}
+//auto loan number
+PolicyWrapper.prototype.getLoanNumber = function(callback) {
+  MongoClient.connect(this.db_uri, function(err, client){
+    if(err){
+      throw err;
+    }else{
+      console.log('Successful database connection')
+    }
+    var db = client.db(db_name);
+    db.collection('aiData', function(err, collection) {
+      collection.find({}).project({'policies': 1}).toArray(function (err, docs){
+        if(err){
+          throw err;
+        }else{
+          for(var i  = 0; i < docs.length; i++){
+            var vehicles = docs[i].policies['1-PAC-1-200711458641'].vehicles;
+            var response = '';
+            if(vehicles.length > 0){
+              response += 'The respective loan number(s): ' + vehicles[0].loanNumber;
+              for(var j = 1; j < vehicles.length; j++) response += ', ' + vehicles[j].loanNumber;
+              response += ' are under this policy';
+            }
+            else{
+              response += 'You have no vehicle loan numbers available';
+            }
+            response += '.'
+            console.log(response);
+            callback(err, response);
+          }
+        }
+      });
+      client.close();
+    });
+  });
+PolicyWrapper.prototype.fullAutoCoverage = function(callback) {
+  MongoClient.connect(this.db_uri, function(err, client){
+    if(err){
+      throw err;
+    }else{
+      console.log('Successful database connection')
+    }
+    var db = client.db(db_name);
+    db.collection('aiData', function(err, collection) {
+      collection.find({}).project({'policies': 1}).toArray(function (err, docs){
+        if(err){
+          throw err;
+        }else{
+          for(var i = 0; i < docs.length; i++){
+            var qualify = docs[i].policies['1-PAC-1-200711458641'].isQualifyFullAutoUnlisted;
+            if(qualify == 'false')
+            {
+              var response = 'You are not covered under glass claims.';
+            }
+            else {
+              var response = 'You are covered for glass claims. ';
+            }
+            console.log(response);
+            // return response;
+            callback(err, response);
+          }
+        }
+      });
+      client.close();
+    });
+  });
+}
 //------------------------------------------------------------------------------
 
 //MESSAGES COLLECTION FUNCTIONS
@@ -1341,7 +1341,7 @@ PolicyWrapper.prototype.clearPolicyType = function(senderInfo, callback){
     });
   });
 }
-
+//
 PolicyWrapper.prototype.checkUserInDB = function(senderInfo, callback){
   MongoClient.connect(this.db_uri, function(err, client){
     if(err){

@@ -11,7 +11,7 @@ const policyWrapper = require('./PolicyWrapper.js');
 const polWrapper = new policyWrapper(process.env.MONGO_DB_URI);
 // const polWrapper = new policyWrapper();
 //---------------------------------------------------------------------------
-//
+
 //global variables
 const fbConfirmationQuestion = 'Is there anything else I can help you with regarding your CIG policy(ies)?';
 const fbPolicyQuestion = 'Which policy (Home or Auto) would you like to know the answer to this question for';

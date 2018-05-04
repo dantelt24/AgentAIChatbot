@@ -1341,7 +1341,7 @@ PolicyWrapper.prototype.clearPolicyType = function(senderInfo, callback){
     });
   });
 }
-
+//
 PolicyWrapper.prototype.checkUserInDB = function(senderInfo, callback){
   MongoClient.connect(this.db_uri, function(err, client){
     if(err){

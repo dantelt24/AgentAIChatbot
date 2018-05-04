@@ -2077,78 +2077,78 @@ function processEntities(sender,entities, text){
       }
     }
     else if(entities.hasOwnProperty('fullAutoCoverage')){
-+        console.log('Full auto coverage found');
-+        if(entities.fullAutoCoverage[0].confidence > .75){
-+          polWrapper.setCustomerIssue(customerIssueObject, function(err, result){
-+            if(err){
-+              throw err;
-+            }else{
-+              console.log('Set customer issue object');
-+            }
-+          });
-+          polWrapper.fullAutoCoverage(function(err, result){
-+            if(err){
-+              throw err;
-+            }
-+            Fiber(function() {
-+              typingBubble(sender, text).catch(console.error);
-+              sleep(1000);
-+              fbMessage(sender, result).catch(console.error);
-+              sleep(1000);
-+              fbMessage(sender, fbConfirmationQuestion).catch(console.error);
-+            }).run();
-+          });
-+        }
-+      }
-+      else if(entities.hasOwnProperty('glassClaim')){
-+        console.log('Glass claim coverages found');
-+        if(entities.glassClaim[0].confidence > .75){
-+          polWrapper.setCustomerIssue(customerIssueObject, function(err, result){
-+            if(err){
-+              throw err;
-+            }else{
-+              console.log('Set customer issue object');
-+            }
-+          });
-+          polWrapper.glassClaim(function(err, result){
-+            if(err){
-+              throw err;
-+            }
-+            Fiber(function() {
-+              typingBubble(sender, text).catch(console.error);
-+              sleep(1000);
-+              fbMessage(sender, result).catch(console.error);
-+              sleep(1000);
-+              fbMessage(sender, fbConfirmationQuestion).catch(console.error);
-+            }).run();
-+          });
-+        }
-+      }
-+
-+      else if(entities.hasOwnProperty('getLoanNumber')){
-+        console.log('Glass claim coverages found');
-+        if(entities.getLoanNumber[0].confidence > .75){
-+          polWrapper.setCustomerIssue(customerIssueObject, function(err, result){
-+            if(err){
-+              throw err;
-+            }else{
-+              console.log('Set customer issue object');
-+            }
-+          });
-+          polWrapper.getLoanNumber(function(err, result){
-+            if(err){
-+              throw err;
-+            }
-+            Fiber(function() {
-+              typingBubble(sender, text).catch(console.error);
-+              sleep(1000);
-+              fbMessage(sender, result).catch(console.error);
-+              sleep(1000);
-+              fbMessage(sender, fbConfirmationQuestion).catch(console.error);
-+            }).run();
-+          });
-+        }
-+      }
+        console.log('Full auto coverage found');
+        if(entities.fullAutoCoverage[0].confidence > .75){
+          polWrapper.setCustomerIssue(customerIssueObject, function(err, result){
+            if(err){
+              throw err;
+            }else{
+              console.log('Set customer issue object');
+            }
+          });
+          polWrapper.fullAutoCoverage(function(err, result){
+            if(err){
+              throw err;
+            }
+            Fiber(function() {
+              typingBubble(sender, text).catch(console.error);
+              sleep(1000);
+              fbMessage(sender, result).catch(console.error);
+              sleep(1000);
+              fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+            }).run();
+          });
+        }
+      }
+      else if(entities.hasOwnProperty('glassClaim')){
+        console.log('Glass claim coverages found');
+        if(entities.glassClaim[0].confidence > .75){
+          polWrapper.setCustomerIssue(customerIssueObject, function(err, result){
+            if(err){
+              throw err;
+            }else{
+              console.log('Set customer issue object');
+            }
+          });
+          polWrapper.glassClaim(function(err, result){
+            if(err){
+              throw err;
+            }
+            Fiber(function() {
+              typingBubble(sender, text).catch(console.error);
+              sleep(1000);
+              fbMessage(sender, result).catch(console.error);
+              sleep(1000);
+              fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+            }).run();
+          });
+        }
+      }
+
+      else if(entities.hasOwnProperty('getLoanNumber')){
+        console.log('Glass claim coverages found');
+        if(entities.getLoanNumber[0].confidence > .75){
+          polWrapper.setCustomerIssue(customerIssueObject, function(err, result){
+            if(err){
+              throw err;
+            }else{
+              console.log('Set customer issue object');
+            }
+          });
+          polWrapper.getLoanNumber(function(err, result){
+            if(err){
+              throw err;
+            }
+            Fiber(function() {
+              typingBubble(sender, text).catch(console.error);
+              sleep(1000);
+              fbMessage(sender, result).catch(console.error);
+              sleep(1000);
+              fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+            }).run();
+          });
+        }
+      }
     //Greeting Intent
     else if(entities.hasOwnProperty('greetingIntent')){
       if(keys.length === 1){

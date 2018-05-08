@@ -2197,7 +2197,7 @@ function processEntities(sender,entities, text){
     }
   }
   //Believed to not have fully understood
-  else if(keys.includes('message_body' && keys.length === 1)){//Believed to not have fully understood
+  else if(keys.includes('message_body') && keys.length === 1){//Believed to not have fully understood
     console.log('Intents are not clear enough, need to ask for clarification.');
     Fiber(function() {
       typingBubble(sender, text).catch(console.error);

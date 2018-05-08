@@ -248,7 +248,7 @@ function processEntities(sender,entities, text){
   // customerIssueObject.policyType = "unknown";
   customerIssueObject.issues.text = text;
   customerIssueObject.issues.intents = keys.toString();
-  if(!keys.includes('message_body')){ //Believed to have understand user intents
+  if(keys.some(r => bothTypeIntents.includes(r)) || keys.some(r2 => homeIntents.includes(r2)) || keys.some(r3 => autoIntents.includes(r3))){ //Believed to have understand user intents
     // let found = keys.some(r => bothTypeIntents.includes(r)));
     // console.log('found result: ' + found);
     //Check for entity mapping(bothTypes-withNoIdentifier, bothTypes-withAnotherIdentifier, normalMapping )

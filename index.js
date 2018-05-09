@@ -249,6 +249,7 @@ function processEntities(sender,entities, text){
   // customerIssueObject.policyType = "unknown";
   customerIssueObject.issues.text = text;
   customerIssueObject.issues.intents = keys.toString();
+  console.log(customerIssueObject);
   if(keys.some(r => bothTypeIntents.includes(r)) || keys.some(r2 => homeIntents.includes(r2)) || keys.some(r3 => autoIntents.includes(r3)) || keys.some(r4 => conversationalIntents.includes(r4))){ //Believed to have understand user intents
     // let found = keys.some(r => bothTypeIntents.includes(r)));
     // console.log('found result: ' + found);
@@ -679,7 +680,7 @@ function processEntities(sender,entities, text){
                   if(err){
                     throw err;
                   }else{
-                    if(result === 'unknown' || result === "" || result === null){
+                    if(result === 'unknown' || result === "" || result === null || result === ' '){
                       console.log('Unknown policy type');
                       Fiber(function() {
                         typingBubble(sender, text).catch(console.error);

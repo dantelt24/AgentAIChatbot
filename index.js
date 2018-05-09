@@ -21,6 +21,7 @@ const autoIntents = ["autoPolicyDiscountIntent", "getCarsIntent", "easyPayIntent
 const homeIntents = ["lossOfUseIntent", "SpecialtyProgramsIntent", "dwellingIntent", "homeownersIntent", "personalLiabilityIntent",
 "homeMedicalCovIntent", "personalPropertyIntent", "OptionalCoveragesIntent", "basicPremiumIntent", "OtherStructuresIntent"];
 const bothTypeIntents = ["enhancedCoveragesIntent", "policyEndDateIntent", "policyDeductibleIntent", "totalPremiumIntent", "claimIntent", "agentIntent", "policyDiscountIntent", "effectiveDateIntent"];
+const conversationalIntents = ['endConvoIntent','keepConvoIntent', 'greetingIntent'];
 // console.log(autoIntents.length + homeIntents.length + bothTypeIntents.length);
 //environment variables
 // const uri = process.env.MONGO_DB_URI;
@@ -248,7 +249,7 @@ function processEntities(sender,entities, text){
   // customerIssueObject.policyType = "unknown";
   customerIssueObject.issues.text = text;
   customerIssueObject.issues.intents = keys.toString();
-  if(keys.some(r => bothTypeIntents.includes(r)) || keys.some(r2 => homeIntents.includes(r2)) || keys.some(r3 => autoIntents.includes(r3))){ //Believed to have understand user intents
+  if(keys.some(r => bothTypeIntents.includes(r)) || keys.some(r2 => homeIntents.includes(r2)) || keys.some(r3 => autoIntents.includes(r3)) || keys.some(r4 => conversationalIntents.includes(r4))){ //Believed to have understand user intents
     // let found = keys.some(r => bothTypeIntents.includes(r)));
     // console.log('found result: ' + found);
     //Check for entity mapping(bothTypes-withNoIdentifier, bothTypes-withAnotherIdentifier, normalMapping )

@@ -680,7 +680,7 @@ function processEntities(sender,entities, text){
                   if(err){
                     throw err;
                   }else{
-                    if(result === 'unknown' || result === "" || result === null || result === ' '){
+                    if(result === 'unknown' || result === '' || result === null || result === ' '){
                       console.log('Unknown policy type');
                       Fiber(function() {
                         typingBubble(sender, text).catch(console.error);
@@ -1309,7 +1309,7 @@ function processEntities(sender,entities, text){
                 throw err;
               }else{
                 console.log('Previous Result:' + result);
-                if(result === ""){//no prevIntent to try and query for
+                if(result === ' ' || result === '' || result === null || result === 'unknown'){//no prevIntent to try and query for
                   Fiber(function() {
                     typingBubble(sender, text).catch(console.error);
                     sleep(1000);

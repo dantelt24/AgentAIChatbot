@@ -1269,10 +1269,12 @@ PolicyWrapper.prototype.getPreviousIntent = function(senderInfo, callback){
           throw(err);
         }
         console.log(docs);
-        for(var i = 0; i < docs.length; i++){
-          var prevIntent = docs[i].prev;
-          callback(err, prevIntent);
+        var docObject = {};
+        for(var i = 0; i < 1; i++){
+          docObject = docs[i];
+          // callback(err, prevIntent);
         }
+        console.log('getPreviousIntent Object: ' + docObject);
       });
     });
   });

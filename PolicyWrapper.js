@@ -1344,13 +1344,14 @@ PolicyWrapper.prototype.clearPreviousIntent = function(senderInfo, callback){
     var db = client.db(db_name);
     db.collection('messages', function(err, collection){
       collection.updateOne({_id: senderInfo.id},
-        {$set: {prev: ""}},
+        {$set: {prev: ''}},
         {upsert: true}, function(err, result){
           if(err){
             throw err;
           }
           console.log('Matched Count: ' + result.matchedCount);
           console.log('Modified Count: ' + result.modifiedCount);
+          console.log('Clearing Prev Intent');
           callback(err, result);
       });
     });

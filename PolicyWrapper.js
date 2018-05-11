@@ -1286,6 +1286,35 @@ PolicyWrapper.prototype.getPreviousIntent = function(senderInfo, callback){
   });
 }
 
+PolicyWrapper.prototype.getPreviousContext = function(senderInfo, callback){
+  MongoClient.connect(this.db_uri, function(err, client){
+    if(err){
+      throw err;
+    }
+    var db = client.db(db_name);
+    db.collection('messages', function(err,collection){
+      collection.find({_id: senderInfo.id}).toArray(function(err, docs){
+        if(err){
+          throw(err);
+        }
+        console.log(docs);
+        var docObject = {};
+        for(var i = 0; i < 1; i++){
+          docObject = docs[i];
+          // callback(err, prevIntent);
+          if(docObject.hasOwnProperty('issue')){
+            console.log('Prev Context Value: ' +docObject.issue.context);
+            callback(err, docObject.issue.context);
+          }else{
+            console.log('No previous context property found for customer');
+            callback(err, 'unknown');
+          }
+        }
+      });
+    });
+  });
+}
+
 PolicyWrapper.prototype.getPolicyType = function(senderInfo, callback){
   MongoClient.connect(this.db_uri, function(err, client){
     if(err){

@@ -710,6 +710,7 @@ function processEntities(sender,entities, text){
         else if(result === 'home'){
           console.log('Got home policy reference');
           polWrapper.userPrevSetter(customerIssueObject, function(err, result){
+            console.log('PrevSetter function being called in home check');
             if(err){
               throw err;
             }else{
@@ -983,6 +984,7 @@ function processEntities(sender,entities, text){
           else if(result === 'auto'){
             console.log('Got auto policy reference');
                   polWrapper.userPrevSetter(customerIssueObject, function(err, result){
+                    console.log('PrevSetter being called in auto function');
                     if(err){
                       throw err;
                     }else{

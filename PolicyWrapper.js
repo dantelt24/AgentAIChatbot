@@ -1225,7 +1225,7 @@ PolicyWrapper.prototype.policyTypeSetter = function(senderInfo, callback){
     db.collection('messages', function(err, collection){
       collection.updateOne({_id: senderInfo.id},
         {$set: {policyType: senderInfo.policyType}},
-        {upsert: true}, function(err, result){
+        {upsert: false}, function(err, result){
           if(err){
             throw err;
           }
@@ -1246,7 +1246,7 @@ PolicyWrapper.prototype.userPrevSetter = function(senderInfo, callback){
     db.collection('messages', function(err, collection){
       collection.updateOne({_id: senderInfo.id},
         {$set: {prev: senderInfo.previous}},
-        {upsert: true}, function(err, result){
+        {upsert: false}, function(err, result){
           if(err){
             throw err;
           }
@@ -1269,9 +1269,46 @@ PolicyWrapper.prototype.getPreviousIntent = function(senderInfo, callback){
           throw(err);
         }
         console.log(docs);
-        for(var i = 0; i < docs.length; i++){
-          var prevIntent = docs[i].prev;
-          callback(err, prevIntent);
+        var docObject = {};
+        for(var i = 0; i < 1; i++){
+          docObject = docs[i];
+          // callback(err, prevIntent);
+          if(docObject.hasOwnProperty('prev')){
+            console.log('Prev Intent Value: ' +docObject.prev)
+            callback(err, docObject.prev);
+          }else{
+            console.log('No previous intent property found for customer');
+            callback(err, 'unknown');
+          }
+        }
+      });
+    });
+  });
+}
+
+PolicyWrapper.prototype.getPreviousContext = function(senderInfo, callback){
+  MongoClient.connect(this.db_uri, function(err, client){
+    if(err){
+      throw err;
+    }
+    var db = client.db(db_name);
+    db.collection('messages', function(err,collection){
+      collection.find({_id: senderInfo.id}).toArray(function(err, docs){
+        if(err){
+          throw(err);
+        }
+        console.log(docs);
+        var docObject = {};
+        for(var i = 0; i < 1; i++){
+          docObject = docs[i];
+          // callback(err, prevIntent);
+          if(docObject.hasOwnProperty('issue')){
+            console.log('Prev Context Value: ' +docObject.issue.context);
+            callback(err, docObject.issue.context);
+          }else{
+            console.log('No previous context property found for customer');
+            callback(err, 'unknown');
+          }
         }
       });
     });
@@ -1307,13 +1344,14 @@ PolicyWrapper.prototype.clearPreviousIntent = function(senderInfo, callback){
     var db = client.db(db_name);
     db.collection('messages', function(err, collection){
       collection.updateOne({_id: senderInfo.id},
-        {$set: {prev: ""}},
+        {$set: {prev: ''}},
         {upsert: true}, function(err, result){
           if(err){
             throw err;
           }
           console.log('Matched Count: ' + result.matchedCount);
           console.log('Modified Count: ' + result.modifiedCount);
+          console.log('Clearing Prev Intent');
           callback(err, result);
       });
     });
@@ -1335,6 +1373,7 @@ PolicyWrapper.prototype.clearPolicyType = function(senderInfo, callback){
           }
           console.log('Matched Count: ' + result.matchedCount);
           console.log('Modified Count: ' + result.modifiedCount);
+          console.log('Clearing Policy Type');
           callback(err, result);
       });
     });

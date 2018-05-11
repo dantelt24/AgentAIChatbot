@@ -21,6 +21,7 @@ const autoIntents = ["autoPolicyDiscountIntent", "getCarsIntent", "easyPayIntent
 const homeIntents = ["lossOfUseIntent", "SpecialtyProgramsIntent", "dwellingIntent", "homeownersIntent", "personalLiabilityIntent",
 "homeMedicalCovIntent", "personalPropertyIntent", "OptionalCoveragesIntent", "basicPremiumIntent", "OtherStructuresIntent"];
 const bothTypeIntents = ["enhancedCoveragesIntent", "policyEndDateIntent", "policyDeductibleIntent", "totalPremiumIntent", "claimIntent", "agentIntent", "policyDiscountIntent", "effectiveDateIntent"];
+const conversationalIntents = ['endConvoIntent','keepConvoIntent', 'greetingIntent'];
 // console.log(autoIntents.length + homeIntents.length + bothTypeIntents.length);
 //environment variables
 // const uri = process.env.MONGO_DB_URI;
@@ -248,7 +249,8 @@ function processEntities(sender,entities, text){
   // customerIssueObject.policyType = "unknown";
   customerIssueObject.issues.text = text;
   customerIssueObject.issues.intents = keys.toString();
-  if(keys.some(r => bothTypeIntents.includes(r)) || keys.some(r2 => homeIntents.includes(r2)) || keys.some(r3 => autoIntents.includes(r3))){ //Believed to have understand user intents
+  console.log(customerIssueObject);
+  if(keys.some(r => bothTypeIntents.includes(r)) || keys.some(r2 => homeIntents.includes(r2)) || keys.some(r3 => autoIntents.includes(r3)) || keys.some(r4 => conversationalIntents.includes(r4))){ //Believed to have understand user intents
     // let found = keys.some(r => bothTypeIntents.includes(r)));
     // console.log('found result: ' + found);
     //Check for entity mapping(bothTypes-withNoIdentifier, bothTypes-withAnotherIdentifier, normalMapping )
@@ -678,8 +680,8 @@ function processEntities(sender,entities, text){
                   if(err){
                     throw err;
                   }else{
-                    if(result === 'unknown' || result === "" || result === null){
-                      console.log('Unknown policy type');
+                    if(result === 'unknown' || result === '' || result === null || result === ' '){
+                      console.log('Unknown policy type for fresh user in db');
                       Fiber(function() {
                         typingBubble(sender, text).catch(console.error);
                         sleep(1000);
@@ -691,198 +693,320 @@ function processEntities(sender,entities, text){
                 }
               }
             });
-        }
+          }
         else if(result === 1){ //User exists
-          polWrapper.getPolicyType(customerIssueObject, function(err, result){
+          polWrapper.userPrevSetter(customerIssueObject, function(err,result){
             if(err){
               throw err;
             }else{
-              if(result === 'unknown' || result === "" || result === null){
-                console.log('Unknown policy type');
-                Fiber(function() {
-                  typingBubble(sender, text).catch(console.error);
-                  sleep(1000);
-                  fbMessage(sender, fbPolicyQuestion).catch(console.error);
-                  }).run();
-                }
-                else if(result === 'home'){
-                  polWrapper.userPrevSetter(customerIssueObject, function(err, result){
-                    if(err){
-                      throw err;
-                    }else{
-                      if(result.matchedCount === 1 || result.modifiedCount === 1){
-                        polWrapper.getPreviousIntent(customerIssueObject, function(err, result){
-                          if(err){
-                            throw err;
-                          }else{
-                            var intentArray = result.split(',');
-                            console.log('intent Array:' + intentArray);
-                            var intentIndx = getDualPolicyDuplicate(bothTypeIntents, intentArray);
-                            console.log('getDualPolicyDuplicateResult: ' + intentIndx);
-                            console.log('Intent to query: ' + bothTypeIntents[intentIndx]);
-                            if(bothTypeIntents[intentIndx] === "enhancedCoveragesIntent"){
-                              polWrapper.homeOwnerEnhancedCoverages(function(err, result){
-                                if(err){
-                                  throw err;
-                                }
-                                Fiber(function() {
-                                  typingBubble(sender, text).catch(console.error);
-                                  sleep(1000);
-                                  fbMessage(sender, result).catch(console.error);
-                                  sleep(1000);
-                                  fbMessage(sender, fbConfirmationQuestion).catch(console.error);
-                                  sleep(1000);
-                                  polWrapper.clearPolicyType(customerIssueObject, function(err, result){
-                                    if(err){
-                                      throw err;
-                                    }else{
-                                      console.log('Successfully cleared policy type');
-                                    }
-                                  });
-                                  sleep(1000);
-                                  polWrapper.clearPreviousIntent(customerIssueObject, function(err, result){
-                                    if(err){
-                                      throw err;
-                                    }
-                                    if(result.matchedCount === 1 && result.modifiedCount === 1){
-                                      console.log('Successful reset of prevIntent');
-                                    }
-                                  });
-                                }).run();
-                              });
+              polWrapper.getPolicyType(customerIssueObject, function(err, result){
+                if(err){
+                  throw err;
+                }else{
+                  if(result === 'unknown' || result === '' || result === null || result === ' '){
+                    console.log('Unknown policy type for found user in db');
+                    Fiber(function() {
+                      typingBubble(sender, text).catch(console.error);
+                      sleep(1000);
+                      fbMessage(sender, fbPolicyQuestion).catch(console.error);
+                      }).run();
+                    }
+              else if(result === 'home'){
+                console.log('Got home policy reference');
+                polWrapper.userPrevSetter(customerIssueObject, function(err, result){
+                  console.log('PrevSetter function being called in home check');
+                  if(err){
+                    throw err;
+                  }else{
+                    console.log('Getting Home previous result');
+                    polWrapper.getPreviousIntent(customerIssueObject, function(err, result){
+                      if(err){
+                        throw err;
+                      }else{
+                        var intentArray = result.split(',');
+                        console.log('intent Array:' + intentArray);
+                        var intentIndx = getDualPolicyDuplicate(bothTypeIntents, intentArray);
+                        console.log('getDualPolicyDuplicateResult: ' + intentIndx);
+                        console.log('Intent to query: ' + bothTypeIntents[intentIndx]);
+                        if(bothTypeIntents[intentIndx] === "enhancedCoveragesIntent"){
+                          polWrapper.homeOwnerEnhancedCoverages(function(err, result){
+                            if(err){
+                              throw err;
                             }
-                            else if(bothTypeIntents[intentIndx] === "policyEndDateIntent"){
-                              polWrapper.getHomePolicyEndDate(function(err, result){
-                                if(err){
-                                  throw err;
-                                }
-                                Fiber(function() {
-                                  typingBubble(sender, text).catch(console.error);
-                                  sleep(1000);
-                                  fbMessage(sender, result).catch(console.error);
-                                  sleep(1000);
-                                  fbMessage(sender, fbConfirmationQuestion).catch(console.error);
-                                  sleep(1000);
-                                  polWrapper.clearPolicyType(customerIssueObject, function(err, result){
-                                    if(err){
-                                      throw err;
-                                    }else{
-                                      console.log('Successfully cleared policy type');
-                                    }
-                                  });
-                                  sleep(1000);
-                                  polWrapper.clearPreviousIntent(customerIssueObject, function(err, result){
-                                    if(err){
-                                      throw err;
-                                    }
-                                    if(result.matchedCount === 1 && result.modifiedCount === 1){
-                                      console.log('Successful reset of prevIntent');
-                                    }
-                                  });
-                                }).run();
-                              });
-                            }
-                            else if(bothTypeIntents[intentIndx] === "policyDeductibleIntent"){
-                              polWrapper.getHomePolicyDeductible(function(err, result){
-                                if(err){
-                                  throw err;
-                                }
-                                Fiber(function() {
-                                  typingBubble(sender, text).catch(console.error);
-                                  sleep(1000);
-                                  fbMessage(sender, result).catch(console.error);
-                                  sleep(1000);
-                                  fbMessage(sender, fbConfirmationQuestion).catch(console.error);
-                                  sleep(1000);
-                                  polWrapper.clearPolicyType(customerIssueObject, function(err, result){
-                                    if(err){
-                                      throw err;
-                                    }else{
-                                      console.log('Successfully cleared policy type');
-                                    }
-                                  });
-                                  sleep(1000);
-                                  polWrapper.clearPreviousIntent(customerIssueObject, function(err, result){
-                                    if(err){
-                                      throw err;
-                                    }
-                                    if(result.matchedCount === 1 && result.modifiedCount === 1){
-                                      console.log('Successful reset of prevIntent');
-                                    }
-                                  });
-                                }).run();
-                              });
-                            }
-                            else if(bothTypeIntents[intentIndx] === "totalPremiumIntent"){
-                              polWrapper.getHomeTotalPremium(function(err, result){
-                                if(err){
-                                  throw err;
-                                }
-                                Fiber(function() {
-                                  typingBubble(sender, text).catch(console.error);
-                                  sleep(1000);
-                                  fbMessage(sender, result).catch(console.error);
-                                  sleep(1000);
-                                  fbMessage(sender, fbConfirmationQuestion).catch(console.error);
-                                  sleep(1000);
-                                  polWrapper.clearPolicyType(customerIssueObject, function(err, result){
-                                    if(err){
-                                      throw err;
-                                    }else{
-                                      console.log('Successfully cleared policy type');
-                                    }
-                                  });
-                                  sleep(1000);
-                                  polWrapper.clearPreviousIntent(customerIssueObject, function(err, result){
-                                    if(err){
-                                      throw err;
-                                    }
-                                    if(result.matchedCount === 1 && result.modifiedCount === 1){
-                                      console.log('Successful reset of prevIntent');
-                                    }
-                                  });
-                                }).run();
-                              });
-                            }
-                            else if(bothTypeIntents[intentIndx] === "claimIntent"){
-                              polWrapper.getHomeOwnerAgent(function(err, result){
+                            Fiber(function() {
+                              typingBubble(sender, text).catch(console.error);
+                              sleep(1000);
+                              fbMessage(sender, result).catch(console.error);
+                              sleep(1000);
+                              fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+                              sleep(1000);
+                              polWrapper.clearPolicyType(customerIssueObject, function(err, result){
                                 if(err){
                                   throw err;
                                 }else{
-                                  console.log('getHomeAgent Result is ' + result);
-                                  Fiber(function() {
-                                    typingBubble(sender, text).catch(console.error);
-                                    sleep(1000);
-                                    fbMessage(sender, 'If you need help with a claim, you need to contact your agent. ' +result).catch(console.error);
-                                    sleep(1000);
-                                    fbMessage(sender, fbConfirmationQuestion).catch(console.error);
-                                    sleep(1000);
-                                    polWrapper.clearPolicyType(customerIssueObject, function(err, result){
-                                      if(err){
-                                        throw err;
-                                      }else{
-                                        console.log('Successfully cleared policy type');
-                                      }
-                                    });
-                                    sleep(1000);
-                                    polWrapper.clearPreviousIntent(customerIssueObject, function(err, result){
-                                      if(err){
-                                        throw err;
-                                      }
-                                      if(result.matchedCount === 1 && result.modifiedCount === 1){
-                                        console.log('Successful reset of prevIntent');
-                                      }
-                                    });
-                                  }).run();
+                                  console.log('Successfully cleared policy type');
                                 }
                               });
+                              sleep(1000);
+                              polWrapper.clearPreviousIntent(customerIssueObject, function(err, result){
+                                if(err){
+                                  throw err;
+                                }
+                                if(result.matchedCount === 1 && result.modifiedCount === 1){
+                                  console.log('Successful reset of prevIntent');
+                                }
+                              });
+                            }).run();
+                          });
+                        }
+                        else if(bothTypeIntents[intentIndx] === "policyEndDateIntent"){
+                          polWrapper.getHomePolicyEndDate(function(err, result){
+                            if(err){
+                              throw err;
                             }
-                            else if(bothTypeIntents[intentIndx] === "agentIntent"){
-                              polWrapper.getHomeOwnerAgent(function(err, result){
+                            Fiber(function() {
+                              typingBubble(sender, text).catch(console.error);
+                              sleep(1000);
+                              fbMessage(sender, result).catch(console.error);
+                              sleep(1000);
+                              fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+                              sleep(1000);
+                              polWrapper.clearPolicyType(customerIssueObject, function(err, result){
                                 if(err){
                                   throw err;
                                 }else{
-                                  console.log('getHomeAgent Result is ' + result);
+                                  console.log('Successfully cleared policy type');
+                                }
+                              });
+                              sleep(1000);
+                              polWrapper.clearPreviousIntent(customerIssueObject, function(err, result){
+                                if(err){
+                                  throw err;
+                                }
+                                if(result.matchedCount === 1 && result.modifiedCount === 1){
+                                  console.log('Successful reset of prevIntent');
+                                }
+                              });
+                            }).run();
+                          });
+                        }
+                        else if(bothTypeIntents[intentIndx] === "policyDeductibleIntent"){
+                          polWrapper.getHomePolicyDeductible(function(err, result){
+                            if(err){
+                              throw err;
+                            }
+                            Fiber(function() {
+                              typingBubble(sender, text).catch(console.error);
+                              sleep(1000);
+                              fbMessage(sender, result).catch(console.error);
+                              sleep(1000);
+                              fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+                              sleep(1000);
+                              polWrapper.clearPolicyType(customerIssueObject, function(err, result){
+                                if(err){
+                                  throw err;
+                                }else{
+                                  console.log('Successfully cleared policy type');
+                                }
+                              });
+                              sleep(1000);
+                              polWrapper.clearPreviousIntent(customerIssueObject, function(err, result){
+                                if(err){
+                                  throw err;
+                                }
+                                if(result.matchedCount === 1 && result.modifiedCount === 1){
+                                  console.log('Successful reset of prevIntent');
+                                }
+                              });
+                            }).run();
+                          });
+                        }
+                        else if(bothTypeIntents[intentIndx] === "totalPremiumIntent"){
+                          polWrapper.getHomeTotalPremium(function(err, result){
+                            if(err){
+                              throw err;
+                            }
+                            Fiber(function() {
+                              typingBubble(sender, text).catch(console.error);
+                              sleep(1000);
+                              fbMessage(sender, result).catch(console.error);
+                              sleep(1000);
+                              fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+                              sleep(1000);
+                              polWrapper.clearPolicyType(customerIssueObject, function(err, result){
+                                if(err){
+                                  throw err;
+                                }else{
+                                  console.log('Successfully cleared policy type');
+                                }
+                              });
+                              sleep(1000);
+                              polWrapper.clearPreviousIntent(customerIssueObject, function(err, result){
+                                if(err){
+                                  throw err;
+                                }
+                                if(result.matchedCount === 1 && result.modifiedCount === 1){
+                                  console.log('Successful reset of prevIntent');
+                                }
+                              });
+                            }).run();
+                          });
+                        }
+                        else if(bothTypeIntents[intentIndx] === "claimIntent"){
+                          polWrapper.getHomeOwnerAgent(function(err, result){
+                            if(err){
+                              throw err;
+                            }else{
+                              console.log('getHomeAgent Result is ' + result);
+                              Fiber(function() {
+                                typingBubble(sender, text).catch(console.error);
+                                sleep(1000);
+                                fbMessage(sender, 'If you need help with a claim, you need to contact your agent. ' +result).catch(console.error);
+                                sleep(1000);
+                                fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+                                sleep(1000);
+                                polWrapper.clearPolicyType(customerIssueObject, function(err, result){
+                                  if(err){
+                                    throw err;
+                                  }else{
+                                    console.log('Successfully cleared policy type');
+                                  }
+                                });
+                                sleep(1000);
+                                polWrapper.clearPreviousIntent(customerIssueObject, function(err, result){
+                                  if(err){
+                                    throw err;
+                                  }
+                                  if(result.matchedCount === 1 && result.modifiedCount === 1){
+                                    console.log('Successful reset of prevIntent');
+                                  }
+                                });
+                              }).run();
+                            }
+                          });
+                        }
+                        else if(bothTypeIntents[intentIndx] === "agentIntent"){
+                          polWrapper.getHomeOwnerAgent(function(err, result){
+                            if(err){
+                              throw err;
+                            }else{
+                              console.log('getHomeAgent Result is ' + result);
+                              Fiber(function() {
+                                typingBubble(sender, text).catch(console.error);
+                                sleep(1000);
+                                fbMessage(sender, result).catch(console.error);
+                                sleep(1000);
+                                fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+                                sleep(1000);
+                                polWrapper.clearPolicyType(customerIssueObject, function(err, result){
+                                  if(err){
+                                    throw err;
+                                  }else{
+                                    console.log('Successfully cleared policy type');
+                                  }
+                                });
+                                sleep(1000);
+                                polWrapper.clearPreviousIntent(customerIssueObject, function(err, result){
+                                  if(err){
+                                    throw err;
+                                  }
+                                  if(result.matchedCount === 1 && result.modifiedCount === 1){
+                                    console.log('Successful reset of prevIntent');
+                                  }
+                                });
+                              }).run();
+                            }
+                          });
+                        }
+                        else if(bothTypeIntents[intentIndx] === "policyDiscountIntent"){
+                          polWrapper.getHomeOwnerAgent(function(err, result){
+                            if(err){
+                              throw err;
+                            }
+                            Fiber(function() {
+                              typingBubble(sender, text).catch(console.error);
+                              sleep(1000);
+                              fbMessage(sender, 'For discounts concerning your homeowner\'s policy you need to contact your agent. ' +result).catch(console.error);
+                              sleep(1000);
+                              fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+                              sleep(1000);
+                              polWrapper.clearPolicyType(customerIssueObject, function(err, result){
+                                if(err){
+                                  throw err;
+                                }else{
+                                  console.log('Successfully cleared policy type');
+                                }
+                              });
+                              sleep(1000);
+                              polWrapper.clearPreviousIntent(customerIssueObject, function(err, result){
+                                if(err){
+                                  throw err;
+                                }
+                                if(result.matchedCount === 1 && result.modifiedCount === 1){
+                                  console.log('Successful reset of prevIntent');
+                                }
+                              });
+                            }).run();
+                          });
+                        }
+                        else if(bothTypeIntents[intentIndx] === "effectiveDateIntent"){
+                          polWrapper.homeownerEffectiveDate(function(err, result){
+                            if(err){
+                              throw err;
+                            }
+                            Fiber(function() {
+                              typingBubble(sender, text).catch(console.error);
+                              sleep(1000);
+                              fbMessage(sender, result).catch(console.error);
+                              sleep(1000);
+                              fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+                              sleep(1000);
+                              polWrapper.clearPolicyType(customerIssueObject, function(err, result){
+                                if(err){
+                                  throw err;
+                                }else{
+                                  console.log('Successfully cleared policy type');
+                                }
+                              });
+                              sleep(1000);
+                              polWrapper.clearPreviousIntent(customerIssueObject, function(err, result){
+                                if(err){
+                                  throw err;
+                                }
+                                if(result.matchedCount === 1 && result.modifiedCount === 1){
+                                  console.log('Successful reset of prevIntent');
+                                }
+                              });
+                            }).run();
+                          });
+                        }
+                      }
+                    });
+                  }
+                });
+              }
+              else if(result === 'auto'){
+                console.log('Got auto policy reference');
+                      polWrapper.userPrevSetter(customerIssueObject, function(err, result){
+                        console.log('PrevSetter being called in auto function');
+                        if(err){
+                          throw err;
+                        }else{
+                          polWrapper.getPreviousIntent(customerIssueObject, function(err, result){
+                            if(err){
+                              throw err;
+                            }else{
+                              var intentArray = result.split(',');
+                              console.log('intent Array:' + intentArray);
+                              var intentIndx = getDualPolicyDuplicate(bothTypeIntents, intentArray);
+                              console.log('getDualPolicyDuplicateResult: ' + intentIndx);
+                              console.log('Intent to query: ' + bothTypeIntents[intentIndx]);
+                              //"enhancedCoveragesIntent", "policyEndDateIntent", "policyDeductibleIntent", "totalPremiumIntent", "claimIntent", "agentIntent", "policyDiscountIntent", "effectiveDateIntent"
+                              if(bothTypeIntents[intentIndx] === "enhancedCoveragesIntent"){
+                                polWrapper.autoEnhancedCoverages(function(err, result){
+                                  if(err){
+                                    throw err;
+                                  }
                                   Fiber(function() {
                                     typingBubble(sender, text).catch(console.error);
                                     sleep(1000);
@@ -907,256 +1031,13 @@ function processEntities(sender,entities, text){
                                       }
                                     });
                                   }).run();
-                                }
-                              });
-                            }
-                            else if(bothTypeIntents[intentIndx] === "policyDiscountIntent"){
-                              polWrapper.getHomeOwnerAgent(function(err, result){
-                                if(err){
-                                  throw err;
-                                }
-                                Fiber(function() {
-                                  typingBubble(sender, text).catch(console.error);
-                                  sleep(1000);
-                                  fbMessage(sender, 'For discounts concerning your homeowner\'s policy you need to contact your agent. ' +result).catch(console.error);
-                                  sleep(1000);
-                                  fbMessage(sender, fbConfirmationQuestion).catch(console.error);
-                                  sleep(1000);
-                                  polWrapper.clearPolicyType(customerIssueObject, function(err, result){
-                                    if(err){
-                                      throw err;
-                                    }else{
-                                      console.log('Successfully cleared policy type');
-                                    }
-                                  });
-                                  sleep(1000);
-                                  polWrapper.clearPreviousIntent(customerIssueObject, function(err, result){
-                                    if(err){
-                                      throw err;
-                                    }
-                                    if(result.matchedCount === 1 && result.modifiedCount === 1){
-                                      console.log('Successful reset of prevIntent');
-                                    }
-                                  });
-                                }).run();
-                              });
-                            }
-                            else if(bothTypeIntents[intentIndx] === "effectiveDateIntent"){
-                              polWrapper.homeownerEffectiveDate(function(err, result){
-                                if(err){
-                                  throw err;
-                                }
-                                Fiber(function() {
-                                  typingBubble(sender, text).catch(console.error);
-                                  sleep(1000);
-                                  fbMessage(sender, result).catch(console.error);
-                                  sleep(1000);
-                                  fbMessage(sender, fbConfirmationQuestion).catch(console.error);
-                                  sleep(1000);
-                                  polWrapper.clearPolicyType(customerIssueObject, function(err, result){
-                                    if(err){
-                                      throw err;
-                                    }else{
-                                      console.log('Successfully cleared policy type');
-                                    }
-                                  });
-                                  sleep(1000);
-                                  polWrapper.clearPreviousIntent(customerIssueObject, function(err, result){
-                                    if(err){
-                                      throw err;
-                                    }
-                                    if(result.matchedCount === 1 && result.modifiedCount === 1){
-                                      console.log('Successful reset of prevIntent');
-                                    }
-                                  });
-                                }).run();
-                              });
-                            }
-                          }
-                        });
-                      }
-                    }
-                  });
-                }
-                else if(result === 'auto'){
-                  polWrapper.userPrevSetter(customerIssueObject, function(err, result){
-                    if(err){
-                      throw err;
-                    }else{
-                      if(result.matchedCount === 1 || result.modifiedCount === 1){
-                        polWrapper.getPreviousIntent(customerIssueObject, function(err, result){
-                          if(err){
-                            throw err;
-                          }else{
-                            var intentArray = result.split(',');
-                            console.log('intent Array:' + intentArray);
-                            var intentIndx = getDualPolicyDuplicate(bothTypeIntents, intentArray);
-                            console.log('getDualPolicyDuplicateResult: ' + intentIndx);
-                            console.log('Intent to query: ' + bothTypeIntents[intentIndx]);
-                            //"enhancedCoveragesIntent", "policyEndDateIntent", "policyDeductibleIntent", "totalPremiumIntent", "claimIntent", "agentIntent", "policyDiscountIntent", "effectiveDateIntent"
-                            if(bothTypeIntents[intentIndx] === "enhancedCoveragesIntent"){
-                              polWrapper.autoEnhancedCoverages(function(err, result){
-                                if(err){
-                                  throw err;
-                                }
-                                Fiber(function() {
-                                  typingBubble(sender, text).catch(console.error);
-                                  sleep(1000);
-                                  fbMessage(sender, result).catch(console.error);
-                                  sleep(1000);
-                                  fbMessage(sender, fbConfirmationQuestion).catch(console.error);
-                                  sleep(1000);
-                                  polWrapper.clearPolicyType(customerIssueObject, function(err, result){
-                                    if(err){
-                                      throw err;
-                                    }else{
-                                      console.log('Successfully cleared policy type');
-                                    }
-                                  });
-                                  sleep(1000);
-                                  polWrapper.clearPreviousIntent(customerIssueObject, function(err, result){
-                                    if(err){
-                                      throw err;
-                                    }
-                                    if(result.matchedCount === 1 && result.modifiedCount === 1){
-                                      console.log('Successful reset of prevIntent');
-                                    }
-                                  });
-                                }).run();
-                              });
-                            }
-                            else if(bothTypeIntents[intentIndx] === "policyEndDateIntent"){
-                              polWrapper.autoPolicyExpirationDate(function(err, result){
-                                if(err){
-                                  throw err;
-                                }
-                                Fiber(function() {
-                                  typingBubble(sender, text).catch(console.error);
-                                  sleep(1000);
-                                  fbMessage(sender, result).catch(console.error);
-                                  sleep(1000);
-                                  fbMessage(sender, fbConfirmationQuestion).catch(console.error);
-                                  sleep(1000);
-                                  polWrapper.clearPolicyType(customerIssueObject, function(err, result){
-                                    if(err){
-                                      throw err;
-                                    }else{
-                                      console.log('Successfully cleared policy type');
-                                    }
-                                  });
-                                  sleep(1000);
-                                  polWrapper.clearPreviousIntent(customerIssueObject, function(err, result){
-                                    if(err){
-                                      throw err;
-                                    }
-                                    if(result.matchedCount === 1 && result.modifiedCount === 1){
-                                      console.log('Successful reset of prevIntent');
-                                    }
-                                  });
-                                }).run();
-                              });
-                            }
-                            else if(bothTypeIntents[intentIndx] === "policyDeductibleIntent"){
-                              polWrapper.vehicleGenericCoverages(function(err, result){
-                                if(err){
-                                  throw err;
-                                }
-                                Fiber(function() {
-                                  typingBubble(sender, text).catch(console.error);
-                                  sleep(1000);
-                                  fbMessage(sender, result).catch(console.error);
-                                  sleep(1000);
-                                  fbMessage(sender, fbConfirmationQuestion).catch(console.error);
-                                  sleep(1000);
-                                  polWrapper.clearPolicyType(customerIssueObject, function(err, result){
-                                    if(err){
-                                      throw err;
-                                    }else{
-                                      console.log('Successfully cleared policy type');
-                                    }
-                                  });
-                                  sleep(1000);
-                                  polWrapper.clearPreviousIntent(customerIssueObject, function(err, result){
-                                    if(err){
-                                      throw err;
-                                    }
-                                    if(result.matchedCount === 1 && result.modifiedCount === 1){
-                                      console.log('Successful reset of prevIntent');
-                                    }
-                                  });
-                                }).run();
-                              });
-                            }
-                            else if(bothTypeIntents[intentIndx] === "totalPremiumIntent"){
-                              polWrapper.getAutoPremium(function(err, result){
-                                if(err){
-                                  throw err;
-                                }
-                                Fiber(function() {
-                                  typingBubble(sender, text).catch(console.error);
-                                  sleep(1000);
-                                  fbMessage(sender, result).catch(console.error);
-                                  sleep(1000);
-                                  fbMessage(sender, fbConfirmationQuestion).catch(console.error);
-                                  sleep(1000);
-                                  polWrapper.clearPolicyType(customerIssueObject, function(err, result){
-                                    if(err){
-                                      throw err;
-                                    }else{
-                                      console.log('Successfully cleared policy type');
-                                    }
-                                  });
-                                  sleep(1000);
-                                  polWrapper.clearPreviousIntent(customerIssueObject, function(err, result){
-                                    if(err){
-                                      throw err;
-                                    }
-                                    if(result.matchedCount === 1 && result.modifiedCount === 1){
-                                      console.log('Successful reset of prevIntent');
-                                    }
-                                  });
-                                }).run();
-                              });
-                            }
-                            else if(bothTypeIntents[intentIndx] === "claimIntent"){
-                              polWrapper.getAutoAgent(function(err, result){
-                                if(err){
-                                  throw err;
-                                }else{
-                                  console.log('getAuto Result is ' + result);
-                                  Fiber(function() {
-                                    typingBubble(sender, text).catch(console.error);
-                                    sleep(1000);
-                                    fbMessage(sender, 'If you need help with a claim, you need to contact your agent. ' +result).catch(console.error);
-                                    sleep(1000);
-                                    fbMessage(sender, fbConfirmationQuestion).catch(console.error);
-                                    sleep(1000);
-                                    polWrapper.clearPolicyType(customerIssueObject, function(err, result){
-                                      if(err){
-                                        throw err;
-                                      }else{
-                                        console.log('Successfully cleared policy type');
-                                      }
-                                    });
-                                    sleep(1000);
-                                    polWrapper.clearPreviousIntent(customerIssueObject, function(err, result){
-                                      if(err){
-                                        throw err;
-                                      }
-                                      if(result.matchedCount === 1 && result.modifiedCount === 1){
-                                        console.log('Successful reset of prevIntent');
-                                      }
-                                    });
-                                  }).run();
-                                }
-                              });
-                            }
-                            else if(bothTypeIntents[intentIndx] === "agentIntent"){
-                              polWrapper.getAutoAgent(function(err, result){
-                                if(err){
-                                  throw err;
-                                }else{
-                                  console.log('getAutoAgent Result is ' + result);
+                                });
+                              }
+                              else if(bothTypeIntents[intentIndx] === "policyEndDateIntent"){
+                                polWrapper.autoPolicyExpirationDate(function(err, result){
+                                  if(err){
+                                    throw err;
+                                  }
                                   Fiber(function() {
                                     typingBubble(sender, text).catch(console.error);
                                     sleep(1000);
@@ -1181,77 +1062,205 @@ function processEntities(sender,entities, text){
                                       }
                                     });
                                   }).run();
-                                }
-                              });
+                                });
+                              }
+                              else if(bothTypeIntents[intentIndx] === "policyDeductibleIntent"){
+                                polWrapper.vehicleGenericCoverages(function(err, result){
+                                  if(err){
+                                    throw err;
+                                  }
+                                  Fiber(function() {
+                                    typingBubble(sender, text).catch(console.error);
+                                    sleep(1000);
+                                    fbMessage(sender, result).catch(console.error);
+                                    sleep(1000);
+                                    fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+                                    sleep(1000);
+                                    polWrapper.clearPolicyType(customerIssueObject, function(err, result){
+                                      if(err){
+                                        throw err;
+                                      }else{
+                                        console.log('Successfully cleared policy type');
+                                      }
+                                    });
+                                    sleep(1000);
+                                    polWrapper.clearPreviousIntent(customerIssueObject, function(err, result){
+                                      if(err){
+                                        throw err;
+                                      }
+                                      if(result.matchedCount === 1 && result.modifiedCount === 1){
+                                        console.log('Successful reset of prevIntent');
+                                      }
+                                    });
+                                  }).run();
+                                });
+                              }
+                              else if(bothTypeIntents[intentIndx] === "totalPremiumIntent"){
+                                polWrapper.getAutoPremium(function(err, result){
+                                  if(err){
+                                    throw err;
+                                  }
+                                  Fiber(function() {
+                                    typingBubble(sender, text).catch(console.error);
+                                    sleep(1000);
+                                    fbMessage(sender, result).catch(console.error);
+                                    sleep(1000);
+                                    fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+                                    sleep(1000);
+                                    polWrapper.clearPolicyType(customerIssueObject, function(err, result){
+                                      if(err){
+                                        throw err;
+                                      }else{
+                                        console.log('Successfully cleared policy type');
+                                      }
+                                    });
+                                    sleep(1000);
+                                    polWrapper.clearPreviousIntent(customerIssueObject, function(err, result){
+                                      if(err){
+                                        throw err;
+                                      }
+                                      if(result.matchedCount === 1 && result.modifiedCount === 1){
+                                        console.log('Successful reset of prevIntent');
+                                      }
+                                    });
+                                  }).run();
+                                });
+                              }
+                              else if(bothTypeIntents[intentIndx] === "claimIntent"){
+                                polWrapper.getAutoAgent(function(err, result){
+                                  if(err){
+                                    throw err;
+                                  }else{
+                                    console.log('getAuto Result is ' + result);
+                                    Fiber(function() {
+                                      typingBubble(sender, text).catch(console.error);
+                                      sleep(1000);
+                                      fbMessage(sender, 'If you need help with a claim, you need to contact your agent. ' +result).catch(console.error);
+                                      sleep(1000);
+                                      fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+                                      sleep(1000);
+                                      polWrapper.clearPolicyType(customerIssueObject, function(err, result){
+                                        if(err){
+                                          throw err;
+                                        }else{
+                                          console.log('Successfully cleared policy type');
+                                        }
+                                      });
+                                      sleep(1000);
+                                      polWrapper.clearPreviousIntent(customerIssueObject, function(err, result){
+                                        if(err){
+                                          throw err;
+                                        }
+                                        if(result.matchedCount === 1 && result.modifiedCount === 1){
+                                          console.log('Successful reset of prevIntent');
+                                        }
+                                      });
+                                    }).run();
+                                  }
+                                });
+                              }
+                              else if(bothTypeIntents[intentIndx] === "agentIntent"){
+                                polWrapper.getAutoAgent(function(err, result){
+                                  if(err){
+                                    throw err;
+                                  }else{
+                                    console.log('getAutoAgent Result is ' + result);
+                                    Fiber(function() {
+                                      typingBubble(sender, text).catch(console.error);
+                                      sleep(1000);
+                                      fbMessage(sender, result).catch(console.error);
+                                      sleep(1000);
+                                      fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+                                      sleep(1000);
+                                      polWrapper.clearPolicyType(customerIssueObject, function(err, result){
+                                        if(err){
+                                          throw err;
+                                        }else{
+                                          console.log('Successfully cleared policy type');
+                                        }
+                                      });
+                                      sleep(1000);
+                                      polWrapper.clearPreviousIntent(customerIssueObject, function(err, result){
+                                        if(err){
+                                          throw err;
+                                        }
+                                        if(result.matchedCount === 1 && result.modifiedCount === 1){
+                                          console.log('Successful reset of prevIntent');
+                                        }
+                                      });
+                                    }).run();
+                                  }
+                                });
+                              }
+                              else if(bothTypeIntents[intentIndx] === "policyDiscountIntent"){
+                                polWrapper.getAutoDiscounts(function(err, result){
+                                  if(err){
+                                    throw err;
+                                  }
+                                  Fiber(function() {
+                                    typingBubble(sender, text).catch(console.error);
+                                    sleep(1000);
+                                    fbMessage(sender, result).catch(console.error);
+                                    sleep(1000);
+                                    fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+                                    sleep(1000);
+                                    polWrapper.clearPolicyType(customerIssueObject, function(err, result){
+                                      if(err){
+                                        throw err;
+                                      }else{
+                                        console.log('Successfully cleared policy type');
+                                      }
+                                    });
+                                    sleep(1000);
+                                    polWrapper.clearPreviousIntent(customerIssueObject, function(err, result){
+                                      if(err){
+                                        throw err;
+                                      }
+                                      if(result.matchedCount === 1 && result.modifiedCount === 1){
+                                        console.log('Successful reset of prevIntent');
+                                      }
+                                    });
+                                  }).run();
+                                });
+                              }
+                              else if(bothTypeIntents[intentIndx] === "effectiveDateIntent"){
+                                polWrapper.autoEffectiveDate(function(err, result){
+                                  if(err){
+                                    throw err;
+                                  }
+                                  Fiber(function() {
+                                    typingBubble(sender, text).catch(console.error);
+                                    sleep(1000);
+                                    fbMessage(sender, result).catch(console.error);
+                                    sleep(1000);
+                                    fbMessage(sender, fbConfirmationQuestion).catch(console.error);
+                                    sleep(1000);
+                                    polWrapper.clearPolicyType(customerIssueObject, function(err, result){
+                                      if(err){
+                                        throw err;
+                                      }else{
+                                        console.log('Successfully cleared policy type');
+                                      }
+                                    });
+                                    sleep(1000);
+                                    polWrapper.clearPreviousIntent(customerIssueObject, function(err, result){
+                                      if(err){
+                                        throw err;
+                                      }
+                                      if(result.matchedCount === 1 && result.modifiedCount === 1){
+                                        console.log('Successful reset of prevIntent');
+                                      }
+                                    });
+                                  }).run();
+                                });
+                              }
                             }
-                            else if(bothTypeIntents[intentIndx] === "policyDiscountIntent"){
-                              polWrapper.getAutoDiscounts(function(err, result){
-                                if(err){
-                                  throw err;
-                                }
-                                Fiber(function() {
-                                  typingBubble(sender, text).catch(console.error);
-                                  sleep(1000);
-                                  fbMessage(sender, result).catch(console.error);
-                                  sleep(1000);
-                                  fbMessage(sender, fbConfirmationQuestion).catch(console.error);
-                                  sleep(1000);
-                                  polWrapper.clearPolicyType(customerIssueObject, function(err, result){
-                                    if(err){
-                                      throw err;
-                                    }else{
-                                      console.log('Successfully cleared policy type');
-                                    }
-                                  });
-                                  sleep(1000);
-                                  polWrapper.clearPreviousIntent(customerIssueObject, function(err, result){
-                                    if(err){
-                                      throw err;
-                                    }
-                                    if(result.matchedCount === 1 && result.modifiedCount === 1){
-                                      console.log('Successful reset of prevIntent');
-                                    }
-                                  });
-                                }).run();
-                              });
-                            }
-                            else if(bothTypeIntents[intentIndx] === "effectiveDateIntent"){
-                              polWrapper.autoEffectiveDate(function(err, result){
-                                if(err){
-                                  throw err;
-                                }
-                                Fiber(function() {
-                                  typingBubble(sender, text).catch(console.error);
-                                  sleep(1000);
-                                  fbMessage(sender, result).catch(console.error);
-                                  sleep(1000);
-                                  fbMessage(sender, fbConfirmationQuestion).catch(console.error);
-                                  sleep(1000);
-                                  polWrapper.clearPolicyType(customerIssueObject, function(err, result){
-                                    if(err){
-                                      throw err;
-                                    }else{
-                                      console.log('Successfully cleared policy type');
-                                    }
-                                  });
-                                  sleep(1000);
-                                  polWrapper.clearPreviousIntent(customerIssueObject, function(err, result){
-                                    if(err){
-                                      throw err;
-                                    }
-                                    if(result.matchedCount === 1 && result.modifiedCount === 1){
-                                      console.log('Successful reset of prevIntent');
-                                    }
-                                  });
-                                }).run();
-                              });
-                            }
-                          }
-                        });
-                      }
+                          });
+                        }
+                      });
                     }
-                  });
-                }
+                  }
+                });
               }
             });
           }
@@ -1306,15 +1315,15 @@ function processEntities(sender,entities, text){
               if(err){
                 throw err;
               }else{
-                console.log('Previous Result:' + result);
-                if(result === ""){//no prevIntent to try and query for
+                console.log('Auto Previous Result:' + result);
+                if(result === ' ' || result === '' || result === null || result === 'unknown'){//no prevIntent to try and query for
                   Fiber(function() {
                     typingBubble(sender, text).catch(console.error);
                     sleep(1000);
                     fbMessage(sender, 'What about your auto policy can I help you with?').catch(console.error);
                   }).run();
                 }
-                else if(result !== ""){
+                else{
                   intentArray = result.split(',');
                   console.log('intent Array:' + intentArray);
                   intentIndx = getDualPolicyDuplicate(bothTypeIntents, intentArray);
@@ -1506,8 +1515,8 @@ function processEntities(sender,entities, text){
               if(err){
                 throw err;
               }else{
-                console.log('Previous Result:' + result);
-                if(result === ""){//no prevIntent to try and query for
+                console.log('Home Previous Result:' + result);
+                if(result === ' ' || result === '' || result === null || result === 'unknown'){//no prevIntent to try and query for
                   Fiber(function() {
                     typingBubble(sender, text).catch(console.error);
                     sleep(1000);
@@ -1515,7 +1524,7 @@ function processEntities(sender,entities, text){
                   }).run();
                 }
                 //"enhancedCoveragesIntent", "policyEndDateIntent", "policyDeductibleIntent", "totalPremiumIntent", "claimIntent", "agentIntent", "policyDiscountIntent"
-                else if(result !== "" ){
+                else{
                   intentArray = result.split(',');
                   console.log('intent Array:' + intentArray);
                   intentIndx = getDualPolicyDuplicate(bothTypeIntents, intentArray);

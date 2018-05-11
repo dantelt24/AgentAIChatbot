@@ -1225,7 +1225,7 @@ PolicyWrapper.prototype.policyTypeSetter = function(senderInfo, callback){
     db.collection('messages', function(err, collection){
       collection.updateOne({_id: senderInfo.id},
         {$set: {policyType: senderInfo.policyType}},
-        {upsert: true}, function(err, result){
+        {upsert: false}, function(err, result){
           if(err){
             throw err;
           }

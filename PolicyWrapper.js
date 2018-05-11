@@ -1246,7 +1246,7 @@ PolicyWrapper.prototype.userPrevSetter = function(senderInfo, callback){
     db.collection('messages', function(err, collection){
       collection.updateOne({_id: senderInfo.id},
         {$set: {prev: senderInfo.previous}},
-        {upsert: true}, function(err, result){
+        {upsert: false}, function(err, result){
           if(err){
             throw err;
           }
@@ -1274,8 +1274,8 @@ PolicyWrapper.prototype.getPreviousIntent = function(senderInfo, callback){
           docObject = docs[i];
           // callback(err, prevIntent);
           if(docObject.hasOwnProperty('prev')){
-            console.log('Prev Intent Value: ' +docObject.issue.context)
-            callback(err, docObject.issue.context);
+            console.log('Prev Intent Value: ' +docObject.prev)
+            callback(err, docObject.prev);
           }else{
             console.log('No previous intent property found for customer');
             callback(err, 'unknown');

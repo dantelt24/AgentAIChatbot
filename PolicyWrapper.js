@@ -1273,8 +1273,12 @@ PolicyWrapper.prototype.getPreviousIntent = function(senderInfo, callback){
         for(var i = 0; i < 1; i++){
           docObject = docs[i];
           // callback(err, prevIntent);
+          if(docObject.hasOwnProperty('prev')){
+            console.log('Prev Intent Value: ' +docObject.prev)
+          }else{
+            console.log('No previous intent value found for customer');
+          }
         }
-        console.log('getPreviousIntent Object: ' + docObject);
       });
     });
   });

@@ -1274,8 +1274,8 @@ PolicyWrapper.prototype.getPreviousIntent = function(senderInfo, callback){
           docObject = docs[i];
           // callback(err, prevIntent);
           if(docObject.hasOwnProperty('prev')){
-            console.log('Prev Intent Value: ' +docObject.prev)
-            callback(err, docObject.prev);
+            console.log('Prev Intent Value: ' +docObject.issue.context)
+            callback(err, docObject.issue.context);
           }else{
             console.log('No previous intent property found for customer');
             callback(err, 'unknown');

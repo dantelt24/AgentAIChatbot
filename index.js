@@ -1317,7 +1317,7 @@ function processEntities(sender,entities, text){
                     fbMessage(sender, 'What about your auto policy can I help you with?').catch(console.error);
                   }).run();
                 }
-                else if(result !== ""){
+                else{
                   intentArray = result.split(',');
                   console.log('intent Array:' + intentArray);
                   intentIndx = getDualPolicyDuplicate(bothTypeIntents, intentArray);

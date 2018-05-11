@@ -1373,6 +1373,7 @@ PolicyWrapper.prototype.clearPolicyType = function(senderInfo, callback){
           }
           console.log('Matched Count: ' + result.matchedCount);
           console.log('Modified Count: ' + result.modifiedCount);
+          console.log('Clearing Policy Type');
           callback(err, result);
       });
     });

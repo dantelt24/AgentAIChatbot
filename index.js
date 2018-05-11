@@ -681,7 +681,7 @@ function processEntities(sender,entities, text){
                     throw err;
                   }else{
                     if(result === 'unknown' || result === '' || result === null || result === ' '){
-                      console.log('Unknown policy type');
+                      console.log('Unknown policy type for fresh user in db');
                       Fiber(function() {
                         typingBubble(sender, text).catch(console.error);
                         sleep(1000);
@@ -700,7 +700,7 @@ function processEntities(sender,entities, text){
               throw err;
             }else{
               if(result === 'unknown' || result === '' || result === null || result === ' '){
-                console.log('Unknown policy type');
+                console.log('Unknown policy type for found user in db');
                 Fiber(function() {
                   typingBubble(sender, text).catch(console.error);
                   sleep(1000);

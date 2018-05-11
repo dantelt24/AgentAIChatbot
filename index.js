@@ -1308,7 +1308,7 @@ function processEntities(sender,entities, text){
               if(err){
                 throw err;
               }else{
-                console.log('Previous Result:' + result);
+                console.log('Auto Previous Result:' + result);
                 if(result === ' ' || result === '' || result === null || result === 'unknown'){//no prevIntent to try and query for
                   Fiber(function() {
                     typingBubble(sender, text).catch(console.error);
@@ -1508,8 +1508,8 @@ function processEntities(sender,entities, text){
               if(err){
                 throw err;
               }else{
-                console.log('Previous Result:' + result);
-                if(result === ""){//no prevIntent to try and query for
+                console.log('Home Previous Result:' + result);
+                if(result === ' ' || result === '' || result === null || result === 'unknown'){//no prevIntent to try and query for
                   Fiber(function() {
                     typingBubble(sender, text).catch(console.error);
                     sleep(1000);
@@ -1517,7 +1517,7 @@ function processEntities(sender,entities, text){
                   }).run();
                 }
                 //"enhancedCoveragesIntent", "policyEndDateIntent", "policyDeductibleIntent", "totalPremiumIntent", "claimIntent", "agentIntent", "policyDiscountIntent"
-                else if(result !== "" ){
+                else{
                   intentArray = result.split(',');
                   console.log('intent Array:' + intentArray);
                   intentIndx = getDualPolicyDuplicate(bothTypeIntents, intentArray);
